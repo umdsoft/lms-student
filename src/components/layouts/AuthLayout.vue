@@ -2,17 +2,16 @@
   <div class="min-h-screen flex flex-col md:flex-row bg-surface">
     <aside class="md:w-2/5 bg-primary-600 text-white flex flex-col justify-between p-10">
       <div>
-        <p class="text-sm uppercase tracking-widest text-primary-100">Huquqiy targ'ibot</p>
+        <p class="text-sm uppercase tracking-widest text-primary-100">{{ t('authLayout.strapline') }}</p>
         <h1 class="mt-4 text-3xl font-semibold leading-tight">
-          Bilim sayohatingizni <br /> bugun boshlang
+          {{ t('authLayout.headline') }}
         </h1>
         <p class="mt-6 text-primary-50 max-w-sm">
-          LMS tizimimiz orqali matematika va ingliz tili bo'yicha yangi yutuqlarga erishing.
-          Darslar, testlar va real vaqt statistikasi siz uchun tayyor.
+          {{ t('authLayout.description') }}
         </p>
       </div>
       <footer class="text-xs text-primary-200">
-        © 2024 O'zbekiston Respublikasi Adliya Vazirligi. Barcha huquqlar himoyalangan.
+        {{ t('authLayout.footer') }}
       </footer>
     </aside>
     <main class="flex-1 flex items-center justify-center p-8">
@@ -22,3 +21,9 @@
     </main>
   </div>
 </template>
+
+<script setup>
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n({ useScope: 'global' });
+</script>

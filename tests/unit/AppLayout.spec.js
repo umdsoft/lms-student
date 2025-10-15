@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/vue';
 import AppLayout from '@/components/layouts/AppLayout.vue';
 import { createTestingPinia } from '@pinia/testing';
+import { createI18nInstance } from '@/i18n';
 
 jest.mock('@/composables/useAuth', () => ({
   useAuth: () => ({
@@ -34,7 +35,7 @@ describe('AppLayout', () => {
   it('shows student coin and balance summary', () => {
     render(AppLayout, {
       global: {
-        plugins: [createTestingPinia({ createSpy: jest.fn, stubActions: false })]
+        plugins: [createTestingPinia({ createSpy: jest.fn, stubActions: false }), createI18nInstance()]
       }
     });
 

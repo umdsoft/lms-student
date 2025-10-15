@@ -7,35 +7,35 @@
 
     <div class="space-y-4">
       <label class="block text-left">
-        <span class="text-sm font-medium text-slate-600">Login</span>
+        <span class="text-sm font-medium text-slate-600">{{ t('login.loginLabel') }}</span>
         <input
           v-model="form.login"
           type="text"
           required
           autocomplete="username"
           class="mt-1 w-full rounded-2xl border border-primary-100 px-4 py-3 focus:border-primary-400 focus:outline-none"
-          placeholder="email yoki telefon"
+          :placeholder="t('login.loginPlaceholder')"
         />
       </label>
 
       <label class="block text-left">
-        <span class="text-sm font-medium text-slate-600">Parol</span>
+        <span class="text-sm font-medium text-slate-600">{{ t('login.passwordLabel') }}</span>
         <input
           v-model="form.password"
           type="password"
           required
           autocomplete="current-password"
           class="mt-1 w-full rounded-2xl border border-primary-100 px-4 py-3 focus:border-primary-400 focus:outline-none"
-          placeholder="********"
+          :placeholder="t('login.passwordPlaceholder')"
         />
       </label>
 
       <div class="flex items-center justify-between text-sm">
         <label class="inline-flex items-center gap-2">
           <input type="checkbox" v-model="form.remember" class="rounded border-primary-200 text-primary-600" />
-          <span>Meni eslab qol</span>
+          <span>{{ t('login.remember') }}</span>
         </label>
-        <a class="text-primary-600 hover:underline" href="#">Parolni unutdingizmi?</a>
+        <a class="text-primary-600 hover:underline" href="#">{{ t('login.forgot') }}</a>
       </div>
     </div>
 
@@ -43,7 +43,7 @@
       type="submit"
       class="w-full bg-primary-600 text-white rounded-2xl py-3 font-semibold hover:bg-primary-700 transition"
     >
-      Kirish
+      {{ t('login.submit') }}
     </button>
 
     <p v-if="error" class="text-sm text-danger text-center">{{ error }}</p>
@@ -83,7 +83,7 @@ async function handleSubmit() {
     }
     router.push({ name: 'dashboard' });
   } catch (err) {
-    error.value = "Kirishda xatolik yuz berdi. Qayta urinib ko'ring";
+    error.value = t('login.error');
     console.error(err);
   }
 }

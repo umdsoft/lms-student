@@ -9,21 +9,21 @@
     </div>
     <p class="text-sm text-slate-600 leading-relaxed">{{ olympiad.description }}</p>
     <div class="grid grid-cols-2 gap-4 text-sm text-slate-500">
-      <p><span class="font-semibold text-primary-700">Boshlanish:</span> {{ olympiad.start }}</p>
-      <p><span class="font-semibold text-primary-700">Muddati:</span> {{ olympiad.duration }}</p>
-      <p><span class="font-semibold text-primary-700">Format:</span> {{ olympiad.format }}</p>
-      <p><span class="font-semibold text-primary-700">Fan:</span> {{ olympiad.subject }}</p>
+      <p><span class="font-semibold text-primary-700">{{ t('olympiads.card.start') }}:</span> {{ olympiad.start }}</p>
+      <p><span class="font-semibold text-primary-700">{{ t('olympiads.card.duration') }}:</span> {{ olympiad.duration }}</p>
+      <p><span class="font-semibold text-primary-700">{{ t('olympiads.card.format') }}:</span> {{ olympiad.format }}</p>
+      <p><span class="font-semibold text-primary-700">{{ t('olympiads.card.subject') }}:</span> {{ olympiad.subject }}</p>
     </div>
     <div class="flex items-center justify-between pt-4 border-t border-primary-50">
       <div>
-        <p class="text-xs uppercase text-slate-400">Ishtirok narxi</p>
+        <p class="text-xs uppercase text-slate-400">{{ t('olympiads.card.feeLabel') }}</p>
         <p class="text-lg font-semibold text-primary-700">{{ formattedFee }}</p>
       </div>
       <button
         type="button"
         class="inline-flex items-center gap-2 bg-primary-600 text-white px-4 py-2 rounded-2xl text-sm font-semibold hover:bg-primary-700"
       >
-        Qatnashish
+        {{ t('olympiads.card.action') }}
         <span aria-hidden="true">→</span>
       </button>
     </div>
@@ -33,6 +33,7 @@
 <script setup>
 import { computed } from 'vue';
 import ProgressBadge from '@/components/ui/ProgressBadge.vue';
+import { useI18n } from 'vue-i18n';
 
 const props = defineProps({
   olympiad: {
@@ -41,18 +42,22 @@ const props = defineProps({
   }
 });
 
+const { t, locale } = useI18n({ useScope: 'global' });
+
 const levelLabel = computed(() => {
   switch (props.olympiad.level) {
     case 'success':
-      return 'Respublika';
+      return t('olympiads.levelLabels.success');
     case 'warning':
-      return 'Xalqaro';
+      return t('olympiads.levelLabels.warning');
     default:
-      return 'Maktab';
+      return t('olympiads.levelLabels.info');
   }
 });
 
-const formattedFee = computed(
-  () => `${new Intl.NumberFormat('uz-UZ').format(props.olympiad.fee)} so'm`
+const formattedFee = computed(() =>
+  t('app.header.balanceValue', {
+    value: new Intl.NumberFormat(locale.value === 'ru' ? 'ru-RU' : 'uz-UZ').format(props.olympiad.fee)
+  })
 );
 </script>

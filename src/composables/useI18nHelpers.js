@@ -1,16 +1,14 @@
-const messages = {
-  uz: {
-    login: {
-      title: 'Tizimga kirish',
-      subtitle: 'Bilim sayohatingizni davom ettirish uchun ma’lumotlaringizni kiriting.'
-    }
-  }
-};
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useI18nStore } from '@/stores/i18n';
 
-export function useI18nHelpers(locale = 'uz') {
-  const t = (path) => {
-    return path.split('.').reduce((acc, key) => acc?.[key], messages[locale]) ?? path;
+export function useI18nHelpers() {
+  const store = useI18nStore();
+  const { t, locale } = useI18n({ useScope: 'global' });
+
+  return {
+    t,
+    locale: computed(() => locale.value),
+    setLocale: store.setLocale
   };
-
-  return { t, locale };
 }

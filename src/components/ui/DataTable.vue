@@ -3,7 +3,7 @@
     <div class="px-6 py-4 border-b border-primary-50 flex items-center justify-between">
       <div>
         <slot name="title">
-          <h3 class="text-lg font-semibold text-primary-800">Jadval</h3>
+          <h3 class="text-lg font-semibold text-primary-800">{{ t('components.dataTable.defaultTitle') }}</h3>
         </slot>
         <p class="text-sm text-slate-500" v-if="subtitle">{{ subtitle }}</p>
       </div>
@@ -56,4 +56,8 @@ defineProps({
     default: ''
   }
 });
+
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n({ useScope: 'global' });
 </script>

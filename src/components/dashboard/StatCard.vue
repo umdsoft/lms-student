@@ -10,6 +10,7 @@
     <p class="text-sm text-slate-500">{{ description }}</p>
     <div class="flex items-center gap-2 text-sm" :class="trendClass">
       <span>{{ trendPrefix }}{{ trendValue }}%</span>
+      <span class="text-slate-400">{{ trendSuffix }}</span>
       <span class="text-slate-400">so'nggi oy</span>
     </div>
   </div>
@@ -31,4 +32,8 @@ const trendClass = computed(() =>
 );
 
 const trendPrefix = computed(() => (props.trendValue >= 0 ? '+' : ''));
+
+const { t } = useI18n({ useScope: 'global' });
+
+const trendSuffix = computed(() => t('components.statCard.trendSuffix'));
 </script>

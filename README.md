@@ -28,7 +28,16 @@ src/
   pages/              # sahifalar: auth, dashboard, kurs, profil
   stores/             # pinia store'lari (auth, mock ma'lumotlar)
   utils/              # fayl validatsiyasi
+  i18n/               # Vue I18n konfiguratsiyasi va tarjimalar
 ```
+
+## Lokalizatsiya
+
+- Vue I18n global rejimida ishlaydi (`src/i18n/index.js`).
+- Standart til — **o'zbek tili (uz)**, qo'shimcha til — **rus tili (ru)**.
+- Tarjima matnlari `src/i18n/locales/uz.js` va `src/i18n/locales/ru.js` fayllarida JSON-ga o'xshash obyektlar sifatida saqlanadi.
+- Interfeysdagi barcha foydalanuvchi matnlari `t()` yoki `tm()` orqali tarjima qilinadi.
+- Asosiy layoutda til tanlash selektori mavjud bo'lib, Pinia `i18n` store orqali til darhol almashtiriladi.
 
 ## Loyiha skriptlari
 
