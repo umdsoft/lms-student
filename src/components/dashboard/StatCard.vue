@@ -11,13 +11,13 @@
     <div class="flex items-center gap-2 text-sm" :class="trendClass">
       <span>{{ trendPrefix }}{{ trendValue }}%</span>
       <span class="text-slate-400">{{ trendSuffix }}</span>
-      <span class="text-slate-400">so'nggi oy</span>
     </div>
   </div>
 </template>
 
 <script setup>
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 const props = defineProps({
   label: { type: String, required: true },

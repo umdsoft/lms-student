@@ -53,6 +53,36 @@ export default {
     submit: 'Kirish',
     error: "Kirishda xatolik yuz berdi. Qayta urinib ko'ring"
   },
+  notifications: {
+    success: {
+      generic: {
+        title: 'Muvaffaqiyat',
+        message: 'Amal muvaffaqiyatli bajarildi.'
+      },
+      login: {
+        title: 'Xush kelibsiz, {name}!',
+        message: 'Siz tizimga muvaffaqiyatli kirdingiz.'
+      },
+      logout: {
+        title: 'Sessiya yakunlandi',
+        message: 'Siz hisobingizdan chiqdingiz.'
+      },
+      localeChange: {
+        title: 'Til o‘zgartirildi',
+        message: '{language} tiliga muvaffaqiyatli o‘tdingiz.'
+      }
+    },
+    error: {
+      generic: {
+        title: 'Xatolik',
+        message: 'Amalni bajarishda xatolik yuz berdi.'
+      },
+      login: {
+        title: 'Kirish amalga oshmadi',
+        message: 'Maʼlumotlarni tekshirib, qayta urinib ko‘ring.'
+      }
+    }
+  },
   dashboard: {
     title: 'Dashboard',
     subtitle: "Faolligingiz, kurslardagi o'zgarishlar va kelgusi vazifalar bo'yicha umumiy ko'rinish.",

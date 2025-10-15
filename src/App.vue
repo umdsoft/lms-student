@@ -1,4 +1,7 @@
 <template>
+  <Notivue v-slot="{ item, close }">
+    <Notifications :item="item" :close="close" />
+  </Notivue>
   <RouterView v-slot="{ Component, route }">
     <component :is="resolveLayout(route)">
       <component :is="Component" />
@@ -8,6 +11,7 @@
 
 <script setup>
 import { RouterView } from 'vue-router';
+import { Notivue, Notifications } from 'notivue';
 import AppLayout from '@/components/layouts/AppLayout.vue';
 import AuthLayout from '@/components/layouts/AuthLayout.vue';
 

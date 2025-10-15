@@ -55,11 +55,13 @@ import { reactive, ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useAuth } from '@/composables/useAuth';
 import { useI18nHelpers } from '@/composables/useI18nHelpers';
+import { useNotifications } from '@/composables/useNotifications';
 
 const router = useRouter();
 const route = useRoute();
-const { login } = useAuth();
+const { login, user } = useAuth();
 const { t } = useI18nHelpers();
+const { notifySuccess, notifyError } = useNotifications();
 
 const form = reactive({
   login: '',
@@ -73,6 +75,7 @@ async function handleSubmit() {
   error.value = '';
   try {
     await login(form);
+    notifySuccess('login', { name: user.value?.fullName ?? form.login });
     const redirect = route.query.redirect;
     if (redirect && typeof redirect === 'string') {
       const safeRedirects = ['/', '/courses', '/olympiads', '/profile', '/profile/settings'];
@@ -84,6 +87,7 @@ async function handleSubmit() {
     router.push({ name: 'dashboard' });
   } catch (err) {
     error.value = t('login.error');
+    notifyError('login');
     console.error(err);
   }
 }
