@@ -443,7 +443,41 @@ export default {
       format: 'Format',
       subject: 'Fan',
       feeLabel: 'Ishtirok narxi',
-      action: 'Qatnashish'
+      action: 'Qatnashish',
+      viewResults: 'Natijalar'
+    },
+    details: {
+      back: "Barcha olimpiadalar ro'yxati",
+      overviewTitle: 'Olimpiada haqida',
+      flowTitle: 'Tashkil etilish tartibi',
+      challengesTitle: 'Qiyinchiliklar',
+      metricsTitle: 'Asosiy ko‘rsatkichlar',
+      metrics: {
+        questions: 'Savollar soni',
+        participants: 'Qatnashuvchilar soni',
+        difficulty: 'Qiyinchilik darajasi',
+        prizes: 'Sovrinlar'
+      },
+      prizesTitle: 'Sovrinlar taqsimoti',
+      resultsTitle: 'Qatnashchilar natijalari',
+      resultsSubtitle: 'Yakuniy ballar yuqoridan pastga qarab saralandi.',
+      resultsTable: {
+        rank: 'O‘rin',
+        participant: 'Ism-sharif',
+        score: 'Ball'
+      },
+      noResults: 'Natijalar hali mavjud emas.',
+      notFoundTitle: 'Olimpiada topilmadi',
+      notFoundSubtitle: 'So‘ralgan olimpiada mavjud emas yoki o‘chirib tashlangan. Iltimos, ro‘yxatdan mosini tanlang.',
+      statusTag: {
+        upcoming: 'Ro‘yxatdan o‘tish ochiq',
+        finished: 'Yakunlangan olimpiada'
+      },
+      difficultyLabels: {
+        beginner: 'Boshlang‘ich',
+        intermediate: 'O‘rta',
+        advanced: 'Murakkab'
+      }
     },
     items: [
       {
@@ -456,7 +490,52 @@ export default {
         format: 'Offline (Toshkent)',
         subject: 'Matematika',
         fee: 120000,
-        level: 'success'
+        level: 'success',
+        status: 'upcoming',
+        overview:
+          "Tanlov respublika bo'yicha eng kuchli matematika o'quvchilarini aniqlash va xalqaro bosqichga tayyorlashga yo'naltirilgan.",
+        flow: [
+          {
+            title: "Ro'yxatdan o'tish va arizalarni tasdiqlash",
+            description: 'Ta’lim muassasalari orqali ariza topshirish va to‘lovni tasdiqlash.'
+          },
+          {
+            title: 'Nazariy bosqich',
+            description: '6 ta murakkab analiz va kombinatorika masalalariga yozma yechim.'
+          },
+          {
+            title: 'Amaliy bosqich',
+            description: "YeChimlarni hakamlar hay'ati oldida himoya qilish va savol-javob." 
+          }
+        ],
+        challengeSummary: 'Har bir bosqich yuqori darajadagi matematik mantiq va qat’iy dalillarni talab etadi.',
+        challenges: [
+          'Kompleks analiz va kombinatorikadan nazariy isbotlar.',
+          'Vaqt chegarasi ostida yechimlarni asoslab berish.',
+          "Hakamlar savollariga aniq va asosli javob qaytarish."
+        ],
+        questionCount: '6 ta',
+        participantCount: '180 nafar',
+        difficultyLevel: 'advanced',
+        difficultyNote: 'Final bosqichida nazariy ishlanmalar himoyasi talab qilinadi.',
+        prizeSummary: 'MacBook Air M2, oltin medal va 12 oylik stipendiya.',
+        prizes: [
+          {
+            place: '1-o‘rin',
+            reward: 'MacBook Air M2',
+            description: 'MacBook, oltin medal va xalqaro bosqichga grant.'
+          },
+          {
+            place: '2-o‘rin',
+            reward: 'iPad Air + kumush medal',
+            description: 'IELTS tayyorgarlik kursi va 50% chegirma bilan.'
+          },
+          {
+            place: '3-o‘rin',
+            reward: 'Kindle va bronza medal',
+            description: 'Matematika bo‘yicha o‘quv to‘plami va murabbiylik sessiyalari.'
+          }
+        ]
       },
       {
         id: 'olymp-2',
@@ -468,7 +547,51 @@ export default {
         format: 'Online',
         subject: 'Ingliz tili',
         fee: 90000,
-        level: 'warning'
+        level: 'warning',
+        status: 'upcoming',
+        overview: 'Tanlov IELTS formatida real intervyu va yozma topshiriqlarni o‘z ichiga oladi.',
+        flow: [
+          {
+            title: 'Onlayn tanishuv sessiyasi',
+            description: 'Platforma bo‘yicha yo‘riqnoma va baholash mezonlari.'
+          },
+          {
+            title: 'Speaking imtihoni',
+            description: 'Native speakerlar bilan 3 ta modul bo‘yicha suhbat.'
+          },
+          {
+            title: 'Writing laboratoriyasi',
+            description: '2 ta esse va 1 ta report uchun 90 daqiqa vaqt beriladi.'
+          }
+        ],
+        challengeSummary: 'Suhbat va yozma ishlar bir kunda o‘tkaziladi, ishtirokchilar tezkor fikrlashi kerak.',
+        challenges: [
+          'IELTS 7.0 darajasidagi savollar.',
+          'Video-intervyuda vaqtni boshqarish.',
+          'Yozma ish uchun akademik uslub va struktura.'
+        ],
+        questionCount: '3 modul',
+        participantCount: '240 nafar',
+        difficultyLevel: 'intermediate',
+        difficultyNote: 'Baholash mezonlari IELTS standartlariga asoslangan.',
+        prizeSummary: 'London til maktabida 2 haftalik yozgi lager va sertifikatlar.',
+        prizes: [
+          {
+            place: '1-o‘rin',
+            reward: 'London yozgi lageri',
+            description: 'Bepul parvoz, turar joy va yakka IELTS konsultatsiyasi.'
+          },
+          {
+            place: '2-o‘rin',
+            reward: 'MacBook Air 13"',
+            description: '2 oylik speaking klubi va professional mentorlik.'
+          },
+          {
+            place: '3-o‘rin',
+            reward: 'Premium IELTS kursi',
+            description: '6 haftalik intensiv kurs va sertifikat.'
+          }
+        ]
       },
       {
         id: 'olymp-3',
@@ -480,7 +603,51 @@ export default {
         format: 'Offline (Samarqand)',
         subject: 'STEM',
         fee: 150000,
-        level: 'info'
+        level: 'info',
+        status: 'upcoming',
+        overview: 'Ishtirokchilar 3 kun davomida muammolar yechimi va prototip yaratish ustida ishlaydi.',
+        flow: [
+          {
+            title: 'Hackathon kuni',
+            description: 'Jamoalar muammo tanlaydi va yechim konsepsiyasini ishlab chiqadi.'
+          },
+          {
+            title: 'Prototip va laboratoriya ishlari',
+            description: 'Mentorlar bilan texnik tahlil va prototip tayyorlash.'
+          },
+          {
+            title: 'Pitch finali',
+            description: 'Hakamlarga loyiha taqdimoti va savol-javob.'
+          }
+        ],
+        challengeSummary: 'Texnik bilim, jamoa bilan ishlash va dizayn fikrlashni uyg‘unlashtiradi.',
+        challenges: [
+          'Cheklangan vaqt ichida prototip yaratish.',
+          'Texnik hujjatlashtirish va pitch tayyorlash.',
+          'Jamoaviy qarorlar va rollarni muvofiqlashtirish.'
+        ],
+        questionCount: '4 ta muammo',
+        participantCount: '32 ta jamoa',
+        difficultyLevel: 'intermediate',
+        difficultyNote: 'Har bir jamoa uchun mentorlar bilan kunlik chek-inlar mavjud.',
+        prizeSummary: 'TechnoPark inkubatsiyasi va 50 mln so‘mlik grant fondi.',
+        prizes: [
+          {
+            place: '1-o‘rin',
+            reward: '50 mln so‘mlik grant',
+            description: 'TechnoParkda 6 oylik inkubatsiya va laboratoriyalardan foydalanish.'
+          },
+          {
+            place: '2-o‘rin',
+            reward: '30 mln so‘mlik grant',
+            description: 'Mentorlik dasturi va texnik jihozlar to‘plami.'
+          },
+          {
+            place: '3-o‘rin',
+            reward: '10 mln so‘mlik grant',
+            description: 'STEM laboratoriyalariga 1 yillik a’zolik.'
+          }
+        ]
       },
       {
         id: 'olymp-4',
@@ -492,7 +659,58 @@ export default {
         format: 'Online',
         subject: 'Matematika',
         fee: 60000,
-        level: 'info'
+        level: 'info',
+        status: 'finished',
+        overview: 'To‘rt soatlik intensiv sessiya davomida kombinatorika va ehtimollar nazariyasidan masalalar yechiladi.',
+        flow: [
+          {
+            title: 'Onlayn platformaga kirish',
+            description: '2 kun avval sinov kirish testlari va yo‘riqnoma.'
+          },
+          {
+            title: 'Asosiy raund',
+            description: '30 ta masala, vaqt chegarasi — 240 daqiqa.'
+          },
+          {
+            title: 'Natijalarni e’lon qilish',
+            description: 'Avtomatik baholash va top 20 ishtirokchi uchun sharh sessiyasi.'
+          }
+        ],
+        challengeSummary: 'Masalalar murakkab kombinatorik konstruksiyalar va ehtimollik usullarini talab qiladi.',
+        challenges: [
+          'Bir nechta bosqichli kombinatorik konstruksiyalar.',
+          'Vaqtni to‘g‘ri taqsimlash va tezkor yechim yozish.',
+          'Natijalarni tekshirish uchun Python skriptlaridan foydalanish.'
+        ],
+        questionCount: '30 ta savol',
+        participantCount: '520 nafar',
+        difficultyLevel: 'advanced',
+        difficultyNote: 'Top 20 ishtirokchi bilan qo‘shimcha tahlil sessiyasi o‘tkazildi.',
+        prizeSummary: 'Pro matematiklar bilan mentorluk va xalqaro sertifikatlar.',
+        prizes: [
+          {
+            place: '1-o‘rin',
+            reward: '$1 000 grant',
+            description: 'MIT talabalari bilan 3 oylik onlayn mentorlik va oltin sertifikat.'
+          },
+          {
+            place: '2-o‘rin',
+            reward: '$600 grant',
+            description: 'Matematika bo‘yicha master-klasslar va kumush sertifikat.'
+          },
+          {
+            place: '3-o‘rin',
+            reward: '$300 grant',
+            description: 'Bronza sertifikat va premium onlayn kurslarga obuna.'
+          }
+        ],
+        results: [
+          { name: 'Ziyodulla Xolmatov', score: 298 },
+          { name: 'Dilshoda Karimova', score: 287 },
+          { name: 'Bekmurod Akbarov', score: 279 },
+          { name: 'Mahliyo Sodiqova', score: 266 },
+          { name: 'Jahongir Rahimov', score: 254 }
+        ]
       },
       {
         id: 'olymp-5',
@@ -504,7 +722,51 @@ export default {
         format: 'Offline (Toshkent)',
         subject: 'Ingliz tili',
         fee: 110000,
-        level: 'success'
+        level: 'success',
+        status: 'upcoming',
+        overview: 'Marafon davomida ishtirokchilar improvizatsiya, bahs va TED uslubidagi nutq tayyorlaydi.',
+        flow: [
+          {
+            title: 'Storytelling sessiyasi',
+            description: '2 daqiqalik improvizatsion hikoya va savol-javob.'
+          },
+          {
+            title: 'Debat raundi',
+            description: 'Juftliklar bilan bahs va hakamlar savollari.'
+          },
+          {
+            title: 'Final nutq',
+            description: 'TED uslubidagi 5 daqiqalik nutq va feedback.'
+          }
+        ],
+        challengeSummary: 'Scenariysiz chiqishlar va auditoriya bilan ishlash bo‘yicha murakkab mashqlar.',
+        challenges: [
+          'Nutq vaqtida tana tili va ovoz balandligini boshqarish.',
+          'Debat paytida tezkor argument tayyorlash.',
+          'Feedback asosida nutqni optimallashtirish.'
+        ],
+        questionCount: '3 bosqich',
+        participantCount: '150 nafar',
+        difficultyLevel: 'intermediate',
+        difficultyNote: 'Baholash kriteriyalari: mazmun, ifoda, ta’sir.',
+        prizeSummary: 'British Council sertifikatlari va stipendiyalar.',
+        prizes: [
+          {
+            place: '1-o‘rin',
+            reward: 'Chevening tayyorgarlik granti',
+            description: 'Professional spiker bilan 5 seans mentorlik va oltin sertifikat.'
+          },
+          {
+            place: '2-o‘rin',
+            reward: 'Professional studiya yozuvi',
+            description: 'Podcast studiyasida nutq yozib olish va kumush sertifikat.'
+          },
+          {
+            place: '3-o‘rin',
+            reward: 'Speaking club a’zoligi',
+            description: '12 oylik premium klub a’zoligi va bronza sertifikat.'
+          }
+        ]
       },
       {
         id: 'olymp-6',
@@ -516,7 +778,51 @@ export default {
         format: 'Hybrid',
         subject: 'STEM',
         fee: 140000,
-        level: 'warning'
+        level: 'warning',
+        status: 'upcoming',
+        overview: 'Innovatsion g‘oyalarni biznes model va texnik prototipga aylantirish bo‘yicha intensiv dastur.',
+        flow: [
+          {
+            title: 'Problem framing laboratoriyasi',
+            description: 'Muammoni aniqlash, mijoz xaritasini chizish va hipoteza yaratish.'
+          },
+          {
+            title: 'Prototip va MVP',
+            description: 'Mentorlar bilan texnik talablarni ishlab chiqish va MVP yig‘ish.'
+          },
+          {
+            title: 'Pitch day',
+            description: 'Investorlar oldida taqdimot va savol-javob.'
+          }
+        ],
+        challengeSummary: 'Texnik yechim bilan birga biznes modeli va monetizatsiyani ham asoslash zarur.',
+        challenges: [
+          'Foydalanuvchi intervyularini o‘tkazish va xulosalarni himoya qilish.',
+          'MVP uchun texnik ko‘rsatkichlarni belgilash.',
+          'Pitch formatida qisqa va lo‘nda taqdimot tayyorlash.'
+        ],
+        questionCount: '3 sprint',
+        participantCount: '24 ta jamoa',
+        difficultyLevel: 'advanced',
+        difficultyNote: 'Har bir jamoaga xalqaro mentorlar biriktiriladi.',
+        prizeSummary: 'Inha University akseleratori va 75 mln so‘mlik sarmoya.',
+        prizes: [
+          {
+            place: '1-o‘rin',
+            reward: '75 mln so‘mlik investitsiya',
+            description: 'Inha University akseleratorida 4 oylik dastur va ofis.'
+          },
+          {
+            place: '2-o‘rin',
+            reward: '40 mln so‘mlik investitsiya',
+            description: 'Sanoat mutaxassislari bilan 6 ta konsultatsiya.'
+          },
+          {
+            place: '3-o‘rin',
+            reward: '20 mln so‘mlik grant',
+            description: 'Cloud kreditlari va texnik jihozlar to‘plami.'
+          }
+        ]
       }
     ]
   },

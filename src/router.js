@@ -42,6 +42,17 @@ const routes = [
     }
   },
   {
+    path: '/olympiads/:id',
+    name: 'olympiads.details',
+    component: () => import('@/pages/olympiads/OlympiadDetailsPage.vue'),
+    meta: {
+      requiresAuth: true,
+      roles: ['student'],
+      title: 'Olimpiada tafsilotlari',
+      layout: 'app'
+    }
+  },
+  {
     path: '/finance/transactions',
     name: 'finance.transactions',
     component: () => import('@/pages/finance/TransactionsPage.vue'),
@@ -119,7 +130,9 @@ router.beforeEach(async (to, from, next) => {
   }
 
   if (to.meta?.requiresAuth && !isAuthenticated.value) {
-    const redirect = allowedRedirects.includes(to.fullPath) ? to.fullPath : '/';
+    const redirect = allowedRedirects.some((path) => to.fullPath === path || to.fullPath.startsWith(`${path}/`))
+      ? to.fullPath
+      : '/';
     return next({ name: 'login', query: { redirect } });
   }
 
