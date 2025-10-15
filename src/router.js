@@ -42,6 +42,17 @@ const routes = [
     }
   },
   {
+    path: '/olympiads/my',
+    name: 'olympiads.my',
+    component: () => import('@/pages/olympiads/MyOlympiadsPage.vue'),
+    meta: {
+      requiresAuth: true,
+      roles: ['student'],
+      title: 'Mening olimpiadalarim',
+      layout: 'app'
+    }
+  },
+  {
     path: '/olympiads/:id',
     name: 'olympiads.details',
     component: () => import('@/pages/olympiads/OlympiadDetailsPage.vue'),
@@ -115,6 +126,7 @@ const allowedRedirects = [
   '/',
   '/courses',
   '/olympiads',
+  '/olympiads/my',
   '/finance/transactions',
   '/finance/coins',
   '/profile',

@@ -104,7 +104,10 @@
       </div>
     </section>
 
-    <section class="space-y-4 rounded-3xl bg-white p-6 shadow-sm">
+    <section
+      v-if="olympiad.status !== 'finished' && olympiad.prizes?.length"
+      class="space-y-4 rounded-3xl bg-white p-6 shadow-sm"
+    >
       <h2 class="text-xl font-semibold text-primary-800">
         {{ t('olympiads.details.prizesTitle') }}
       </h2>
@@ -121,11 +124,22 @@
     </section>
 
     <section v-if="olympiad.status === 'finished'" class="space-y-4">
-      <DataTable :columns="resultColumns" :rows="resultRows" :subtitle="t('olympiads.details.resultsSubtitle')">
+      <DataTable
+        :columns="resultColumns"
+        :rows="resultRows"
+        :subtitle="t('olympiads.details.resultsSubtitle')"
+        :row-class="resultRowClass"
+      >
         <template #title>
           <h2 class="text-xl font-semibold text-primary-800">
             {{ t('olympiads.details.resultsTitle') }}
           </h2>
+        </template>
+        <template #cell-rank="{ row }">
+          <div class="flex items-center gap-2">
+            <span v-if="row.medal" class="text-xl leading-none">{{ row.medal }}</span>
+            <span class="font-semibold text-primary-800">{{ row.rank }}</span>
+          </div>
         </template>
       </DataTable>
       <p v-if="!resultRows.length" class="text-sm text-slate-500">
@@ -224,6 +238,8 @@ const resultColumns = computed(() => [
   { key: 'score', label: t('olympiads.details.resultsTable.score') }
 ]);
 
+const medalIcons = ['🥇', '🥈', '🥉'];
+
 const resultRows = computed(() => {
   if (!olympiad.value?.results?.length) return [];
   return [...olympiad.value.results]
@@ -232,7 +248,10 @@ const resultRows = computed(() => {
       id: `${result.name}-${index}`,
       rank: index + 1,
       name: result.name,
-      score: result.score
+      score: result.score,
+      medal: medalIcons[index] || ''
     }));
 });
+
+const resultRowClass = (row) => (row.medal ? 'bg-amber-50/60' : '');
 </script>

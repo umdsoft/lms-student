@@ -25,7 +25,12 @@
           </tr>
         </thead>
         <tbody class="divide-y divide-primary-50 text-slate-600">
-          <tr v-for="row in rows" :key="row.id" class="hover:bg-primary-50/40">
+          <tr
+            v-for="row in rows"
+            :key="row.id"
+            class="hover:bg-primary-50/40"
+            :class="rowClass ? rowClass(row) : ''"
+          >
             <td v-for="column in columns" :key="column.key" class="px-6 py-4 align-top">
               <slot :name="`cell-${column.key}`" :row="row">
                 {{ row[column.key] }}
@@ -54,6 +59,10 @@ defineProps({
   subtitle: {
     type: String,
     default: ''
+  },
+  rowClass: {
+    type: Function,
+    default: null
   }
 });
 

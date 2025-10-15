@@ -24,6 +24,7 @@ export default {
       dashboard: 'Boshqaruv paneli',
       courses: 'Kurslar',
       olympiads: 'Olimpiadalar',
+      myOlympiads: 'Mening olimpiadalarim',
       profile: 'Profil',
       ariaLabel: 'Asosiy navigatsiya'
     },
@@ -187,6 +188,14 @@ export default {
       localeChange: {
         title: 'Til o‘zgartirildi',
         message: '{language} tiliga muvaffaqiyatli o‘tdingiz.'
+      },
+      olympiadsRegister: {
+        title: 'Ariza yuborildi!',
+        message: "{title} olimpiadasida qatnashish tasdiqlandi."
+      },
+      miniTestPurchase: {
+        title: 'Demo test tayyor!',
+        message: "Siz '{title}' mini testini muvaffaqiyatli sotib oldingiz."
       }
     },
     error: {
@@ -444,7 +453,19 @@ export default {
       subject: 'Fan',
       feeLabel: 'Ishtirok narxi',
       action: 'Qatnashish',
-      viewResults: 'Natijalar'
+      details: 'Batafsil',
+      viewResults: 'Natijalar',
+      registered: 'Ro‘yxatdan o‘tilgan'
+    },
+    groups: {
+      upcoming: 'Ochiq olimpiadalar',
+      upcomingHint: 'Yaqinda start oladigan olimpiadalar uchun ro‘yxatdan o‘ting.',
+      finished: 'Yakunlangan olimpiadalar',
+      finishedHint: 'Natijalari e’lon qilingan olimpiadalar arxivi.'
+    },
+    empty: {
+      upcoming: 'Hozircha yangi olimpiadalar yo‘q. Tez orada yangilanishlarni kuzating.',
+      finished: 'Yakunlangan olimpiadalar hozircha mavjud emas.'
     },
     details: {
       back: "Barcha olimpiadalar ro'yxati",
@@ -478,6 +499,37 @@ export default {
         intermediate: 'O‘rta',
         advanced: 'Murakkab'
       }
+    },
+    registration: {
+      title: 'Ishtirokni tasdiqlaysizmi?',
+      subtitle: '{title} olimpiadasida qatnashishni tasdiqlang.',
+      paymentNotice: 'Diqqat! Ishtirok badali tasdiqlangach hisobdan yechiladi.',
+      balanceReminder: '{amount} miqdoridagi to‘lov hisobingizdan yechib olinadi.',
+      studentInfoTitle: 'O‘quvchi ma’lumotlari',
+      fields: {
+        fullName: 'Ism sharif',
+        email: 'Email',
+        phone: 'Telefon'
+      },
+      cancel: 'Bekor qilish',
+      confirm: 'Ishtirok etaman'
+    },
+    my: {
+      title: 'Mening olimpiadalarim',
+      subtitle: 'Ro‘yxatdan o‘tgan olimpiadalar va ularning demo testlarini boshqaring.',
+      empty: 'Siz hali hech qanday olimpiadaga ro‘yxatdan o‘tmagansiz.',
+      browseAction: 'Olimpiadalarni ko‘rish',
+      viewDetails: 'Tafsilotlarni ko‘rish',
+      demoTitle: 'Demo testlar bilan tayyorlanish imkoniyati',
+      demoSubtitle: 'Har bir demo test narxi asosiy badalning 10% ini tashkil etadi ({price}).',
+      tableSubtitle: 'Mini testlar natijalarni oshirish uchun mo‘ljallangan.',
+      tableColumns: {
+        title: 'Mini test',
+        duration: 'Vaqt / savollar',
+        price: 'Narxi'
+      },
+      buyAction: 'Sotib olish',
+      purchased: 'Sotib olingan'
     },
     items: [
       {
