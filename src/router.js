@@ -42,6 +42,28 @@ const routes = [
     }
   },
   {
+    path: '/finance/transactions',
+    name: 'finance.transactions',
+    component: () => import('@/pages/finance/TransactionsPage.vue'),
+    meta: {
+      requiresAuth: true,
+      roles: ['student'],
+      title: 'Tranzaksiyalar',
+      layout: 'app'
+    }
+  },
+  {
+    path: '/finance/coins',
+    name: 'finance.coins',
+    component: () => import('@/pages/finance/CoinHistoryPage.vue'),
+    meta: {
+      requiresAuth: true,
+      roles: ['student'],
+      title: 'Tangalar tarixi',
+      layout: 'app'
+    }
+  },
+  {
     path: '/profile',
     name: 'profile.overview',
     component: () => import('@/pages/profile/ProfileOverviewPage.vue'),
@@ -78,7 +100,15 @@ const router = createRouter({
   routes
 });
 
-const allowedRedirects = ['/', '/courses', '/olympiads', '/profile', '/profile/settings'];
+const allowedRedirects = [
+  '/',
+  '/courses',
+  '/olympiads',
+  '/finance/transactions',
+  '/finance/coins',
+  '/profile',
+  '/profile/settings'
+];
 
 router.beforeEach(async (to, from, next) => {
   const { ensureSession, isAuthenticated, user } = useAuth();

@@ -20,6 +20,7 @@ export default {
       noSync: 'еще не синхронизировано'
     },
     navigation: {
+      menuLabel: 'Меню',
       dashboard: 'Панель',
       courses: 'Курсы',
       olympiads: 'Олимпиады',
@@ -32,6 +33,122 @@ export default {
         uz: 'O‘zbekcha',
         ru: 'Русский'
       }
+    }
+  },
+  finance: {
+    transactions: {
+      title: 'Финансовые операции',
+      subtitle: 'Отслеживайте поступления и расходы баланса.',
+      tableSubtitle: 'История всех операций за последние 30 дней.',
+      columns: [
+        { key: 'date', label: 'Дата' },
+        { key: 'type', label: 'Тип' },
+        { key: 'description', label: 'Описание' },
+        { key: 'amount', label: 'Сумма' },
+        { key: 'balanceAfter', label: 'Баланс' },
+        { key: 'method', label: 'Способ оплаты' }
+      ],
+      rows: [
+        {
+          id: 'txn-001',
+          date: '02.06.2024',
+          type: 'Поступление',
+          description: 'STEM стипендия',
+          amount: 150000,
+          direction: 'in',
+          balanceAfter: 275000,
+          method: 'Банковская карта'
+        },
+        {
+          id: 'txn-002',
+          date: '05.06.2024',
+          type: 'Списание',
+          description: 'Модуль IELTS Writing',
+          amount: 85000,
+          direction: 'out',
+          balanceAfter: 190000,
+          method: 'Онлайн-оплата'
+        },
+        {
+          id: 'txn-003',
+          date: '09.06.2024',
+          type: 'Поступление',
+          description: 'Кэшбэк наставника',
+          amount: 35000,
+          direction: 'in',
+          balanceAfter: 225000,
+          method: 'Промокод'
+        },
+        {
+          id: 'txn-004',
+          date: '12.06.2024',
+          type: 'Списание',
+          description: 'Взнос за олимпиаду',
+          amount: 60000,
+          direction: 'out',
+          balanceAfter: 165000,
+          method: 'Кошелёк'
+        }
+      ]
+    },
+    coins: {
+      title: 'Активность монет',
+      subtitle: 'Следите за накоплением и использованием монет.',
+      tableSubtitle: 'Подробности по геймификации и вознаграждениям.',
+      columns: [
+        { key: 'date', label: 'Дата' },
+        { key: 'source', label: 'Источник' },
+        { key: 'description', label: 'Описание' },
+        { key: 'amount', label: 'Монеты' },
+        { key: 'category', label: 'Категория' }
+      ],
+      rows: [
+        {
+          id: 'coin-001',
+          date: '01.06.2024',
+          source: 'Недельная серия',
+          description: 'Награда за 7-дневный стрик',
+          amount: 25,
+          direction: 'in',
+          category: 'Активность'
+        },
+        {
+          id: 'coin-002',
+          date: '04.06.2024',
+          source: 'Тест по математике',
+          description: 'Результат в топ-10%',
+          amount: 40,
+          direction: 'in',
+          category: 'Академия'
+        },
+        {
+          id: 'coin-003',
+          date: '06.06.2024',
+          source: 'Сессия с наставником',
+          description: 'Оставлена обратная связь',
+          amount: 15,
+          direction: 'in',
+          category: 'Сотрудничество'
+        },
+        {
+          id: 'coin-004',
+          date: '08.06.2024',
+          source: 'Купон олимпиады',
+          description: 'Скидка на участие',
+          amount: 30,
+          direction: 'out',
+          category: 'Расход'
+        },
+        {
+          id: 'coin-005',
+          date: '11.06.2024',
+          source: 'Домашнее задание',
+          description: 'Все задачи выполнены вовремя',
+          amount: 20,
+          direction: 'in',
+          category: 'Активность'
+        }
+      ]
     }
   },
   authLayout: {
