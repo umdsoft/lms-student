@@ -64,6 +64,17 @@ const routes = [
     }
   },
   {
+    path: '/olympiads/:id/tests/:testId',
+    name: 'olympiads.mini-test',
+    component: () => import('@/pages/olympiads/MiniTestSolvePage.vue'),
+    meta: {
+      requiresAuth: true,
+      roles: ['student'],
+      title: 'Demo test',
+      layout: 'app'
+    }
+  },
+  {
     path: '/finance/transactions',
     name: 'finance.transactions',
     component: () => import('@/pages/finance/TransactionsPage.vue'),
