@@ -10,6 +10,7 @@
     <img :src="logo" :alt="brandName" class="h-10 w-auto" />
     <div v-if="showText" class="leading-tight">
       <p
+        v-if="showStrapline && strapline"
         class="text-[10px] uppercase tracking-[0.4em]"
         :class="straplineClass"
       >
@@ -38,6 +39,10 @@ const props = defineProps({
     type: String,
     default: 'start',
     validator: (value) => ['start', 'center', 'end'].includes(value)
+  },
+  showStrapline: {
+    type: Boolean,
+    default: true
   }
 });
 

@@ -20,6 +20,7 @@ export default {
       noSync: 'hali sinxronlanmagan'
     },
     navigation: {
+      menuLabel: 'Menu',
       dashboard: 'Boshqaruv paneli',
       courses: 'Kurslar',
       olympiads: 'Olimpiadalar',
@@ -32,6 +33,122 @@ export default {
         uz: 'O‘zbekcha',
         ru: 'Русский'
       }
+    }
+  },
+  finance: {
+    transactions: {
+      title: 'Moliyaviy tranzaksiyalar',
+      subtitle: "Balansingiz bo'yicha tushum va xarajatlarni kuzatib boring.",
+      tableSubtitle: "So'nggi 30 kun ichidagi barcha operatsiyalar tarixi.",
+      columns: [
+        { key: 'date', label: 'Sana' },
+        { key: 'type', label: 'Turi' },
+        { key: 'description', label: "Izoh" },
+        { key: 'amount', label: 'Summa' },
+        { key: 'balanceAfter', label: 'Balans' },
+        { key: 'method', label: 'To\'lov usuli' }
+      ],
+      rows: [
+        {
+          id: 'txn-001',
+          date: '02.06.2024',
+          type: 'Kirim',
+          description: 'STEM stipendiyasi',
+          amount: 150000,
+          direction: 'in',
+          balanceAfter: 275000,
+          method: 'Bank kartasi'
+        },
+        {
+          id: 'txn-002',
+          date: '05.06.2024',
+          type: 'Chiqim',
+          description: 'IELTS Writing moduli',
+          amount: 85000,
+          direction: 'out',
+          balanceAfter: 190000,
+          method: 'Onlayn to\'lov'
+        },
+        {
+          id: 'txn-003',
+          date: '09.06.2024',
+          type: 'Kirim',
+          description: 'Mentor cashback',
+          amount: 35000,
+          direction: 'in',
+          balanceAfter: 225000,
+          method: 'Promo-kod'
+        },
+        {
+          id: 'txn-004',
+          date: '12.06.2024',
+          type: 'Chiqim',
+          description: 'Olimpiada badali',
+          amount: 60000,
+          direction: 'out',
+          balanceAfter: 165000,
+          method: 'Hamyon'
+        }
+      ]
+    },
+    coins: {
+      title: 'Tanga faoliyati',
+      subtitle: "Tangalaringiz qanday yig'ilgani va sarflanganini kuzating.",
+      tableSubtitle: "Gamifikatsiya va mukofotlar bo'yicha batafsil ma'lumot.",
+      columns: [
+        { key: 'date', label: 'Sana' },
+        { key: 'source', label: 'Manba' },
+        { key: 'description', label: "Izoh" },
+        { key: 'amount', label: 'Tangalar' },
+        { key: 'category', label: 'Kategoriya' }
+      ],
+      rows: [
+        {
+          id: 'coin-001',
+          date: '01.06.2024',
+          source: 'Haftalik davomiylik',
+          description: '7 kunlik streak mukofoti',
+          amount: 25,
+          direction: 'in',
+          category: 'Faollik'
+        },
+        {
+          id: 'coin-002',
+          date: '04.06.2024',
+          source: 'Matematika testi',
+          description: 'Top 10% natija',
+          amount: 40,
+          direction: 'in',
+          category: 'Akademik'
+        },
+        {
+          id: 'coin-003',
+          date: '06.06.2024',
+          source: 'Mentor sessiyasi',
+          description: 'Feedback topshirildi',
+          amount: 15,
+          direction: 'in',
+          category: 'Hamkorlik'
+        },
+        {
+          id: 'coin-004',
+          date: '08.06.2024',
+          source: 'Olimpiada kuponi',
+          description: 'Ishtirok to\'loviga chegirma',
+          amount: 30,
+          direction: 'out',
+          category: 'Sarf'
+        },
+        {
+          id: 'coin-005',
+          date: '11.06.2024',
+          source: 'Uy vazifasi',
+          description: 'Barcha topshiriqlar vaqtida bajarildi',
+          amount: 20,
+          direction: 'in',
+          category: 'Faollik'
+        }
+      ]
     }
   },
   authLayout: {
