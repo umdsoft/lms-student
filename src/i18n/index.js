@@ -21,14 +21,6 @@ function resolveStartingLocale() {
       return stored;
     }
   }
-
-  if (typeof navigator !== 'undefined') {
-    const browserLocale = navigator.language?.split('-')[0];
-    if (browserLocale && isSupportedLocale(browserLocale)) {
-      return browserLocale;
-    }
-  }
-
   return defaultLocale;
 }
 
