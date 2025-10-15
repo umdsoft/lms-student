@@ -36,9 +36,12 @@
           class="w-10 h-10 rounded-2xl border-2 border-white"
         />
       </div>
-      <button type="button" class="text-primary-600 text-sm font-medium hover:underline">
+      <RouterLink
+        :to="{ name: 'courses.details', params: { id: course.id } }"
+        class="text-primary-600 text-sm font-medium hover:underline"
+      >
         {{ t('components.courseCard.action') }}
-      </button>
+      </RouterLink>
     </div>
   </article>
 </template>

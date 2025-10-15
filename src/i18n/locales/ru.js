@@ -428,6 +428,165 @@ export default {
       companionAlt: 'Одногруппник'
     }
   },
+  courseDetails: {
+    backToCourses: 'Вернуться к курсам',
+    notFoundTitle: 'Курс не найден',
+    notFoundSubtitle: 'Выбранный курс недоступен. Пожалуйста, вернитесь к списку и выберите другой урок.',
+    tabs: [
+      { key: 'materials', label: 'Материалы' },
+      { key: 'tests', label: 'Тесты' },
+      { key: 'homework', label: 'Домашние задания' }
+    ],
+    player: {
+      module: '2',
+      duration: '42 минуты',
+      poster: 'https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?auto=format&fit=crop&w=1200&q=80',
+      sources: [
+        {
+          type: 'video/mp4',
+          url: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4'
+        }
+      ],
+      nextLesson: {
+        title: 'Тема 3: Применение интегралов',
+        description: 'Разбираем задачи и геометрические интерпретации на практике.'
+      },
+      moduleLabel: 'Модуль {{ module }}',
+      mentorLabel: 'Наставник: {{ mentor }}',
+      nextLessonLabel: 'Следующая тема',
+      continueAction: 'Продолжить урок',
+      videoNotSupported: 'Ваш браузер не поддерживает данный формат видео.'
+    },
+    resources: {
+      viewAction: 'Открыть',
+      materials: [
+        {
+          title: 'Конспект — основы интегрального исчисления (PDF)',
+          description: 'Ключевые формулы и таблицы из урока.',
+          duration: '12 страниц',
+          type: 'pdf'
+        },
+        {
+          title: 'Презентация — работа с графиками',
+          description: 'Слайды для визуального понимания геометрии интегралов.',
+          duration: '18 слайдов',
+          type: 'presentation'
+        },
+        {
+          title: 'Дополнительное видео — практические примеры',
+          description: 'Короткий разбор сложных задач.',
+          duration: '16 минут',
+          type: 'video'
+        }
+      ],
+      tests: [
+        {
+          title: 'Быстрый тест — повторение модуля',
+          description: 'Короткий тест из 10 вопросов.',
+          duration: '15 минут',
+          type: 'test'
+        },
+        {
+          title: 'Промежуточный контроль — интегралы',
+          description: '20 вопросов для проверки прогресса.',
+          duration: '30 минут',
+          type: 'test'
+        }
+      ],
+      homework: [
+        {
+          title: 'Домашнее задание №4',
+          description: '8 практических задач по интегралам.',
+          duration: 'Сдать до 14 мая',
+          type: 'assignment'
+        },
+        {
+          title: 'Проект для портфолио',
+          description: 'Исследование по вычислению площадей с помощью интегралов.',
+          duration: 'Сдать до 20 мая',
+          type: 'assignment'
+        }
+      ]
+    },
+    modules: {
+      title: 'Модули и темы',
+      subtitle: 'Ваш прогресс по разделам',
+      status: {
+        completed: 'Завершён',
+        'in-progress': 'В процессе',
+        locked: 'Заблокирован'
+      }
+    },
+    results: {
+      title: 'Мои результаты',
+      subtitle: 'Персональная статистика',
+      milestonesTitle: 'Ближайшие цели',
+      summary: [
+        {
+          label: 'Общий прогресс',
+          value: '78%',
+          hint: 'По текущему модулю'
+        },
+        {
+          label: 'Учебная серия',
+          value: '5 дней',
+          hint: 'Без пропусков'
+        },
+        {
+          label: 'Средний тест',
+          value: '86%',
+          hint: 'Последние 3 теста'
+        }
+      ],
+      milestones: [
+        {
+          title: 'Завершить тест модуля 2',
+          description: 'Сдать промежуточный тест до 12 мая.'
+        },
+        {
+          title: 'Домашнее задание №4',
+          description: 'Загрузить решения 14 мая.'
+        },
+        {
+          title: 'Поднять средний балл до 90%',
+          description: 'Просмотрите дополнительные материалы и перепройдите тест.'
+        }
+      ]
+    },
+    modulesData: [
+      {
+        id: 'module-1',
+        title: 'Модуль 1. Пределы и непрерывность',
+        description: 'Базовые определения и ключевые формулы.',
+        status: 'completed',
+        lessons: [
+          { title: 'Введение в пределы', duration: '25 минут', status: 'completed' },
+          { title: 'Непрерывность функций', duration: '30 минут', status: 'completed' }
+        ]
+      },
+      {
+        id: 'module-2',
+        title: 'Модуль 2. Введение в интегралы',
+        description: 'Смысл интеграла и первые методы.',
+        status: 'in-progress',
+        lessons: [
+          { title: 'Неопределённый интеграл', duration: '28 минут', status: 'in-progress' },
+          { title: 'Базовые правила интегрирования', duration: '32 минуты', status: 'locked' },
+          { title: 'Геометрическая интерпретация', duration: '24 минуты', status: 'locked' }
+        ]
+      },
+      {
+        id: 'module-3',
+        title: 'Модуль 3. Практика и применение',
+        description: 'Использование интегралов в задачах.',
+        status: 'locked',
+        lessons: [
+          { title: 'Применение в физике', duration: '26 минут', status: 'locked' },
+          { title: 'Экономические задачи', duration: '22 минуты', status: 'locked' }
+        ]
+      }
+    ]
+  },
   olympiads: {
     title: 'Олимпиады',
     subtitle: 'Выбирайте ближайшие олимпиады и конкурсы, изучайте условия участия и взносы.',
