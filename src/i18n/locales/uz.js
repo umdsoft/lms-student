@@ -10,8 +10,8 @@ export default {
     header: {
       greeting: 'Assalomu alaykum!',
       lastUpdated: "So'nggi yangilanish",
-      coinsLabel: 'Coins',
-      coinsValue: '{value} coin',
+      coinsLabel: 'Tangalar',
+      coinsValue: '{value} ta tanga',
       balanceLabel: 'Balans',
       balanceValue: "{value} so'm",
       logout: 'Chiqish',
@@ -20,7 +20,7 @@ export default {
       noSync: 'hali sinxronlanmagan'
     },
     navigation: {
-      dashboard: 'Dashboard',
+      dashboard: 'Boshqaruv paneli',
       courses: 'Kurslar',
       olympiads: 'Olimpiadalar',
       profile: 'Profil',
@@ -84,7 +84,7 @@ export default {
     }
   },
   dashboard: {
-    title: 'Dashboard',
+    title: 'Boshqaruv paneli',
     subtitle: "Faolligingiz, kurslardagi o'zgarishlar va kelgusi vazifalar bo'yicha umumiy ko'rinish.",
     weeklyPlan: 'Haftalik reja',
     stats: [

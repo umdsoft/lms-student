@@ -28,9 +28,9 @@
       />
     </div>
 
-    <div class="grid gap-6 xl:grid-cols-[2fr_1fr]">
-      <MonthlyProgressChart />
-      <div class="bg-white rounded-3xl p-6 shadow-sm space-y-4">
+    <div class="grid gap-6 items-start xl:grid-cols-[1.7fr_1fr]">
+      <MonthlyProgressChart class="h-full" />
+      <div class="flex h-full flex-col gap-4 rounded-3xl bg-white p-6 shadow-sm">
         <h3 class="text-lg font-semibold text-primary-800">{{ t('dashboard.tasks.title') }}</h3>
         <ul class="space-y-3">
           <li v-for="task in tasks" :key="task.id" class="flex items-start gap-3">

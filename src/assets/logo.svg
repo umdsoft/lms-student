@@ -1,0 +1,17 @@
+<svg width="144" height="40" viewBox="0 0 144 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="logo-gradient" x1="0" y1="0" x2="144" y2="40" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#00A392" />
+      <stop offset="1" stop-color="#21516A" />
+    </linearGradient>
+    <linearGradient id="logo-glow" x1="12" y1="4" x2="36" y2="36" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.9" />
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+  <rect x="4" y="4" width="36" height="32" rx="12" fill="url(#logo-gradient)" />
+  <rect x="9" y="9" width="26" height="22" rx="8" fill="url(#logo-glow)" />
+  <path d="M22 26C19.2386 26 17 23.7614 17 21C17 18.2386 19.2386 16 22 16C24.7614 16 27 18.2386 27 21H22V26Z" fill="#21516A" opacity="0.85" />
+  <path d="M24.5 14C19.8056 14 16 17.8056 16 22.5C16 25.5376 17.6253 28.1833 20.0609 29.6622C20.5311 29.95 21.1269 29.8739 21.5117 29.4891L29.4891 21.5117C29.8739 21.1269 29.95 20.5311 29.6622 20.0609C28.1833 17.6253 25.5376 16 22.5 16H24.5V14Z" fill="#F4FFFB" />
+  <text x="52" y="26" font-family="'Inter', sans-serif" font-size="18" font-weight="600" letter-spacing="0.02em" fill="#0F3A2F">LMS Student</text>
+</svg>
