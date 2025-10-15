@@ -107,7 +107,7 @@
         </header>
 
         <main class="flex-1 overflow-y-auto px-4 py-6 sm:px-6 lg:px-10 xl:px-14">
-          <div class="mx-auto w-full rounded-[32px] border border-white/60 bg-white/90 p-6 shadow-lg sm:p-8">
+          <div class="mx-auto w-full rounded-[32px] p-6 sm:p-8">
             <slot />
           </div>
         </main>

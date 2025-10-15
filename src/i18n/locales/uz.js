@@ -2,7 +2,7 @@ export default {
   app: {
     brand: {
       strapline: "Huquqiy targ'ibot",
-      name: 'Baholash tizimi',
+      name: 'LMS Study Studio',
       infoTitle: 'Matematika va Ingliz tili',
       infoDescription:
         "Ushbu panelda kurslaringiz, o'sish dinamikangiz va kelgusi olimpiadalar bo'yicha tezkor ma'lumot olasiz."
