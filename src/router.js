@@ -53,6 +53,17 @@ const routes = [
     }
   },
   {
+    path: '/courses/:id/tests/:testId/attempts/:attemptId',
+    name: 'courses.test-attempt-details',
+    component: () => import('@/pages/courses/CourseTestAttemptDetailsPage.vue'),
+    meta: {
+      requiresAuth: true,
+      roles: ['student'],
+      title: 'Test natijasi',
+      layout: 'app'
+    }
+  },
+  {
     path: '/olympiads',
     name: 'olympiads',
     component: () => import('@/pages/olympiads/OlympiadsPage.vue'),
