@@ -31,6 +31,17 @@ const routes = [
     }
   },
   {
+    path: '/courses/:id',
+    name: 'courses.details',
+    component: () => import('@/pages/courses/CourseDetailsPage.vue'),
+    meta: {
+      requiresAuth: true,
+      roles: ['student'],
+      title: 'Kurs tafsilotlari',
+      layout: 'app'
+    }
+  },
+  {
     path: '/olympiads',
     name: 'olympiads',
     component: () => import('@/pages/olympiads/OlympiadsPage.vue'),

@@ -437,6 +437,165 @@ export default {
       companionAlt: 'Guruhdosh'
     }
   },
+  courseDetails: {
+    backToCourses: 'Kurslarga qaytish',
+    notFoundTitle: 'Kurs topilmadi',
+    notFoundSubtitle: 'Tanlangan kurs mavjud emas. Iltimos, kurslar roʻyxatidan boshqa darsni tanlang.',
+    tabs: [
+      { key: 'materials', label: 'Materiallar' },
+      { key: 'tests', label: 'Testlar' },
+      { key: 'homework', label: 'Uy vazifalari' }
+    ],
+    player: {
+      module: '2',
+      duration: '42 daqiqa',
+      poster: 'https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?auto=format&fit=crop&w=1200&q=80',
+      sources: [
+        {
+          type: 'video/mp4',
+          url: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4'
+        }
+      ],
+      nextLesson: {
+        title: '3-mavzu: Integrallarni qo‘llash',
+        description: 'Yangi mavzuda qo‘llanmalar va amaliy misollar bilan ishlaymiz.'
+      },
+      moduleLabel: '{{ module }}-modul',
+      mentorLabel: 'Mentor: {{ mentor }}',
+      nextLessonLabel: 'Keyingi mavzu',
+      continueAction: 'Darsni davom ettirish',
+      videoNotSupported: 'Brauzeringiz video formatni qo‘llab-quvvatlamaydi.'
+    },
+    resources: {
+      viewAction: 'Ochish',
+      materials: [
+        {
+          title: 'Konspekt — Integral hisob asoslari (PDF)',
+          description: 'Darsdagi asosiy formulalar va jadval ko‘rinishidagi izohlar.',
+          duration: '12 sahifa',
+          type: 'pdf'
+        },
+        {
+          title: 'Prezentatsiya — Grafiklar bilan ishlash',
+          description: 'Integralni geometrik talqin qilish uchun slaydlar.',
+          duration: '18 slayd',
+          type: 'presentation'
+        },
+        {
+          title: 'Qo‘shimcha video — Amaliy misollar',
+          description: 'Murakkab misollarni yechish bo‘yicha qisqa sharh.',
+          duration: '16 daqiqa',
+          type: 'video'
+        }
+      ],
+      tests: [
+        {
+          title: 'Tezkor test — Modulni takrorlash',
+          description: '10 ta savoldan iborat qisqa test.',
+          duration: '15 daqiqa',
+          type: 'test'
+        },
+        {
+          title: 'Oraliq nazorat — Integral hisob',
+          description: 'Nazorat ishi uchun 20 ta savol.',
+          duration: '30 daqiqa',
+          type: 'test'
+        }
+      ],
+      homework: [
+        {
+          title: 'Uy vazifasi №4',
+          description: 'Integrallar bo‘yicha 8 ta amaliy masala.',
+          duration: 'Topsirish muddati: 14-may',
+          type: 'assignment'
+        },
+        {
+          title: 'Portfolio uchun loyiha',
+          description: 'Integrallar yordamida soha hisoblash bo‘yicha tadqiqot.',
+          duration: 'Topsirish muddati: 20-may',
+          type: 'assignment'
+        }
+      ]
+    },
+    modules: {
+      title: 'Modullar va mavzular',
+      subtitle: 'Har bir modul bo‘yicha taraqqiyot',
+      status: {
+        completed: 'Tugallangan',
+        'in-progress': 'Jarayonda',
+        locked: 'Qulf ostida'
+      }
+    },
+    results: {
+      title: 'Natijalarim',
+      subtitle: 'Shaxsiy ko‘rsatkichlar',
+      milestonesTitle: 'Yaqin maqsadlar',
+      summary: [
+        {
+          label: 'Umumiy progress',
+          value: '78%',
+          hint: 'Modul bo‘yicha'
+        },
+        {
+          label: 'Ketma-ketlik',
+          value: '5 kun',
+          hint: 'Uzliksiz o‘qish'
+        },
+        {
+          label: 'Test natijasi',
+          value: '86%',
+          hint: 'Oxirgi 3 test'
+        }
+      ],
+      milestones: [
+        {
+          title: 'Modul 2 testini yakunlang',
+          description: '12-maygacha oraliq testni topshiring.'
+        },
+        {
+          title: 'Uy vazifasi №4',
+          description: 'Amaliy mashqlarni 14-may kuni yuklang.'
+        },
+        {
+          title: 'O‘rtacha ballni 90% ga yetkazing',
+          description: 'Qo‘shimcha materiallarni ko‘rib chiqing va testni qayta yeching.'
+        }
+      ]
+    },
+    modulesData: [
+      {
+        id: 'module-1',
+        title: '1-modul. Limitlar va uzluksizlik',
+        description: 'Asosiy tushunchalar va tayanch formulalar.',
+        status: 'completed',
+        lessons: [
+          { title: 'Limitlarga kirish', duration: '25 daqiqa', status: 'completed' },
+          { title: 'Funksiyalar uzluksizligi', duration: '30 daqiqa', status: 'completed' }
+        ]
+      },
+      {
+        id: 'module-2',
+        title: '2-modul. Integralga kirish',
+        description: 'Integrallarning ma’nosi va qo‘llanilishi.',
+        status: 'in-progress',
+        lessons: [
+          { title: 'Noaniq integral', duration: '28 daqiqa', status: 'in-progress' },
+          { title: 'Asosiy integrallash qoidalari', duration: '32 daqiqa', status: 'locked' },
+          { title: 'Geometrik talqin', duration: '24 daqiqa', status: 'locked' }
+        ]
+      },
+      {
+        id: 'module-3',
+        title: '3-modul. Qo‘llanmalar va amaliyot',
+        description: 'Real vaziyatlarda integralni qo‘llash.',
+        status: 'locked',
+        lessons: [
+          { title: 'Fizikada qo‘llash', duration: '26 daqiqa', status: 'locked' },
+          { title: 'Iqtisodiy masalalar', duration: '22 daqiqa', status: 'locked' }
+        ]
+      }
+    ]
+  },
   olympiads: {
     title: 'Olimpiadalar',
     subtitle:
