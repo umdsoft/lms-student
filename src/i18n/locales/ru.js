@@ -481,12 +481,14 @@ export default {
       ],
       tests: [
         {
+          id: 'quick-review',
           title: 'Быстрый тест — повторение модуля',
           description: 'Короткий тест из 10 вопросов.',
           duration: '15 минут',
           type: 'test'
         },
         {
+          id: 'midterm',
           title: 'Промежуточный контроль — интегралы',
           description: '20 вопросов для проверки прогресса.',
           duration: '30 минут',
@@ -507,6 +509,227 @@ export default {
           type: 'assignment'
         }
       ]
+    },
+    testDetails: {
+      'quick-review': {
+        id: 'quick-review',
+        title: 'Быстрый тест — повторение модуля',
+        topic: 'Основы интегрального исчисления',
+        durationMinutes: 15,
+        totalQuestions: 5,
+        attempts: 1,
+        deadline: 'Доступен до конца дня',
+        description:
+          'Подборка вопросов для закрепления ключевых формул и геометрических интерпретаций интегралов.',
+        questions: [
+          {
+            id: 'q1',
+            number: 1,
+            title: 'Определённый интеграл',
+            prompt:
+              '<p>Вычислите определённый интеграл: <span class="font-semibold">∫<sub>0</sub><sup>1</sup> 3x<sup>2</sup> dx</span>.</p>',
+            options: [
+              { id: 'q1a', label: 'A', content: '<span>1</span>' },
+              { id: 'q1b', label: 'B', content: '<span>⅓</span>' },
+              { id: 'q1c', label: 'C', content: '<span>⅔</span>' },
+              { id: 'q1d', label: 'D', content: '<span>⅕</span>' }
+            ]
+          },
+          {
+            id: 'q2',
+            number: 2,
+            title: 'Формула Ньютона — Лейбница',
+            prompt:
+              '<p>Пусть <span class="font-semibold">F(x) = x<sup>3</sup></span>, тогда <span class="font-semibold">F\'(x) = 3x<sup>2</sup></span>. Найдите <span class="font-semibold">∫<sub>1</sub><sup>2</sup> 3x<sup>2</sup> dx</span>.</p>',
+            options: [
+              { id: 'q2a', label: 'A', content: '<span>6</span>' },
+              { id: 'q2b', label: 'B', content: '<span>7</span>' },
+              { id: 'q2c', label: 'C', content: '<span>8</span>' },
+              { id: 'q2d', label: 'D', content: '<span>9</span>' }
+            ]
+          },
+          {
+            id: 'q3',
+            number: 3,
+            title: 'Экспоненциальный интеграл',
+            prompt:
+              '<p>Найдите первообразную функции <span class="font-semibold">e<sup>2x</sup></span>.</p>',
+            options: [
+              { id: 'q3a', label: 'A', content: '<span>½ · e<sup>2x</sup> + C</span>' },
+              { id: 'q3b', label: 'B', content: '<span>2 · e<sup>2x</sup> + C</span>' },
+              { id: 'q3c', label: 'C', content: '<span>e<sup>2x</sup> + C</span>' },
+              { id: 'q3d', label: 'D', content: '<span>√(e<sup>2x</sup>) + C</span>' }
+            ]
+          },
+          {
+            id: 'q4',
+            number: 4,
+            title: 'Тригонометрический интеграл',
+            prompt:
+              '<p>Вычислите интеграл: <span class="font-semibold">∫ sin(x) dx</span>.</p>',
+            options: [
+              { id: 'q4a', label: 'A', content: '<span>-cos(x) + C</span>' },
+              { id: 'q4b', label: 'B', content: '<span>cos(x) + C</span>' },
+              { id: 'q4c', label: 'C', content: '<span>sin(x) + C</span>' },
+              { id: 'q4d', label: 'D', content: '<span>tan(x) + C</span>' }
+            ]
+          },
+          {
+            id: 'q5',
+            number: 5,
+            title: 'Площадь под графиком',
+            prompt:
+              '<p>Найдите площадь под графиком функции: <span class="font-semibold">∫<sub>0</sub><sup>π</sup> sin(x) dx</span>.</p>',
+            options: [
+              { id: 'q5a', label: 'A', content: '<span>0</span>' },
+              { id: 'q5b', label: 'B', content: '<span>1</span>' },
+              { id: 'q5c', label: 'C', content: '<span>2</span>' },
+              { id: 'q5d', label: 'D', content: '<span>π</span>' }
+            ]
+          }
+        ]
+      },
+      midterm: {
+        id: 'midterm',
+        title: 'Промежуточный контроль — интегралы',
+        topic: 'Расширенный курс интегрирования',
+        durationMinutes: 30,
+        totalQuestions: 8,
+        attempts: 1,
+        deadline: 'Сдать до пятницы, 18:00',
+        description:
+          'Контрольная работа охватывает различные техники интегрирования и прикладные задачи.',
+        questions: [
+          {
+            id: 'm1',
+            number: 1,
+            title: 'Интегрирование по частям',
+            prompt:
+              '<p>Используя формулу интегрирования по частям, вычислите <span class="font-semibold">∫ x e<sup>x</sup> dx</span>.</p>',
+            options: [
+              { id: 'm1a', label: 'A', content: '<span>x e<sup>x</sup> - e<sup>x</sup> + C</span>' },
+              { id: 'm1b', label: 'B', content: '<span>x e<sup>x</sup> + e<sup>x</sup> + C</span>' },
+              { id: 'm1c', label: 'C', content: '<span>e<sup>x</sup> + C</span>' },
+              { id: 'm1d', label: 'D', content: '<span>x e<sup>x</sup> + C</span>' }
+            ]
+          },
+          {
+            id: 'm2',
+            number: 2,
+            title: 'Тригонометрическая подстановка',
+            prompt:
+              '<p>Выполните замену <span class="font-semibold">x = sin(t)</span> и найдите <span class="font-semibold">∫ x / √(1 - x²) dx</span>.</p>',
+            options: [
+              { id: 'm2a', label: 'A', content: '<span>-√(1 - x²) + C</span>' },
+              { id: 'm2b', label: 'B', content: '<span>√(1 - x²) + C</span>' },
+              { id: 'm2c', label: 'C', content: '<span>-cos(t) + C</span>' },
+              { id: 'm2d', label: 'D', content: '<span>cos(t) + C</span>' }
+            ]
+          },
+          {
+            id: 'm3',
+            number: 3,
+            title: 'Дифференциальное уравнение',
+            prompt:
+              '<p>Решите уравнение <span class="font-semibold">dy/dx = y</span> при начальном условии <span class="font-semibold">y(0) = 2</span>.</p>',
+            options: [
+              { id: 'm3a', label: 'A', content: '<span>y = 2e<sup>x</sup></span>' },
+              { id: 'm3b', label: 'B', content: '<span>y = 2e<sup>-x</sup></span>' },
+              { id: 'm3c', label: 'C', content: '<span>y = 2x</span>' },
+              { id: 'm3d', label: 'D', content: '<span>y = 2 + x</span>' }
+            ]
+          },
+          {
+            id: 'm4',
+            number: 4,
+            title: 'Логарифмический интеграл',
+            prompt:
+              '<p>Вычислите интеграл: <span class="font-semibold">∫ 1/x dx</span>.</p>',
+            options: [
+              { id: 'm4a', label: 'A', content: '<span>ln|x| + C</span>' },
+              { id: 'm4b', label: 'B', content: '<span>1/x + C</span>' },
+              { id: 'm4c', label: 'C', content: '<span>log₁₀(x) + C</span>' },
+              { id: 'm4d', label: 'D', content: '<span>x · ln|x| + C</span>' }
+            ]
+          },
+          {
+            id: 'm5',
+            number: 5,
+            title: 'Площадь круга',
+            prompt:
+              '<p>Через интеграл выразите площадь круга: <span class="font-semibold">S = ∫<sub>-r</sub><sup>r</sup> 2√(r² - x²) dx</span>.</p>',
+            options: [
+              { id: 'm5a', label: 'A', content: '<span>πr²</span>' },
+              { id: 'm5b', label: 'B', content: '<span>2πr</span>' },
+              { id: 'm5c', label: 'C', content: '<span>r²</span>' },
+              { id: 'm5d', label: 'D', content: '<span>πr</span>' }
+            ]
+          },
+          {
+            id: 'm6',
+            number: 6,
+            title: 'Предел функции',
+            prompt:
+              '<p>Найдите предел: <span class="font-semibold">lim<sub>x→0</sub> sin(x) / x</span>.</p>',
+            options: [
+              { id: 'm6a', label: 'A', content: '<span>0</span>' },
+              { id: 'm6b', label: 'B', content: '<span>1</span>' },
+              { id: 'm6c', label: 'C', content: '<span>∞</span>' },
+              { id: 'm6d', label: 'D', content: '<span>-1</span>' }
+            ]
+          },
+          {
+            id: 'm7',
+            number: 7,
+            title: 'Геометрическая прогрессия',
+            prompt:
+              '<p>Вычислите сумму ряда: <span class="font-semibold">∑<sub>n=0</sub><sup>∞</sup> (½)<sup>n</sup></span>.</p>',
+            options: [
+              { id: 'm7a', label: 'A', content: '<span>1</span>' },
+              { id: 'm7b', label: 'B', content: '<span>2</span>' },
+              { id: 'm7c', label: 'C', content: '<span>3</span>' },
+              { id: 'm7d', label: 'D', content: '<span>4</span>' }
+            ]
+          },
+          {
+            id: 'm8',
+            number: 8,
+            title: 'Двойной интеграл',
+            prompt:
+              '<p>Найдите значение двойного интеграла: <span class="font-semibold">∬<sub>D</sub> (x + y) dA</span>, где <span class="font-semibold">D</span> — единичный квадрат <span class="font-semibold">[0,1] × [0,1]</span>.</p>',
+            options: [
+              { id: 'm8a', label: 'A', content: '<span>1</span>' },
+              { id: 'm8b', label: 'B', content: '<span>3/2</span>' },
+              { id: 'm8c', label: 'C', content: '<span>2</span>' },
+              { id: 'm8d', label: 'D', content: '<span>1/2</span>' }
+            ]
+          }
+        ]
+      }
+    },
+    testSolve: {
+      backToCourse: 'Вернуться к курсу',
+      notFoundTitle: 'Тест не найден',
+      notFoundDescription: 'Выбранный тест недоступен или был удалён из курса.',
+      finishButton: 'Завершить тест',
+      finishSuccessTitle: 'Тест завершен',
+      finishSuccessDescription: 'Ваши ответы сохранены, результаты будут доступны в ближайшее время.',
+      finishAutoDescription: 'Время истекло. Тест завершён автоматически.',
+      timerLabel: 'Оставшееся время',
+      answeredLabel: 'Отвечено на',
+      unansweredLabel: 'Без ответа',
+      questionNavigationTitle: 'Список вопросов',
+      questionCounter: 'Вопрос {{current}} из {{total}}',
+      previousQuestion: 'Предыдущий вопрос',
+      nextQuestion: 'Следующий вопрос',
+      stats: {
+        overviewTitle: 'Информация о тесте',
+        durationLabel: 'Общее время',
+        questionsLabel: 'Количество вопросов',
+        topicLabel: 'Тема',
+        attemptsLabel: 'Попытки',
+        deadlineLabel: 'Дедлайн'
+      }
     },
     modules: {
       title: 'Модули и темы',

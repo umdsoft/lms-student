@@ -97,7 +97,7 @@
         <div class="mt-6 space-y-4">
           <div
             v-for="resource in visibleResources"
-            :key="resource.title"
+            :key="resource.id ?? resource.title"
             class="flex flex-col gap-3 rounded-2xl border border-primary-50/70 bg-primary-50/30 p-4 md:flex-row md:items-center md:justify-between"
           >
             <div class="flex items-start gap-3">
@@ -178,7 +178,7 @@
                 {{ resource.duration }}
               </span>
               <RouterLink
-                :to="{ name: 'courses.details', params: { id: course.id } }"
+                :to="resourceLink(resource)"
                 class="text-sm font-medium text-primary-600 hover:text-primary-700"
               >
                 {{ t('courseDetails.resources.viewAction') }}
@@ -464,6 +464,13 @@ const visibleResources = computed(() => {
   if (!activeTab.value) return [];
   return resources.value?.[activeTab.value] ?? [];
 });
+
+const resourceLink = (resource) => {
+  if (resource?.type === 'test' && resource?.id) {
+    return { name: 'courses.test-solve', params: { id: course.value?.id ?? route.params.id, testId: resource.id } };
+  }
+  return { name: 'courses.details', params: { id: course.value?.id ?? route.params.id } };
+};
 
 const isModuleExpanded = (moduleId) => expandedModuleId.value === moduleId;
 
