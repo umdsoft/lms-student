@@ -10,8 +10,14 @@
     <p class="text-sm text-slate-600 leading-relaxed">{{ course.description }}</p>
     <div>
       <div class="flex items-center justify-between text-sm text-slate-500 mb-1">
-        <span>O'zlashtirish: <strong class="text-primary-600">{{ course.progress }}%</strong></span>
-        <span>Oylik o'sish: <strong :class="course.monthlyGrowth >= 0 ? 'text-success' : 'text-danger'">{{ course.monthlyGrowth }}%</strong></span>
+        <span>
+          {{ t('components.courseCard.mastery') }}:
+          <strong class="text-primary-600">{{ course.progress }}%</strong>
+        </span>
+        <span>
+          {{ t('components.courseCard.growth') }}:
+          <strong :class="course.monthlyGrowth >= 0 ? 'text-success' : 'text-danger'">{{ course.monthlyGrowth }}%</strong>
+        </span>
       </div>
       <div class="h-2 rounded-full bg-primary-50">
         <div
@@ -26,17 +32,20 @@
           v-for="(avatar, index) in course.companions"
           :key="index"
           :src="avatar"
-          alt="Guruhdosh"
+          :alt="t('components.courseCard.companionAlt')"
           class="w-10 h-10 rounded-2xl border-2 border-white"
         />
       </div>
-      <button type="button" class="text-primary-600 text-sm font-medium hover:underline">Kursga o'tish</button>
+      <button type="button" class="text-primary-600 text-sm font-medium hover:underline">
+        {{ t('components.courseCard.action') }}
+      </button>
     </div>
   </article>
 </template>
 
 <script setup>
 import ProgressBadge from '@/components/ui/ProgressBadge.vue';
+import { useI18n } from 'vue-i18n';
 
 defineProps({
   course: {
@@ -44,4 +53,6 @@ defineProps({
     required: true
   }
 });
+
+const { t } = useI18n({ useScope: 'global' });
 </script>

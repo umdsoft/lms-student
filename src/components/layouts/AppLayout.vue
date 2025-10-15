@@ -106,12 +106,14 @@ import { useRoute, RouterLink, useRouter } from 'vue-router';
 import { useAuth } from '@/composables/useAuth';
 import { useI18n } from 'vue-i18n';
 import { useI18nStore } from '@/stores/i18n';
+import { useNotifications } from '@/composables/useNotifications';
 
 const { user, lastFetchedAt, logout } = useAuth();
 const route = useRoute();
 const router = useRouter();
 const { t, locale } = useI18n({ useScope: 'global' });
 const i18nStore = useI18nStore();
+const { notifySuccess, notifyError } = useNotifications();
 
 const activeRouteName = computed(() => {
   const name = route.name || '';
@@ -152,6 +154,7 @@ const lastUpdated = computed(() => {
 
 async function onLogout() {
   await logout();
+  notifySuccess('logout');
   router.push({ name: 'login' });
 }
 
@@ -160,6 +163,19 @@ const currentLocale = computed(() => locale.value);
 
 function onLocaleChange(event) {
   const value = event.target.value;
-  i18nStore.setLocale(value);
+  if (value === currentLocale.value) {
+    return;
+  }
+
+  const success = i18nStore.setLocale(value);
+  if (!success) {
+    notifyError('generic');
+    return;
+  }
+
+  const selected = localeOptions.value.find((option) => option.code === value);
+  notifySuccess('localeChange', {
+    language: selected?.label ?? value.toUpperCase()
+  });
 }
 </script>
