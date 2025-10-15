@@ -1,14 +1,11 @@
 <template>
-  <div class="min-h-screen bg-surface text-ink">
+  <div class="min-h-screen bg-gradient-to-br from-primary-50 via-white to-primary-100 text-ink">
     <div class="flex min-h-screen">
       <aside
-        class="hidden lg:flex lg:flex-col w-72 bg-white border-r border-primary-50 px-6 py-8 space-y-8"
+        class="hidden w-72 space-y-10 border-r border-white/60 bg-white/80 px-6 py-8 shadow-sm backdrop-blur lg:flex lg:flex-col"
         :aria-label="t('app.navigation.ariaLabel')"
       >
-        <div>
-          <p class="text-sm uppercase tracking-[0.3em] text-primary-400">{{ t('app.brand.strapline') }}</p>
-          <p class="mt-2 text-2xl font-semibold text-primary-700">{{ t('app.brand.name') }}</p>
-        </div>
+        <BrandLogo />
         <nav class="flex-1 space-y-1">
           <RouterLink
             v-for="item in navItems"
@@ -25,15 +22,17 @@
             <span>{{ item.label }}</span>
           </RouterLink>
         </nav>
-        <div class="bg-primary-50 rounded-3xl p-5 text-sm text-primary-700">
+        <div class="rounded-3xl border border-white/60 bg-white/70 p-5 text-sm text-primary-700 shadow-sm">
           <h3 class="font-semibold text-primary-800">{{ t('app.brand.infoTitle') }}</h3>
-          <p class="mt-2 leading-relaxed">{{ t('app.brand.infoDescription') }}</p>
+          <p class="mt-2 leading-relaxed text-slate-600">{{ t('app.brand.infoDescription') }}</p>
         </div>
       </aside>
 
-      <div class="flex-1 flex flex-col">
-        <header class="bg-white border-b border-primary-50/70">
-          <div class="px-6 py-4 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+      <div class="flex flex-1 min-h-0 flex-col overflow-hidden">
+        <header class="sticky top-0 z-40 border-b border-white/60 bg-white/80 backdrop-blur">
+          <div
+            class="mx-auto flex w-full max-w-7xl flex-col gap-4 px-4 py-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-10"
+          >
             <div>
               <p class="text-sm text-slate-500">{{ t('app.header.greeting') }}</p>
               <h1 class="text-2xl font-semibold text-primary-700">{{ student.fullName }}</h1>
@@ -90,8 +89,8 @@
           </div>
         </header>
 
-        <main class="flex-1 px-4 py-6 sm:px-6 lg:px-10">
-          <div class="bg-gradient-to-br from-primary-50 to-white rounded-3xl p-4 sm:p-8">
+        <main class="flex-1 overflow-y-auto px-4 py-6 sm:px-6 lg:px-10">
+          <div class="mx-auto w-full max-w-7xl">
             <slot />
           </div>
         </main>
@@ -107,6 +106,7 @@ import { useAuth } from '@/composables/useAuth';
 import { useI18n } from 'vue-i18n';
 import { useI18nStore } from '@/stores/i18n';
 import { useNotifications } from '@/composables/useNotifications';
+import BrandLogo from '@/components/brand/BrandLogo.vue';
 
 const { user, lastFetchedAt, logout } = useAuth();
 const route = useRoute();

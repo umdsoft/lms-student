@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white rounded-3xl p-6 shadow-sm">
+  <div class="flex h-full flex-col rounded-3xl bg-white p-6 shadow-sm">
     <div class="flex items-start justify-between">
       <div>
         <h3 class="text-lg font-semibold text-primary-800">{{ chartContent.title }}</h3>
@@ -12,7 +12,9 @@
         <option v-for="option in subjectOptions" :key="option.key">{{ option.label }}</option>
       </select>
     </div>
-    <Bar :data="chartData" :options="chartOptions" class="mt-6" />
+    <div class="mt-6 h-[220px]">
+      <Bar :data="chartData" :options="chartOptions" />
+    </div>
   </div>
 </template>
 
@@ -106,8 +108,3 @@ const chartOptions = computed(() => ({
 }));
 </script>
 
-<style scoped>
-div :deep(canvas) {
-  height: 280px !important;
-}
-</style>
