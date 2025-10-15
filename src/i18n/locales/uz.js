@@ -529,7 +529,30 @@ export default {
         price: 'Narxi'
       },
       buyAction: 'Sotib olish',
-      purchased: 'Sotib olingan'
+      purchased: 'Sotib olingan',
+      solveAction: 'Testni yechish',
+      detailsAction: 'Tafsilotlarni ochish',
+      hideDetails: 'Yopish',
+      confirmPurchase: "'{title}' demo testini sotib olishni tasdiqlaysizmi?",
+      countdown: {
+        label: 'Boshlanishiga',
+        text: '{time} qoldi',
+        started: 'Boshlanib bo‘ldi',
+        soon: 'Bir necha soniya qoldi',
+        days: '{count} kun',
+        hours: '{count} soat',
+        minutes: '{count} daqiqa'
+      },
+      solvePage: {
+        title: '{title} — demo test',
+        subtitle: '{subject} bo‘yicha bilimlaringizni mustahkamlang.',
+        back: 'Olimpiadalarimga qaytish',
+        startInfo: 'Boshlanish vaqti',
+        durationInfo: 'Davomiyligi',
+        questionInfo: 'Savollar soni',
+        startCta: 'Testni boshlash',
+        unavailable: 'Bu demo test topilmadi yoki hali mavjud emas.'
+      }
     },
     items: [
       {
@@ -537,6 +560,7 @@ export default {
         title: 'Matematika - Respublika bosqichi',
         host: "Oliy va o'rta maxsus ta'lim vazirligi",
         description: "12-sinflar uchun murakkab analiz va kombinatorika bo'yicha tanlov.",
+        startAt: '2024-06-12T09:00:00+05:00',
         start: '12-iyun 2024',
         duration: '1 kun',
         format: 'Offline (Toshkent)',
@@ -594,6 +618,7 @@ export default {
         title: 'English Challenge',
         host: 'UzEdu International',
         description: "Speaking va writing bo'yicha IELTS formatidagi xalqaro tanlov.",
+        startAt: '2024-06-25T10:00:00+05:00',
         start: '25-iyun 2024',
         duration: '2 kun',
         format: 'Online',
@@ -650,6 +675,7 @@ export default {
         title: 'STEM Juniors',
         host: 'TechnoPark',
         description: "Matematika va fizika uyg'unligi asosida loyihalar taqdimoti.",
+        startAt: '2024-07-05T09:30:00+05:00',
         start: '5-iyul 2024',
         duration: '3 kun',
         format: 'Offline (Samarqand)',
@@ -706,6 +732,7 @@ export default {
         title: 'Math Ninja Online',
         host: 'Global Math Club',
         description: "Yevropa darajasidagi kombinatorika masalalari bo'yicha online musobaqa.",
+        startAt: '2024-07-18T11:00:00+05:00',
         start: '18-iyul 2024',
         duration: '4 soat',
         format: 'Online',
@@ -769,6 +796,7 @@ export default {
         title: 'Public Speaking Marathon',
         host: 'British Council',
         description: "Ingliz tilida ochiq nutq so'zlash bo'yicha marafon.",
+        startAt: '2024-08-02T09:00:00+05:00',
         start: '2-avgust 2024',
         duration: '1 kun',
         format: 'Offline (Toshkent)',
@@ -825,6 +853,7 @@ export default {
         title: 'Future Innovators',
         host: 'Inha University',
         description: "STEM loyihalar bo'yicha pitching va mentorlik sessiyalari.",
+        startAt: '2024-08-16T09:30:00+05:00',
         start: '16-avgust 2024',
         duration: '2 kun',
         format: 'Hybrid',

@@ -478,12 +478,53 @@ export default {
         advanced: 'Продвинутый'
       }
     },
+    my: {
+      title: 'Мои олимпиады',
+      subtitle: 'Управляйте зарегистрированными олимпиадами и их демо-тестами.',
+      empty: 'Вы еще не зарегистрированы ни на одну олимпиаду.',
+      browseAction: 'Смотреть олимпиады',
+      viewDetails: 'Подробнее об олимпиаде',
+      demoTitle: 'Готовьтесь с помощью демо-тестов',
+      demoSubtitle: 'Стоимость каждого демо-теста составляет 10% от основного взноса ({price}).',
+      tableSubtitle: 'Мини-тесты помогут набрать больше баллов.',
+      tableColumns: {
+        title: 'Мини-тест',
+        duration: 'Время / вопросы',
+        price: 'Стоимость'
+      },
+      buyAction: 'Купить',
+      purchased: 'Приобретено',
+      solveAction: 'Перейти к решению',
+      detailsAction: 'Показать детали',
+      hideDetails: 'Скрыть',
+      confirmPurchase: "Подтвердите покупку мини-теста «{title}»?",
+      countdown: {
+        label: 'До старта',
+        text: 'Осталось {time}',
+        started: 'Уже началось',
+        soon: 'Меньше минуты до старта',
+        days: '{count} д.',
+        hours: '{count} ч.',
+        minutes: '{count} мин.'
+      },
+      solvePage: {
+        title: '{title} — мини-тест',
+        subtitle: 'Проверьте свои знания по предмету: {subject}.',
+        back: 'Вернуться к моим олимпиадам',
+        startInfo: 'Время начала',
+        durationInfo: 'Продолжительность',
+        questionInfo: 'Количество вопросов',
+        startCta: 'Начать тест',
+        unavailable: 'Мини-тест не найден или пока недоступен.'
+      }
+    },
     items: [
       {
         id: 'olymp-1',
         title: 'Математика — республиканский этап',
         host: 'Министерство высшего и среднего специального образования',
         description: 'Конкурс по сложному анализу и комбинаторике для 12-х классов.',
+        startAt: '2024-06-12T09:00:00+05:00',
         start: '12 июня 2024',
         duration: '1 день',
         format: 'Оффлайн (Ташкент)',
@@ -541,6 +582,7 @@ export default {
         title: 'English Challenge',
         host: 'UzEdu International',
         description: 'Международный конкурс в формате IELTS по speaking и writing.',
+        startAt: '2024-06-25T10:00:00+05:00',
         start: '25 июня 2024',
         duration: '2 дня',
         format: 'Онлайн',
@@ -597,6 +639,7 @@ export default {
         title: 'STEM Juniors',
         host: 'TechnoPark',
         description: 'Презентации проектов на стыке математики и физики.',
+        startAt: '2024-07-05T09:30:00+05:00',
         start: '5 июля 2024',
         duration: '3 дня',
         format: 'Оффлайн (Самарканд)',
@@ -653,6 +696,7 @@ export default {
         title: 'Math Ninja Online',
         host: 'Global Math Club',
         description: 'Онлайн-соревнование по европейскому уровню комбинаторики.',
+        startAt: '2024-07-18T11:00:00+05:00',
         start: '18 июля 2024',
         duration: '4 часа',
         format: 'Онлайн',
@@ -716,6 +760,7 @@ export default {
         title: 'Public Speaking Marathon',
         host: 'British Council',
         description: 'Марафон по публичным выступлениям на английском языке.',
+        startAt: '2024-08-02T09:00:00+05:00',
         start: '2 августа 2024',
         duration: '1 день',
         format: 'Оффлайн (Ташкент)',
@@ -772,6 +817,7 @@ export default {
         title: 'Future Innovators',
         host: 'Inha University',
         description: 'Питчинг и сессии наставничества по STEM-проектам.',
+        startAt: '2024-08-16T09:30:00+05:00',
         start: '16 августа 2024',
         duration: '2 дня',
         format: 'Гибрид',
