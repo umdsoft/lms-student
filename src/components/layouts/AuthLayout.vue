@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-primary-50 via-white to-primary-100 flex flex-col md:flex-row">
+  <div class="min-h-screen bg-primary-50 flex flex-col md:flex-row">
     <aside class="md:w-2/5 bg-primary-700 text-white flex flex-col justify-between gap-10 p-10">
       <div class="space-y-8">
         <BrandLogo variant="dark" />

@@ -1,8 +1,8 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-primary-50 via-white to-primary-100 text-ink">
-    <div class="flex min-h-screen">
+  <div class="min-h-screen bg-primary-50 text-ink">
+    <div class="flex min-h-screen lg:h-screen lg:overflow-hidden">
       <aside
-        class="hidden w-72 space-y-10 border-r border-white/60 bg-white/80 px-6 py-8 shadow-sm backdrop-blur lg:flex lg:flex-col"
+        class="hidden w-72 space-y-10 border-r border-white/60 bg-white/80 px-6 py-8 shadow-sm backdrop-blur lg:flex lg:flex-col lg:sticky lg:top-0 lg:h-screen lg:overflow-y-auto"
         :aria-label="t('app.navigation.ariaLabel')"
       >
         <BrandLogo />
@@ -28,10 +28,10 @@
         </div>
       </aside>
 
-      <div class="flex flex-1 min-h-0 flex-col overflow-hidden">
+      <div class="flex flex-1 min-h-0 flex-col lg:overflow-hidden">
         <header class="sticky top-0 z-40 border-b border-white/60 bg-white/80 backdrop-blur">
           <div
-            class="mx-auto flex w-full max-w-7xl flex-col gap-4 px-4 py-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-10"
+            class="mx-auto flex w-full flex-col gap-4 px-4 py-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-10 xl:px-14"
           >
             <div>
               <p class="text-sm text-slate-500">{{ t('app.header.greeting') }}</p>
@@ -89,8 +89,8 @@
           </div>
         </header>
 
-        <main class="flex-1 overflow-y-auto px-4 py-6 sm:px-6 lg:px-10">
-          <div class="mx-auto w-full max-w-7xl">
+        <main class="flex-1 overflow-y-auto px-4 py-6 sm:px-6 lg:px-10 xl:px-14">
+          <div class="mx-auto w-full">
             <slot />
           </div>
         </main>
@@ -101,6 +101,7 @@
 
 <script setup>
 import { computed } from 'vue';
+import { storeToRefs } from 'pinia';
 import { useRoute, RouterLink, useRouter } from 'vue-router';
 import { useAuth } from '@/composables/useAuth';
 import { useI18n } from 'vue-i18n';
@@ -113,6 +114,7 @@ const route = useRoute();
 const router = useRouter();
 const { t, locale } = useI18n({ useScope: 'global' });
 const i18nStore = useI18nStore();
+const { locales: availableLocalesRef, locale: activeLocale } = storeToRefs(i18nStore);
 const { notifySuccess, notifyError } = useNotifications();
 
 const activeRouteName = computed(() => {
@@ -158,8 +160,8 @@ async function onLogout() {
   router.push({ name: 'login' });
 }
 
-const localeOptions = computed(() => i18nStore.locales.value);
-const currentLocale = computed(() => locale.value);
+const localeOptions = computed(() => availableLocalesRef.value);
+const currentLocale = computed(() => activeLocale.value);
 
 function onLocaleChange(event) {
   const value = event.target.value;
@@ -172,6 +174,8 @@ function onLocaleChange(event) {
     notifyError('generic');
     return;
   }
+
+  locale.value = value;
 
   const selected = localeOptions.value.find((option) => option.code === value);
   notifySuccess('localeChange', {
