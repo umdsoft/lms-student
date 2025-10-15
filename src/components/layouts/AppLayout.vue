@@ -125,6 +125,7 @@ import { useI18n } from 'vue-i18n';
 import { useI18nStore } from '@/stores/i18n';
 import { useNotifications } from '@/composables/useNotifications';
 import BrandLogo from '@/components/brand/BrandLogo.vue';
+import { useOlympiadStore } from '@/stores/olympiads';
 
 const { user, lastFetchedAt, logout } = useAuth();
 const route = useRoute();
@@ -133,6 +134,8 @@ const { t, tm, locale } = useI18n({ useScope: 'global' });
 const i18nStore = useI18nStore();
 const { locales: availableLocalesRef, locale: activeLocale } = storeToRefs(i18nStore);
 const { notifySuccess, notifyError } = useNotifications();
+const olympiadStore = useOlympiadStore();
+const { registeredCount } = storeToRefs(olympiadStore);
 
 const activeRouteName = computed(() => {
   const name = route.name || '';
@@ -150,6 +153,8 @@ const olympiadsCount = computed(() => {
   return Array.isArray(items) ? items.length : 0;
 });
 
+const myOlympiadsCount = computed(() => registeredCount.value || 0);
+
 const navItems = computed(() => [
   { label: t('app.navigation.dashboard'), to: { name: 'dashboard' }, match: 'dashboard', icon: '📊' },
   {
@@ -165,6 +170,13 @@ const navItems = computed(() => [
     match: 'olympiads',
     icon: '🏆',
     count: olympiadsCount.value
+  },
+  {
+    label: t('app.navigation.myOlympiads'),
+    to: { name: 'olympiads.my' },
+    match: 'olympiads.my',
+    icon: '🎯',
+    count: myOlympiadsCount.value
   },
   { label: t('app.navigation.profile'), to: { name: 'profile.overview' }, match: 'profile.overview', icon: '👤' }
 ]);
