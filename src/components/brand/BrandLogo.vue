@@ -16,9 +16,7 @@
       >
         {{ strapline }}
       </p>
-      <p class="text-lg font-semibold" :class="brandClass">
-        {{ brandName }}
-      </p>
+     
     </div>
   </div>
 </template>
