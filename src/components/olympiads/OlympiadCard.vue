@@ -1,9 +1,15 @@
 <template>
   <article class="bg-white rounded-3xl p-6 shadow-sm flex flex-col gap-4 border border-transparent hover:border-primary-200 transition">
-    <div class="flex items-center justify-between">
-      <div>
+    <div class="flex items-start justify-between gap-4">
+      <div class="space-y-1">
         <h3 class="text-lg font-semibold text-primary-800">{{ olympiad.title }}</h3>
         <p class="text-sm text-slate-500">{{ olympiad.host }}</p>
+        <span
+          v-if="statusLabel"
+          class="inline-flex items-center gap-2 rounded-full bg-primary-50 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-primary-600"
+        >
+          {{ statusLabel }}
+        </span>
       </div>
       <ProgressBadge :tone="olympiad.level" :label="levelLabel" />
     </div>
@@ -19,13 +25,13 @@
         <p class="text-xs uppercase text-slate-400">{{ t('olympiads.card.feeLabel') }}</p>
         <p class="text-lg font-semibold text-primary-700">{{ formattedFee }}</p>
       </div>
-      <button
-        type="button"
-        class="inline-flex items-center gap-2 bg-primary-600 text-white px-4 py-2 rounded-2xl text-sm font-semibold hover:bg-primary-700"
+      <RouterLink
+        :to="{ name: 'olympiads.details', params: { id: olympiad.id } }"
+        class="inline-flex items-center gap-2 rounded-2xl bg-primary-600 px-4 py-2 text-sm font-semibold text-white hover:bg-primary-700"
       >
-        {{ t('olympiads.card.action') }}
+        {{ ctaLabel }}
         <span aria-hidden="true">→</span>
-      </button>
+      </RouterLink>
     </div>
   </article>
 </template>
@@ -54,6 +60,15 @@ const levelLabel = computed(() => {
       return t('olympiads.levelLabels.info');
   }
 });
+
+const statusLabel = computed(() => {
+  if (!props.olympiad.status) return '';
+  return t(`olympiads.details.statusTag.${props.olympiad.status}`);
+});
+
+const ctaLabel = computed(() =>
+  props.olympiad.status === 'finished' ? t('olympiads.card.viewResults') : t('olympiads.card.action')
+);
 
 const formattedFee = computed(() =>
   t('app.header.balanceValue', {
