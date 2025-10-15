@@ -3,7 +3,7 @@
     v-if="course"
     class="space-y-6 xl:grid xl:h-full xl:grid-cols-[minmax(0,2fr)_minmax(320px,1fr)] xl:items-start xl:gap-8 xl:space-y-0"
   >
-    <div class="flex flex-col gap-6 xl:max-h-[calc(100vh-140px)] xl:overflow-y-auto xl:pr-2 xl:pb-6">
+    <div class="flex flex-col gap-6 xl:max-h xl:overflow-y-auto xl:pr-2 xl:pb-6">
       <div class="flex flex-col gap-6 rounded-[32px] bg-white p-6 shadow-sm">
         <RouterLink
           :to="{ name: 'courses' }"
@@ -189,7 +189,7 @@
       </article>
     </div>
 
-    <aside class="space-y-6 xl:sticky xl:top-24">
+    <aside class="space-y-6 xl:sticky">
       <section class="space-y-4 rounded-[32px] bg-white p-6 shadow-sm">
         <header class="space-y-1">
           <p class="text-xs font-semibold uppercase tracking-wide text-primary-500">
