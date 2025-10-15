@@ -237,16 +237,293 @@
             </p>
           </div>
         </section>
+
+        <section
+          v-if="attemptsCount && latestAttemptSummary"
+          class="space-y-5 rounded-[32px] bg-white p-6 shadow-sm"
+        >
+          <header class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+            <div class="space-y-1">
+              <p class="text-xs font-semibold uppercase tracking-wide text-primary-500">
+                {{ t('courseDetails.testSolve.results.latestAttemptTitle') }}
+              </p>
+              <h3 class="text-xl font-semibold text-primary-900">
+                {{ latestAttemptSummary.formattedDate }}
+              </h3>
+              <p class="text-sm text-slate-500">
+                {{
+                  t('courseDetails.testSolve.results.overallScore', {
+                    score: latestAttemptSummary.scorePercent,
+                    correct: latestAttemptSummary.correctCount,
+                    total: latestAttemptSummary.totalQuestions
+                  })
+                }}
+              </p>
+            </div>
+
+            <button
+              type="button"
+              class="inline-flex items-center gap-2 rounded-full border border-primary-100 px-4 py-2 text-sm font-semibold text-primary-600 transition hover:border-primary-200 hover:text-primary-700"
+              @click="downloadAttemptPdf()"
+            >
+              <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l3 3 3-3m-3 3V4m-6 9v5a2 2 0 002 2h8a2 2 0 002-2v-5" />
+              </svg>
+              {{ t('courseDetails.testSolve.results.downloadPdf') }}
+            </button>
+          </header>
+
+          <dl class="grid gap-3 text-sm text-slate-600">
+            <div class="flex items-center justify-between rounded-2xl bg-primary-50/60 px-4 py-3">
+              <dt class="font-medium text-primary-700">{{ t('courseDetails.testSolve.results.scoreLabel') }}</dt>
+              <dd class="text-primary-900">{{ latestAttemptSummary.scorePercent }}%</dd>
+            </div>
+            <div class="flex items-center justify-between rounded-2xl bg-primary-50/60 px-4 py-3">
+              <dt class="font-medium text-primary-700">{{ t('courseDetails.testSolve.results.correctLabel') }}</dt>
+              <dd class="text-primary-900">
+                {{ latestAttemptSummary.correctCount }}/{{ latestAttemptSummary.totalQuestions }}
+              </dd>
+            </div>
+            <div class="flex items-center justify-between rounded-2xl bg-primary-50/60 px-4 py-3">
+              <dt class="font-medium text-primary-700">{{ t('courseDetails.testSolve.results.timeSpentLabel') }}</dt>
+              <dd class="text-primary-900">{{ latestAttemptSummary.formattedDuration }}</dd>
+            </div>
+            <div class="flex items-center justify-between rounded-2xl bg-primary-50/60 px-4 py-3">
+              <dt class="font-medium text-primary-700">{{ t('courseDetails.testSolve.results.completedAttempts') }}</dt>
+              <dd class="text-primary-900">{{ attemptsCount }}</dd>
+            </div>
+          </dl>
+
+          <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <button
+              type="button"
+              class="inline-flex items-center gap-2 rounded-full bg-primary-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-primary-700"
+              @click="goToAttemptDetails(latestAttempt?.id)"
+            >
+              <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              {{ t('courseDetails.testSolve.results.viewDetails') }}
+            </button>
+
+            <button
+              type="button"
+              class="inline-flex items-center gap-2 rounded-full border border-primary-100 px-5 py-2.5 text-sm font-semibold text-primary-600 transition hover:border-primary-200 hover:text-primary-700"
+              @click="openHistoryModal()"
+            >
+              <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l2.5 2.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              {{ t('courseDetails.testSolve.results.viewHistory') }}
+            </button>
+          </div>
+
+          <div
+            v-if="previousAttemptSummary"
+            class="rounded-2xl border border-primary-100 bg-primary-50/60 px-4 py-3 text-sm text-primary-700"
+          >
+            <p class="font-medium">
+              {{
+                t('courseDetails.testSolve.results.previousAttemptScore', {
+                  score: previousAttemptSummary.scorePercent
+                })
+              }}
+            </p>
+            <p class="text-xs text-primary-500">{{ previousAttemptSummary.formattedDate }}</p>
+          </div>
+        </section>
       </aside>
     </div>
   </section>
+
+  <transition name="fade">
+    <div
+      v-if="showResultsModal && latestAttemptSummary"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 px-4 py-8"
+    >
+      <div class="relative w-full max-w-3xl space-y-6 rounded-[32px] bg-white p-8 shadow-xl">
+        <button
+          type="button"
+          class="absolute right-6 top-6 inline-flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-500 transition hover:bg-slate-200 hover:text-slate-700"
+          @click="closeResultsModal()"
+        >
+          <span class="sr-only">{{ t('courseDetails.testSolve.results.close') }}</span>
+          <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+
+        <header class="space-y-2 text-center">
+          <p class="text-xs font-semibold uppercase tracking-wide text-primary-500">
+            {{ t('courseDetails.testSolve.results.modalTitle') }}
+          </p>
+          <h2 class="text-4xl font-semibold text-primary-900">{{ latestAttemptSummary.scorePercent }}%</h2>
+          <p class="text-sm text-slate-500">
+            {{
+              t('courseDetails.testSolve.results.modalDescription', {
+                correct: latestAttemptSummary.correctCount,
+                total: latestAttemptSummary.totalQuestions
+              })
+            }}
+          </p>
+        </header>
+
+        <div class="grid gap-4 sm:grid-cols-3">
+          <div class="rounded-3xl border border-primary-100 bg-primary-50/60 p-4 text-center">
+            <p class="text-xs font-semibold uppercase tracking-wide text-primary-600">
+              {{ t('courseDetails.testSolve.results.correctLabel') }}
+            </p>
+            <p class="mt-2 text-2xl font-semibold text-primary-900">
+              {{ latestAttemptSummary.correctCount }} / {{ latestAttemptSummary.totalQuestions }}
+            </p>
+          </div>
+          <div class="rounded-3xl border border-primary-100 bg-primary-50/60 p-4 text-center">
+            <p class="text-xs font-semibold uppercase tracking-wide text-primary-600">
+              {{ t('courseDetails.testSolve.results.incorrectLabel') }}
+            </p>
+            <p class="mt-2 text-2xl font-semibold text-primary-900">{{ latestAttemptSummary.incorrectCount }}</p>
+          </div>
+          <div class="rounded-3xl border border-primary-100 bg-primary-50/60 p-4 text-center">
+            <p class="text-xs font-semibold uppercase tracking-wide text-primary-600">
+              {{ t('courseDetails.testSolve.results.timeSpentLabel') }}
+            </p>
+            <p class="mt-2 text-2xl font-semibold text-primary-900">{{ latestAttemptSummary.formattedDuration }}</p>
+          </div>
+        </div>
+
+        <div class="grid gap-3 sm:grid-cols-2">
+          <button
+            type="button"
+            class="inline-flex items-center justify-center gap-2 rounded-full bg-primary-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-primary-700"
+            @click="downloadAttemptPdf()"
+          >
+            <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l3 3 3-3m-3 3V4m-6 9v5a2 2 0 002 2h8a2 2 0 002-2v-5" />
+            </svg>
+            {{ t('courseDetails.testSolve.results.downloadPdf') }}
+          </button>
+
+          <button
+            type="button"
+            class="inline-flex items-center justify-center gap-2 rounded-full border border-primary-100 px-5 py-3 text-sm font-semibold text-primary-600 transition hover:border-primary-200 hover:text-primary-700"
+            @click="goToAttemptDetails(latestAttempt?.id)"
+          >
+            <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            {{ t('courseDetails.testSolve.results.viewDetails') }}
+          </button>
+        </div>
+
+        <div class="flex flex-col items-center justify-between gap-3 rounded-3xl bg-primary-50/50 px-5 py-4 text-sm text-primary-700 sm:flex-row">
+          <span>
+            {{ t('courseDetails.testSolve.results.completedAttemptsMessage', { count: attemptsCount }) }}
+          </span>
+          <button
+            type="button"
+            class="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-primary-600 shadow hover:bg-primary-50"
+            @click="openHistoryModal()"
+          >
+            <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l2.5 2.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            {{ t('courseDetails.testSolve.results.viewHistory') }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </transition>
+
+  <transition name="fade">
+    <div
+      v-if="showHistoryModal"
+      class="fixed inset-0 z-40 flex items-center justify-center bg-slate-900/60 px-4 py-8"
+    >
+      <div class="relative w-full max-w-3xl space-y-5 rounded-[32px] bg-white p-8 shadow-xl">
+        <button
+          type="button"
+          class="absolute right-6 top-6 inline-flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-500 transition hover:bg-slate-200 hover:text-slate-700"
+          @click="closeHistoryModal()"
+        >
+          <span class="sr-only">{{ t('courseDetails.testSolve.results.closeHistory') }}</span>
+          <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+
+        <header class="space-y-2">
+          <p class="text-xs font-semibold uppercase tracking-wide text-primary-500">
+            {{ t('courseDetails.testSolve.results.historyTitle') }}
+          </p>
+          <h2 class="text-2xl font-semibold text-primary-900">
+            {{ t('courseDetails.testSolve.results.historySubtitle', { title: test?.title ?? '' }) }}
+          </h2>
+        </header>
+
+        <div v-if="!historyAttempts.length" class="rounded-3xl border border-dashed border-primary-200 bg-primary-50/40 p-6 text-center text-sm text-primary-600">
+          {{ t('courseDetails.testSolve.results.noAttempts') }}
+        </div>
+
+        <ul v-else class="space-y-4">
+          <li
+            v-for="(attempt, index) in historyAttempts"
+            :key="attempt.id"
+            class="flex flex-col gap-3 rounded-3xl border border-primary-100 bg-primary-50/60 p-5 sm:flex-row sm:items-center sm:justify-between"
+          >
+            <div class="space-y-1">
+              <p class="text-sm font-semibold text-primary-900">
+                {{ t('courseDetails.testSolve.results.attemptName', { index: historyAttempts.length - index }) }}
+              </p>
+              <p class="text-xs text-primary-600">{{ formatDateTime(attempt.createdAt) }}</p>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-3 text-sm text-primary-700">
+              <span class="inline-flex items-center gap-2 rounded-full bg-white px-4 py-1">
+                <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+                {{ attempt.results.scorePercent }}%
+              </span>
+              <span class="inline-flex items-center gap-2 rounded-full bg-white px-4 py-1">
+                <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l2.5 2.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                {{ formatDuration(attempt.results.timeSpentSeconds) }}
+              </span>
+            </div>
+
+            <div class="flex gap-2">
+              <button
+                type="button"
+                class="inline-flex items-center gap-2 rounded-full bg-primary-600 px-4 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-primary-700"
+                @click="goToAttemptDetails(attempt.id)"
+              >
+                {{ t('courseDetails.testSolve.results.viewDetails') }}
+              </button>
+              <button
+                type="button"
+                class="inline-flex items-center gap-2 rounded-full border border-primary-100 px-4 py-2 text-xs font-semibold text-primary-600 transition hover:border-primary-200 hover:text-primary-700"
+                @click="downloadAttemptPdf(attempt)"
+              >
+                {{ t('courseDetails.testSolve.results.downloadPdf') }}
+              </button>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </transition>
 </template>
 
 <script setup>
 import { computed, onBeforeUnmount, ref, watch } from 'vue';
-import { RouterLink, useRoute } from 'vue-router';
+import { RouterLink, useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import SafeHtml from '@/components/ui/SafeHtml.vue';
+import { useTestAttempts } from '@/composables/useTestAttempts';
+import { generateAttemptPdf } from '@/utils/testResults';
+
+const router = useRouter();
 
 const { t, tm, locale } = useI18n({ useScope: 'global' });
 const route = useRoute();
@@ -256,6 +533,8 @@ const testId = computed(() => route.params.testId);
 
 const testLibrary = computed(() => tm('courseDetails.testDetails') ?? {});
 const test = computed(() => testLibrary.value?.[testId.value] ?? null);
+
+const { attempts, loadAttempts, addAttempt } = useTestAttempts();
 
 const questions = computed(() => {
   return (test.value?.questions ?? []).map((question, index) => ({
@@ -272,6 +551,25 @@ const isSubmitted = ref(false);
 const wasAutoSubmitted = ref(false);
 const timeLeft = ref(0);
 const timerId = ref(null);
+const startedAt = ref(null);
+const showResultsModal = ref(false);
+const showHistoryModal = ref(false);
+const latestAttemptId = ref(null);
+
+const attemptsCount = computed(() => attempts.value.length);
+const latestAttempt = computed(() => {
+  if (!attempts.value.length) return null;
+  const lastIndex = attempts.value.length - 1;
+  if (latestAttemptId.value) {
+    return attempts.value.find((item) => item.id === latestAttemptId.value) ?? attempts.value[lastIndex];
+  }
+  return attempts.value[lastIndex];
+});
+
+const previousAttempt = computed(() => {
+  if (attempts.value.length < 2) return null;
+  return attempts.value[attempts.value.length - 2];
+});
 
 const durationSeconds = computed(() => {
   const minutes = test.value?.durationMinutes ?? 0;
@@ -314,8 +612,11 @@ const questionProgress = computed(() => {
 });
 
 watch(
-  () => test.value?.id,
-  () => {
+  () => testId.value,
+  (nextTestId) => {
+    if (nextTestId) {
+      loadAttempts(nextTestId);
+    }
     resetState();
   },
   { immediate: true }
@@ -326,6 +627,9 @@ function resetState() {
   activeQuestionIndex.value = 0;
   isSubmitted.value = false;
   wasAutoSubmitted.value = false;
+  showResultsModal.value = false;
+  showHistoryModal.value = false;
+  latestAttemptId.value = null;
   clearTimer();
   if (hasTimer.value) {
     timeLeft.value = durationSeconds.value;
@@ -333,6 +637,7 @@ function resetState() {
   } else {
     timeLeft.value = 0;
   }
+  startedAt.value = Date.now();
 }
 
 function startTimer() {
@@ -415,6 +720,158 @@ function finishTest(auto = false) {
   wasAutoSubmitted.value = auto;
   isSubmitted.value = true;
   clearTimer();
+  const attempt = buildAttempt();
+  latestAttemptId.value = attempt?.id ?? null;
+  if (attempt && testId.value) {
+    addAttempt(testId.value, attempt);
+  }
+  showResultsModal.value = true;
+}
+
+function buildAttempt() {
+  if (!test.value || !questions.value.length) return null;
+
+  const attemptId = `${Date.now()}`;
+  const createdAt = new Date().toISOString();
+  const details = questions.value.map((question) => {
+    const selectedOptionId = answers.value[question.id] ?? null;
+    const selectedOption = (question.options ?? []).find((item) => item.id === selectedOptionId) ?? null;
+    const correctOption = (question.options ?? []).find((item) => item.id === question.correctOptionId) ?? null;
+    const isCorrect = Boolean(selectedOptionId && selectedOptionId === question.correctOptionId);
+
+    return {
+      id: question.id,
+      number: question.number,
+      title: question.title,
+      prompt: question.prompt,
+      promptText: stripHtml(question.prompt ?? question.title ?? ''),
+      selectedOptionId,
+      selectedOptionLabel: selectedOption?.label ?? null,
+      selectedOptionContent: selectedOption?.content ?? null,
+      correctOptionId: question.correctOptionId ?? null,
+      correctOptionLabel: correctOption?.label ?? null,
+      correctOptionContent: correctOption?.content ?? null,
+      isCorrect,
+      solutionVideo: question.solutionVideo ?? null
+    };
+  });
+
+  const correctCount = details.filter((item) => item.isCorrect).length;
+  const timeSpentSeconds = calculateTimeSpentSeconds();
+  const scorePercent = totalQuestions.value ? Math.round((correctCount / totalQuestions.value) * 100) : 0;
+
+  return {
+    id: attemptId,
+    testId: testId.value ?? test.value?.id ?? attemptId,
+    testTitle: test.value?.title ?? '',
+    createdAt,
+    answers: { ...answers.value },
+    results: {
+      totalQuestions: totalQuestions.value,
+      correctCount,
+      incorrectCount: Math.max(0, totalQuestions.value - correctCount),
+      scorePercent,
+      timeSpentSeconds
+    },
+    details
+  };
+}
+
+function calculateTimeSpentSeconds() {
+  if (hasTimer.value) {
+    const spent = Math.max(0, Math.round((durationSeconds.value ?? 0) - timeLeft.value));
+    return Number.isFinite(spent) ? spent : 0;
+  }
+  if (startedAt.value) {
+    return Math.max(0, Math.round((Date.now() - startedAt.value) / 1000));
+  }
+  return 0;
+}
+
+async function downloadAttemptPdf(targetAttempt = latestAttempt.value) {
+  if (!targetAttempt) return;
+  await generateAttemptPdf({
+    attempt: targetAttempt,
+    testTitle: test.value?.title ?? t('courseDetails.testSolve.results.defaultTitle'),
+    labels: {
+      defaultTitle: t('courseDetails.testSolve.results.defaultTitle'),
+      attemptDate: t('courseDetails.testSolve.results.attemptDate'),
+      scoreLabel: t('courseDetails.testSolve.results.scoreLabel'),
+      timeSpentLabel: t('courseDetails.testSolve.results.timeSpentLabel'),
+      selectedAnswer: t('courseDetails.testSolve.results.selectedAnswer'),
+      correctAnswer: t('courseDetails.testSolve.results.correctAnswer'),
+      noAnswer: t('courseDetails.testSolve.results.noAnswer'),
+      untitledQuestion: t('courseDetails.testSolve.results.untitledQuestion'),
+      formatDuration,
+      formatDate: formatDateTime
+    },
+    fileName: `${testId.value}-attempt-${targetAttempt.id}.pdf`
+  });
+}
+
+function stripHtml(input) {
+  if (!input) return '';
+  return input.replace(/<[^>]*>/g, ' ').replace(/&nbsp;/gi, ' ').replace(/\s+/g, ' ').trim();
+}
+
+function formatDuration(totalSeconds = 0) {
+  const seconds = Number.isFinite(totalSeconds) ? totalSeconds : 0;
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+  return t('courseDetails.testSolve.results.durationFormat', {
+    minutes,
+    seconds: remainingSeconds.toString().padStart(2, '0')
+  });
+}
+
+function formatDateTime(isoString) {
+  if (!isoString) return '—';
+  const date = new Date(isoString);
+  if (Number.isNaN(date.getTime())) return '—';
+  return `${date.toLocaleDateString()} ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+}
+
+const latestAttemptSummary = computed(() => {
+  if (!latestAttempt.value) return null;
+  return {
+    ...latestAttempt.value.results,
+    createdAt: latestAttempt.value.createdAt,
+    formattedDate: formatDateTime(latestAttempt.value.createdAt),
+    formattedDuration: formatDuration(latestAttempt.value.results.timeSpentSeconds)
+  };
+});
+
+const previousAttemptSummary = computed(() => {
+  if (!previousAttempt.value) return null;
+  return {
+    ...previousAttempt.value.results,
+    formattedDate: formatDateTime(previousAttempt.value.createdAt)
+  };
+});
+
+const historyAttempts = computed(() => {
+  return [...attempts.value].reverse();
+});
+
+function closeResultsModal() {
+  showResultsModal.value = false;
+}
+
+function openHistoryModal() {
+  showHistoryModal.value = true;
+}
+
+function closeHistoryModal() {
+  showHistoryModal.value = false;
+}
+
+function goToAttemptDetails(attemptId) {
+  if (!attemptId) return;
+  router.push({
+    name: 'courses.test-attempt-details',
+    params: { id: courseId.value, testId: testId.value, attemptId }
+  });
+  showHistoryModal.value = false;
 }
 
 const durationLabel = computed(() => {

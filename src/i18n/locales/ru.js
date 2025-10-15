@@ -533,7 +533,9 @@ export default {
               { id: 'q1b', label: 'B', content: '<span>⅓</span>' },
               { id: 'q1c', label: 'C', content: '<span>⅔</span>' },
               { id: 'q1d', label: 'D', content: '<span>⅕</span>' }
-            ]
+            ],
+            correctOptionId: 'q1a',
+            solutionVideo: 'https://www.youtube.com/embed/nmgEyxQM0j4'
           },
           {
             id: 'q2',
@@ -546,7 +548,9 @@ export default {
               { id: 'q2b', label: 'B', content: '<span>7</span>' },
               { id: 'q2c', label: 'C', content: '<span>8</span>' },
               { id: 'q2d', label: 'D', content: '<span>9</span>' }
-            ]
+            ],
+            correctOptionId: 'q2b',
+            solutionVideo: 'https://www.youtube.com/embed/p89UP1Ky7Zg'
           },
           {
             id: 'q3',
@@ -559,7 +563,9 @@ export default {
               { id: 'q3b', label: 'B', content: '<span>2 · e<sup>2x</sup> + C</span>' },
               { id: 'q3c', label: 'C', content: '<span>e<sup>2x</sup> + C</span>' },
               { id: 'q3d', label: 'D', content: '<span>√(e<sup>2x</sup>) + C</span>' }
-            ]
+            ],
+            correctOptionId: 'q3a',
+            solutionVideo: 'https://www.youtube.com/embed/XWuvq7Obo4k'
           },
           {
             id: 'q4',
@@ -572,7 +578,9 @@ export default {
               { id: 'q4b', label: 'B', content: '<span>cos(x) + C</span>' },
               { id: 'q4c', label: 'C', content: '<span>sin(x) + C</span>' },
               { id: 'q4d', label: 'D', content: '<span>tan(x) + C</span>' }
-            ]
+            ],
+            correctOptionId: 'q4a',
+            solutionVideo: 'https://www.youtube.com/embed/xkaW1YEYwDs'
           },
           {
             id: 'q5',
@@ -585,7 +593,9 @@ export default {
               { id: 'q5b', label: 'B', content: '<span>1</span>' },
               { id: 'q5c', label: 'C', content: '<span>2</span>' },
               { id: 'q5d', label: 'D', content: '<span>π</span>' }
-            ]
+            ],
+            correctOptionId: 'q5c',
+            solutionVideo: 'https://www.youtube.com/embed/ogHhz_pK7-k'
           }
         ]
       },
@@ -611,7 +621,9 @@ export default {
               { id: 'm1b', label: 'B', content: '<span>x e<sup>x</sup> + e<sup>x</sup> + C</span>' },
               { id: 'm1c', label: 'C', content: '<span>e<sup>x</sup> + C</span>' },
               { id: 'm1d', label: 'D', content: '<span>x e<sup>x</sup> + C</span>' }
-            ]
+            ],
+            correctOptionId: 'm1a',
+            solutionVideo: 'https://www.youtube.com/embed/7z9W-k3mG6M'
           },
           {
             id: 'm2',
@@ -624,7 +636,9 @@ export default {
               { id: 'm2b', label: 'B', content: '<span>√(1 - x²) + C</span>' },
               { id: 'm2c', label: 'C', content: '<span>-cos(t) + C</span>' },
               { id: 'm2d', label: 'D', content: '<span>cos(t) + C</span>' }
-            ]
+            ],
+            correctOptionId: 'm2a',
+            solutionVideo: 'https://www.youtube.com/embed/0NmsYUBv--c'
           },
           {
             id: 'm3',
@@ -637,7 +651,9 @@ export default {
               { id: 'm3b', label: 'B', content: '<span>y = 2e<sup>-x</sup></span>' },
               { id: 'm3c', label: 'C', content: '<span>y = 2x</span>' },
               { id: 'm3d', label: 'D', content: '<span>y = 2 + x</span>' }
-            ]
+            ],
+            correctOptionId: 'm3a',
+            solutionVideo: 'https://www.youtube.com/embed/7yqvPmuXW2Q'
           },
           {
             id: 'm4',
@@ -650,7 +666,9 @@ export default {
               { id: 'm4b', label: 'B', content: '<span>1/x + C</span>' },
               { id: 'm4c', label: 'C', content: '<span>log₁₀(x) + C</span>' },
               { id: 'm4d', label: 'D', content: '<span>x · ln|x| + C</span>' }
-            ]
+            ],
+            correctOptionId: 'm4a',
+            solutionVideo: 'https://www.youtube.com/embed/v0S_y3gfG1w'
           },
           {
             id: 'm5',
@@ -663,7 +681,9 @@ export default {
               { id: 'm5b', label: 'B', content: '<span>2πr</span>' },
               { id: 'm5c', label: 'C', content: '<span>r²</span>' },
               { id: 'm5d', label: 'D', content: '<span>πr</span>' }
-            ]
+            ],
+            correctOptionId: 'm5a',
+            solutionVideo: 'https://www.youtube.com/embed/KxOTbY4Z1Zc'
           },
           {
             id: 'm6',
@@ -676,7 +696,9 @@ export default {
               { id: 'm6b', label: 'B', content: '<span>1</span>' },
               { id: 'm6c', label: 'C', content: '<span>∞</span>' },
               { id: 'm6d', label: 'D', content: '<span>-1</span>' }
-            ]
+            ],
+            correctOptionId: 'm6b',
+            solutionVideo: 'https://www.youtube.com/embed/1dzUuNzqK5k'
           },
           {
             id: 'm7',
@@ -689,7 +711,9 @@ export default {
               { id: 'm7b', label: 'B', content: '<span>2</span>' },
               { id: 'm7c', label: 'C', content: '<span>3</span>' },
               { id: 'm7d', label: 'D', content: '<span>4</span>' }
-            ]
+            ],
+            correctOptionId: 'm7b',
+            solutionVideo: 'https://www.youtube.com/embed/nDMp2PqFHTg'
           },
           {
             id: 'm8',
@@ -702,7 +726,9 @@ export default {
               { id: 'm8b', label: 'B', content: '<span>3/2</span>' },
               { id: 'm8c', label: 'C', content: '<span>2</span>' },
               { id: 'm8d', label: 'D', content: '<span>1/2</span>' }
-            ]
+            ],
+            correctOptionId: 'm8a',
+            solutionVideo: 'https://www.youtube.com/embed/XSEuxsjjXN0'
           }
         ]
       }
@@ -729,6 +755,56 @@ export default {
         topicLabel: 'Тема',
         attemptsLabel: 'Попытки',
         deadlineLabel: 'Дедлайн'
+      },
+      results: {
+        modalTitle: 'Результаты опубликованы',
+        modalDescription: 'Вы правильно ответили на {{correct}} из {{total}} вопросов.',
+        latestAttemptTitle: 'Последняя попытка',
+        overallScore: 'Итоговый результат: {{score}}% · {{correct}} / {{total}}',
+        downloadPdf: 'Скачать PDF',
+        scoreLabel: 'Общий балл',
+        correctLabel: 'Верные ответы',
+        incorrectLabel: 'Ошибки',
+        timeSpentLabel: 'Затраченное время',
+        completedAttempts: 'Выполненные попытки',
+        viewDetails: 'Просмотреть детали',
+        viewHistory: 'История попыток',
+        previousAttemptScore: 'Предыдущая попытка: {{score}}%',
+        completedAttemptsMessage: 'Вы завершили {{count}} попыт(ок).',
+        close: 'Закрыть',
+        closeHistory: 'Закрыть историю',
+        historyTitle: 'Архив попыток',
+        historySubtitle: 'Тест «{{title}}»',
+        noAttempts: 'Пока нет завершённых попыток.',
+        attemptName: '{{index}}-я попытка',
+        defaultTitle: 'Результат теста',
+        attemptDate: 'Время',
+        selectedAnswer: 'Выбранный ответ',
+        correctAnswer: 'Правильный ответ',
+        noAnswer: 'Без ответа',
+        untitledQuestion: 'Вопрос',
+        durationFormat: '{{minutes}} мин {{seconds}} с'
+      },
+      attemptDetails: {
+        backToTest: 'Вернуться к тесту',
+        title: 'Детали попытки',
+        titleWithScore: '{{title}} — {{score}}%',
+        subtitle: 'Дата: {{date}} · Время: {{duration}} · Вопросов: {{total}}',
+        notFound: 'Попытка не найдена или была удалена.',
+        summaryTitle: 'Сводка результата',
+        summaryDescription: 'Итоговый результат — {{score}}%',
+        tableTitle: 'Аналитика по вопросам',
+        tableSubtitle: 'Ответы и обучающие видео по каждому вопросу',
+        questionColumn: 'Вопрос',
+        answerColumn: 'Ваш ответ',
+        correctColumn: 'Верный ответ',
+        videoColumn: 'Видеоразбор',
+        noAnswer: 'Без ответа',
+        noAnswerDescription: 'Ответ не был выбран.',
+        watchSolution: 'Смотреть видео',
+        noVideo: 'Видео отсутствует',
+        closeVideo: 'Закрыть видео',
+        solutionTitle: 'Разбор вопроса {{number}}'
       }
     },
     modules: {
