@@ -2,10 +2,15 @@
   <div class="min-h-screen bg-primary-50 text-ink">
     <div class="flex min-h-screen lg:h-screen lg:overflow-hidden">
       <aside
-        class="hidden w-72 space-y-10 border-r border-white/60 bg-white/80 px-6 py-8 shadow-sm backdrop-blur lg:flex lg:flex-col lg:sticky lg:top-0 lg:h-screen lg:overflow-y-auto"
+        class="hidden w-72 space-y-10 border-r border-white/60 bg-white/80 px-6 py-8 shadow-md backdrop-blur lg:flex lg:flex-col lg:sticky lg:top-0 lg:h-screen lg:overflow-y-auto"
         :aria-label="t('app.navigation.ariaLabel')"
       >
-        <BrandLogo />
+        <div class="space-y-3">
+          <BrandLogo :show-strapline="false" />
+          <p class="text-[10px] font-semibold uppercase tracking-[0.4em] text-primary-400">
+            {{ t('app.navigation.menuLabel') }}
+          </p>
+        </div>
         <nav class="flex-1 space-y-1">
           <RouterLink
             v-for="item in navItems"
@@ -19,7 +24,13 @@
             ]"
           >
             <span class="text-lg">{{ item.icon }}</span>
-            <span>{{ item.label }}</span>
+            <span class="flex-1">{{ item.label }}</span>
+            <span
+              v-if="typeof item.count === 'number'"
+              class="inline-flex h-6 min-w-[1.5rem] items-center justify-center rounded-full bg-primary-100 px-2 text-xs font-semibold text-primary-600"
+            >
+              {{ item.count }}
+            </span>
           </RouterLink>
         </nav>
         <div class="rounded-3xl border border-white/60 bg-white/70 p-5 text-sm text-primary-700 shadow-sm">
@@ -41,7 +52,10 @@
               </p>
             </div>
             <div class="flex items-center gap-4 flex-wrap">
-              <div class="flex items-center gap-2 bg-primary-50 px-4 py-2 rounded-2xl">
+              <RouterLink
+                :to="{ name: 'finance.coins' }"
+                class="flex items-center gap-2 rounded-2xl bg-primary-50 px-4 py-2 transition hover:bg-primary-100 focus:outline-none focus:ring-2 focus:ring-primary-200"
+              >
                 <span class="text-primary-500 text-xl">🪙</span>
                 <div>
                   <p class="text-xs text-slate-500 uppercase tracking-wide">{{ t('app.header.coinsLabel') }}</p>
@@ -49,14 +63,17 @@
                     {{ t('app.header.coinsValue', { value: student.coins }) }}
                   </p>
                 </div>
-              </div>
-              <div class="flex items-center gap-2 bg-secondary/10 px-4 py-2 rounded-2xl">
+              </RouterLink>
+              <RouterLink
+                :to="{ name: 'finance.transactions' }"
+                class="flex items-center gap-2 rounded-2xl bg-secondary/10 px-4 py-2 transition hover:bg-secondary/20 focus:outline-none focus:ring-2 focus:ring-secondary/30"
+              >
                 <span class="text-secondary text-xl">💳</span>
                 <div>
                   <p class="text-xs text-slate-500 uppercase tracking-wide">{{ t('app.header.balanceLabel') }}</p>
                   <p data-testid="balance-value" class="font-semibold text-secondary">{{ formattedBalance }}</p>
                 </div>
-              </div>
+              </RouterLink>
               <label class="flex items-center gap-2 rounded-2xl border border-primary-100 px-3 py-2 text-sm text-primary-700">
                 <span class="hidden sm:inline">{{ t('app.language.label') }}</span>
                 <select
@@ -90,7 +107,7 @@
         </header>
 
         <main class="flex-1 overflow-y-auto px-4 py-6 sm:px-6 lg:px-10 xl:px-14">
-          <div class="mx-auto w-full">
+          <div class="mx-auto w-full rounded-[32px] border border-white/60 bg-white/90 p-6 shadow-lg sm:p-8">
             <slot />
           </div>
         </main>
@@ -112,7 +129,7 @@ import BrandLogo from '@/components/brand/BrandLogo.vue';
 const { user, lastFetchedAt, logout } = useAuth();
 const route = useRoute();
 const router = useRouter();
-const { t, locale } = useI18n({ useScope: 'global' });
+const { t, tm, locale } = useI18n({ useScope: 'global' });
 const i18nStore = useI18nStore();
 const { locales: availableLocalesRef, locale: activeLocale } = storeToRefs(i18nStore);
 const { notifySuccess, notifyError } = useNotifications();
@@ -123,10 +140,32 @@ const activeRouteName = computed(() => {
   return name;
 });
 
+const coursesCount = computed(() => {
+  const items = tm('courses.items');
+  return Array.isArray(items) ? items.length : 0;
+});
+
+const olympiadsCount = computed(() => {
+  const items = tm('olympiads.items');
+  return Array.isArray(items) ? items.length : 0;
+});
+
 const navItems = computed(() => [
   { label: t('app.navigation.dashboard'), to: { name: 'dashboard' }, match: 'dashboard', icon: '📊' },
-  { label: t('app.navigation.courses'), to: { name: 'courses' }, match: 'courses', icon: '📚' },
-  { label: t('app.navigation.olympiads'), to: { name: 'olympiads' }, match: 'olympiads', icon: '🏆' },
+  {
+    label: t('app.navigation.courses'),
+    to: { name: 'courses' },
+    match: 'courses',
+    icon: '📚',
+    count: coursesCount.value
+  },
+  {
+    label: t('app.navigation.olympiads'),
+    to: { name: 'olympiads' },
+    match: 'olympiads',
+    icon: '🏆',
+    count: olympiadsCount.value
+  },
   { label: t('app.navigation.profile'), to: { name: 'profile.overview' }, match: 'profile.overview', icon: '👤' }
 ]);
 
