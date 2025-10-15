@@ -3,8 +3,8 @@
     v-if="course"
     class="space-y-6 xl:grid xl:h-full xl:grid-cols-[minmax(0,2fr)_minmax(320px,1fr)] xl:items-start xl:gap-8 xl:space-y-0"
   >
-    <div class="space-y-6 xl:max-h-[calc(100vh-140px)] xl:overflow-y-auto xl:pr-2 xl:pb-6">
-      <div class="space-y-6 rounded-[32px] bg-white p-6 shadow-sm">
+    <div class="flex flex-col gap-6 xl:max-h-[calc(100vh-140px)] xl:overflow-y-auto xl:pr-2 xl:pb-6">
+      <div class="flex flex-col gap-6 rounded-[32px] bg-white p-6 shadow-sm">
         <RouterLink
           :to="{ name: 'courses' }"
           class="inline-flex items-center gap-2 text-sm font-semibold text-primary-600 hover:text-primary-700"
@@ -43,34 +43,36 @@
           </p>
         </header>
 
-        <div class="overflow-hidden rounded-3xl bg-slate-900">
-          <video
-            controls
-            class="h-full w-full"
-            :poster="player.poster"
-          >
-            <source v-for="source in player.sources" :key="source.type" :src="source.url" :type="source.type" />
-            {{ t('courseDetails.player.videoNotSupported') }}
-          </video>
-        </div>
-
-        <div
-          v-if="player.nextLesson.title || player.nextLesson.description"
-          class="flex flex-col gap-4 rounded-3xl bg-primary-50/60 p-6 md:flex-row md:items-center md:justify-between"
-        >
-          <div class="space-y-1">
-            <p class="text-sm font-semibold uppercase tracking-wide text-primary-600">
-              {{ t('courseDetails.player.nextLessonLabel') }}
-            </p>
-            <p class="text-base font-semibold text-primary-900">{{ player.nextLesson.title }}</p>
-            <p class="text-sm text-slate-600">{{ player.nextLesson.description }}</p>
+        <div class="flex flex-1 flex-col gap-6">
+          <div class="flex-1 overflow-hidden rounded-3xl bg-slate-900 min-h-[280px] sm:min-h-[320px] lg:min-h-[360px] xl:min-h-[420px]">
+            <video
+              controls
+              class="h-full w-full object-cover"
+              :poster="player.poster"
+            >
+              <source v-for="source in player.sources" :key="source.type" :src="source.url" :type="source.type" />
+              {{ t('courseDetails.player.videoNotSupported') }}
+            </video>
           </div>
-          <RouterLink
-            :to="{ name: 'courses.details', params: { id: course.id } }"
-            class="inline-flex items-center justify-center rounded-full bg-primary-600 px-6 py-3 text-sm font-semibold text-white shadow hover:bg-primary-700"
+
+          <div
+            v-if="player.nextLesson.title || player.nextLesson.description"
+            class="flex flex-col gap-4 rounded-3xl bg-primary-50/60 p-6 md:flex-row md:items-center md:justify-between"
           >
-            {{ t('courseDetails.player.continueAction') }}
-          </RouterLink>
+            <div class="space-y-1">
+              <p class="text-sm font-semibold uppercase tracking-wide text-primary-600">
+                {{ t('courseDetails.player.nextLessonLabel') }}
+              </p>
+              <p class="text-base font-semibold text-primary-900">{{ player.nextLesson.title }}</p>
+              <p class="text-sm text-slate-600">{{ player.nextLesson.description }}</p>
+            </div>
+            <RouterLink
+              :to="{ name: 'courses.details', params: { id: course.id } }"
+              class="inline-flex items-center justify-center rounded-full bg-primary-600 px-6 py-3 text-sm font-semibold text-white shadow hover:bg-primary-700"
+            >
+              {{ t('courseDetails.player.continueAction') }}
+            </RouterLink>
+          </div>
         </div>
       </div>
 
@@ -200,9 +202,18 @@
             v-for="(module, index) in modules"
             :key="module.id"
             class="space-y-3 rounded-2xl border border-primary-50/80 p-4"
-            :class="moduleStatusClass(module.status)"
+            :class="[
+              moduleStatusClass(module.status),
+              isModuleExpanded(module.id) ? 'ring-1 ring-primary-200 shadow-sm' : ''
+            ]"
           >
-            <div class="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+            <button
+              type="button"
+              class="flex w-full flex-col gap-3 text-left md:flex-row md:items-start md:justify-between"
+              @click="toggleModule(module.id)"
+              :aria-expanded="isModuleExpanded(module.id)"
+              :aria-controls="`module-lessons-${module.id}`"
+            >
               <div class="flex items-start gap-3">
                 <span class="flex h-9 w-9 items-center justify-center rounded-2xl bg-primary-50 text-sm font-semibold text-primary-600">
                   {{ index + 1 }}
@@ -213,47 +224,63 @@
                 </div>
               </div>
               <span
-                class="inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-wide"
+                class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wide"
                 :class="moduleStatusBadgeClass(module.status)"
               >
+                <span class="flex items-center gap-1">
+                  <svg
+                    v-if="module.status === 'completed'"
+                    viewBox="0 0 24 24"
+                    class="h-3.5 w-3.5"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                  >
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <svg
+                    v-else-if="module.status === 'in-progress'"
+                    viewBox="0 0 24 24"
+                    class="h-3.5 w-3.5"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                  >
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 5v14l11-7z" />
+                  </svg>
+                  <svg
+                    v-else
+                    viewBox="0 0 24 24"
+                    class="h-3.5 w-3.5"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M8 11V7a4 4 0 018 0v4m-8 0h8a2 2 0 012 2v6a2 2 0 01-2 2H8a2 2 0 01-2-2v-6a2 2 0 012-2z"
+                    />
+                  </svg>
+                  {{ t(`courseDetails.modules.status.${module.status}`) }}
+                </span>
                 <svg
-                  v-if="module.status === 'completed'"
                   viewBox="0 0 24 24"
-                  class="h-3.5 w-3.5"
+                  class="h-4 w-4 transition-transform"
+                  :class="isModuleExpanded(module.id) ? 'rotate-180' : ''"
                   fill="none"
                   stroke="currentColor"
                   stroke-width="1.5"
                 >
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6" />
                 </svg>
-                <svg
-                  v-else-if="module.status === 'in-progress'"
-                  viewBox="0 0 24 24"
-                  class="h-3.5 w-3.5"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                >
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M8 5v14l11-7z" />
-                </svg>
-                <svg
-                  v-else
-                  viewBox="0 0 24 24"
-                  class="h-3.5 w-3.5"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M8 11V7a4 4 0 018 0v4m-8 0h8a2 2 0 012 2v6a2 2 0 01-2 2H8a2 2 0 01-2-2v-6a2 2 0 012-2z"
-                  />
-                </svg>
-                {{ t(`courseDetails.modules.status.${module.status}`) }}
               </span>
-            </div>
-            <ul class="space-y-3">
+            </button>
+            <ul
+              v-if="isModuleExpanded(module.id)"
+              :id="`module-lessons-${module.id}`"
+              class="space-y-3 border-t border-primary-100 pt-3"
+            >
               <li
                 v-for="lesson in module.lessons"
                 :key="lesson.title"
@@ -390,6 +417,7 @@ const modules = computed(() => details.value.modulesData ?? []);
 const results = computed(() => details.value.results ?? { summary: [], milestones: [] });
 
 const activeTab = ref('');
+const expandedModuleId = ref(null);
 
 watch(
   tabs,
@@ -414,10 +442,34 @@ watch(
   }
 );
 
+watch(
+  modules,
+  (nextModules) => {
+    if (!nextModules?.length) {
+      expandedModuleId.value = null;
+      return;
+    }
+
+    const defaultModule =
+      nextModules.find((module) => module.status === 'in-progress') ??
+      nextModules.find((module) => module.status === 'unlocked') ??
+      nextModules[0];
+
+    expandedModuleId.value = defaultModule?.id ?? null;
+  },
+  { immediate: true }
+);
+
 const visibleResources = computed(() => {
   if (!activeTab.value) return [];
   return resources.value?.[activeTab.value] ?? [];
 });
+
+const isModuleExpanded = (moduleId) => expandedModuleId.value === moduleId;
+
+const toggleModule = (moduleId) => {
+  expandedModuleId.value = isModuleExpanded(moduleId) ? null : moduleId;
+};
 
 const moduleStatusClass = (status) => {
   if (status === 'locked') {
@@ -439,9 +491,3 @@ const moduleStatusBadgeClass = (status) => {
   return 'rounded-full bg-primary-50/70 px-3 py-1 text-primary-500';
 };
 </script>
-
-<style scoped>
-video {
-  aspect-ratio: 16 / 9;
-}
-</style>
