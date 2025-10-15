@@ -490,12 +490,14 @@ export default {
       ],
       tests: [
         {
+          id: 'quick-review',
           title: 'Tezkor test — Modulni takrorlash',
           description: '10 ta savoldan iborat qisqa test.',
           duration: '15 daqiqa',
           type: 'test'
         },
         {
+          id: 'midterm',
           title: 'Oraliq nazorat — Integral hisob',
           description: 'Nazorat ishi uchun 20 ta savol.',
           duration: '30 daqiqa',
@@ -516,6 +518,227 @@ export default {
           type: 'assignment'
         }
       ]
+    },
+    testDetails: {
+      'quick-review': {
+        id: 'quick-review',
+        title: 'Tezkor test — Modulni takrorlash',
+        topic: 'Integral hisob asoslari',
+        durationMinutes: 15,
+        totalQuestions: 5,
+        attempts: 1,
+        deadline: 'Bugun 23:59 gacha',
+        description:
+          'Bu test integral hisobning asosiy formulalari va geometrik talqinini mustahkamlash uchun tuzilgan.',
+        questions: [
+          {
+            id: 'q1',
+            number: 1,
+            title: 'Aniq integral',
+            prompt:
+              '<p>Quyidagi aniq integralni hisoblang: <span class="font-semibold">∫<sub>0</sub><sup>1</sup> 3x<sup>2</sup> dx</span>.</p>',
+            options: [
+              { id: 'q1a', label: 'A', content: '<span>1</span>' },
+              { id: 'q1b', label: 'B', content: '<span>⅓</span>' },
+              { id: 'q1c', label: 'C', content: '<span>⅔</span>' },
+              { id: 'q1d', label: 'D', content: '<span>⅕</span>' }
+            ]
+          },
+          {
+            id: 'q2',
+            number: 2,
+            title: 'Newton-Leibniz formulasi',
+            prompt:
+              '<p>Funktsiya <span class="font-semibold">F(x) = x<sup>3</sup></span> ning hosilasi <span class="font-semibold">f(x) = 3x<sup>2</sup></span>. Newton-Leibniz formulasi bo\'yicha <span class="font-semibold">∫<sub>1</sub><sup>2</sup> 3x<sup>2</sup> dx</span> ni aniqlang.</p>',
+            options: [
+              { id: 'q2a', label: 'A', content: '<span>6</span>' },
+              { id: 'q2b', label: 'B', content: '<span>7</span>' },
+              { id: 'q2c', label: 'C', content: '<span>8</span>' },
+              { id: 'q2d', label: 'D', content: '<span>9</span>' }
+            ]
+          },
+          {
+            id: 'q3',
+            number: 3,
+            title: 'Eksponenta integrali',
+            prompt:
+              '<p>Quyidagi integralni toping: <span class="font-semibold">∫ e<sup>2x</sup> dx</span>.</p>',
+            options: [
+              { id: 'q3a', label: 'A', content: '<span>½ · e<sup>2x</sup> + C</span>' },
+              { id: 'q3b', label: 'B', content: '<span>2 · e<sup>2x</sup> + C</span>' },
+              { id: 'q3c', label: 'C', content: '<span>e<sup>2x</sup> + C</span>' },
+              { id: 'q3d', label: 'D', content: '<span>√(e<sup>2x</sup>) + C</span>' }
+            ]
+          },
+          {
+            id: 'q4',
+            number: 4,
+            title: 'Trigonometrik integral',
+            prompt:
+              '<p>Trigonometrik integralni hisoblang: <span class="font-semibold">∫ sin(x) dx</span>.</p>',
+            options: [
+              { id: 'q4a', label: 'A', content: '<span>-cos(x) + C</span>' },
+              { id: 'q4b', label: 'B', content: '<span>cos(x) + C</span>' },
+              { id: 'q4c', label: 'C', content: '<span>sin(x) + C</span>' },
+              { id: 'q4d', label: 'D', content: '<span>tan(x) + C</span>' }
+            ]
+          },
+          {
+            id: 'q5',
+            number: 5,
+            title: 'Maydonni hisoblash',
+            prompt:
+              '<p>Grafiklar orasidagi maydonni toping: <span class="font-semibold">∫<sub>0</sub><sup>π</sup> sin(x) dx</span>.</p>',
+            options: [
+              { id: 'q5a', label: 'A', content: '<span>0</span>' },
+              { id: 'q5b', label: 'B', content: '<span>1</span>' },
+              { id: 'q5c', label: 'C', content: '<span>2</span>' },
+              { id: 'q5d', label: 'D', content: '<span>π</span>' }
+            ]
+          }
+        ]
+      },
+      midterm: {
+        id: 'midterm',
+        title: 'Oraliq nazorat — Integral hisob',
+        topic: 'Kengaytirilgan integral hisob',
+        durationMinutes: 30,
+        totalQuestions: 8,
+        attempts: 1,
+        deadline: 'Juma, 18:00 gacha',
+        description:
+          'Nazorat ishi bo\'lib, funksiyalarni integrallashning turli usullari va qo\'llanmalarini qamrab oladi.',
+        questions: [
+          {
+            id: 'm1',
+            number: 1,
+            title: 'Qism bo\'yicha integrallash',
+            prompt:
+              '<p>Qism bo\'yicha integrallash formulasini qo\'llab <span class="font-semibold">∫ x e<sup>x</sup> dx</span> ni hisoblang.</p>',
+            options: [
+              { id: 'm1a', label: 'A', content: '<span>x e<sup>x</sup> - e<sup>x</sup> + C</span>' },
+              { id: 'm1b', label: 'B', content: '<span>x e<sup>x</sup> + e<sup>x</sup> + C</span>' },
+              { id: 'm1c', label: 'C', content: '<span>e<sup>x</sup> + C</span>' },
+              { id: 'm1d', label: 'D', content: '<span>x e<sup>x</sup> + C</span>' }
+            ]
+          },
+          {
+            id: 'm2',
+            number: 2,
+            title: 'Trigonometrik almashtirish',
+            prompt:
+              '<p>Almashtirish <span class="font-semibold">x = sin(t)</span> ni qo\'llab <span class="font-semibold">∫ x / √(1 - x²) dx</span> ni toping.</p>',
+            options: [
+              { id: 'm2a', label: 'A', content: '<span>-√(1 - x²) + C</span>' },
+              { id: 'm2b', label: 'B', content: '<span>√(1 - x²) + C</span>' },
+              { id: 'm2c', label: 'C', content: '<span>-cos(t) + C</span>' },
+              { id: 'm2d', label: 'D', content: '<span>cos(t) + C</span>' }
+            ]
+          },
+          {
+            id: 'm3',
+            number: 3,
+            title: 'Differensial tenglama',
+            prompt:
+              '<p>Quyidagi oddiy differensial tenglamani yeching: <span class="font-semibold">dy/dx = y</span>, boshlang\'ich shart <span class="font-semibold">y(0) = 2</span>.</p>',
+            options: [
+              { id: 'm3a', label: 'A', content: '<span>y = 2e<sup>x</sup></span>' },
+              { id: 'm3b', label: 'B', content: '<span>y = 2e<sup>-x</sup></span>' },
+              { id: 'm3c', label: 'C', content: '<span>y = 2x</span>' },
+              { id: 'm3d', label: 'D', content: '<span>y = 2 + x</span>' }
+            ]
+          },
+          {
+            id: 'm4',
+            number: 4,
+            title: 'Logarifmik integral',
+            prompt:
+              '<p>Quyidagi integralni hisoblang: <span class="font-semibold">∫ 1/x dx</span>.</p>',
+            options: [
+              { id: 'm4a', label: 'A', content: '<span>ln|x| + C</span>' },
+              { id: 'm4b', label: 'B', content: '<span>1/x + C</span>' },
+              { id: 'm4c', label: 'C', content: '<span>log₁₀(x) + C</span>' },
+              { id: 'm4d', label: 'D', content: '<span>x · ln|x| + C</span>' }
+            ]
+          },
+          {
+            id: 'm5',
+            number: 5,
+            title: 'Doira maydoni',
+            prompt:
+              '<p>Doiraning maydonini ifodalovchi integralni toping: <span class="font-semibold">S = ∫<sub>-r</sub><sup>r</sup> 2√(r² - x²) dx</span>.</p>',
+            options: [
+              { id: 'm5a', label: 'A', content: '<span>πr²</span>' },
+              { id: 'm5b', label: 'B', content: '<span>2πr</span>' },
+              { id: 'm5c', label: 'C', content: '<span>r²</span>' },
+              { id: 'm5d', label: 'D', content: '<span>πr</span>' }
+            ]
+          },
+          {
+            id: 'm6',
+            number: 6,
+            title: 'Chegaraviy qiymat',
+            prompt:
+              '<p>Limitni hisoblang: <span class="font-semibold">lim<sub>x→0</sub> sin(x) / x</span>.</p>',
+            options: [
+              { id: 'm6a', label: 'A', content: '<span>0</span>' },
+              { id: 'm6b', label: 'B', content: '<span>1</span>' },
+              { id: 'm6c', label: 'C', content: '<span>∞</span>' },
+              { id: 'm6d', label: 'D', content: '<span>-1</span>' }
+            ]
+          },
+          {
+            id: 'm7',
+            number: 7,
+            title: 'Geometrik qator',
+            prompt:
+              '<p>Qatorning yig\'indisini toping: <span class="font-semibold">∑<sub>n=0</sub><sup>∞</sup> (½)<sup>n</sup></span>.</p>',
+            options: [
+              { id: 'm7a', label: 'A', content: '<span>1</span>' },
+              { id: 'm7b', label: 'B', content: '<span>2</span>' },
+              { id: 'm7c', label: 'C', content: '<span>3</span>' },
+              { id: 'm7d', label: 'D', content: '<span>4</span>' }
+            ]
+          },
+          {
+            id: 'm8',
+            number: 8,
+            title: 'Ikki karra integral',
+            prompt:
+              '<p>Ikki karra integralni qiymatini toping: <span class="font-semibold">∬<sub>D</sub> (x + y) dA</span>, bu yerda <span class="font-semibold">D</span> birlik kvadrat <span class="font-semibold">[0,1] × [0,1]</span>.</p>',
+            options: [
+              { id: 'm8a', label: 'A', content: '<span>1</span>' },
+              { id: 'm8b', label: 'B', content: '<span>3/2</span>' },
+              { id: 'm8c', label: 'C', content: '<span>2</span>' },
+              { id: 'm8d', label: 'D', content: '<span>1/2</span>' }
+            ]
+          }
+        ]
+      }
+    },
+    testSolve: {
+      backToCourse: 'Kursga qaytish',
+      notFoundTitle: 'Test topilmadi',
+      notFoundDescription: 'Tanlangan test mavjud emas yoki o‘quv dasturidan olib tashlangan.',
+      finishButton: 'Testni tugatish',
+      finishSuccessTitle: 'Test yakunlandi',
+      finishSuccessDescription: 'Javoblaringiz saqlandi va natijalar tez orada e’lon qilinadi.',
+      finishAutoDescription: 'Vaqt tugadi. Test avtomatik yakunlandi.',
+      timerLabel: 'Qolgan vaqt',
+      answeredLabel: 'Javob berilgan savollar',
+      unansweredLabel: 'Javobsiz savollar',
+      questionNavigationTitle: 'Savollar ro‘yxati',
+      questionCounter: 'Savol {{current}} / {{total}}',
+      previousQuestion: 'Oldingi savol',
+      nextQuestion: 'Keyingi savol',
+      stats: {
+        overviewTitle: 'Test haqida qisqacha',
+        durationLabel: 'Umumiy vaqt',
+        questionsLabel: 'Savollar soni',
+        topicLabel: 'Mavzu',
+        attemptsLabel: 'Urinishlar',
+        deadlineLabel: 'Topshirish muddati'
+      }
     },
     modules: {
       title: 'Modullar va mavzular',

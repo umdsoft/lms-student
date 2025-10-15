@@ -42,6 +42,17 @@ const routes = [
     }
   },
   {
+    path: '/courses/:id/tests/:testId',
+    name: 'courses.test-solve',
+    component: () => import('@/pages/courses/CourseTestSolvePage.vue'),
+    meta: {
+      requiresAuth: true,
+      roles: ['student'],
+      title: 'Test yechish',
+      layout: 'app'
+    }
+  },
+  {
     path: '/olympiads',
     name: 'olympiads',
     component: () => import('@/pages/olympiads/OlympiadsPage.vue'),
