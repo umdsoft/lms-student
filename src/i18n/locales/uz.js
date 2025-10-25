@@ -36,6 +36,182 @@ export default {
       }
     }
   },
+  teacher: {
+    header: {
+      greeting: 'Assalomu alaykum, ustoz!',
+      lastUpdated: 'Oxirgi sinxronlash',
+      subtitle: 'Bugungi darslar va kuzatuv'
+    },
+    navigation: {
+      dashboard: 'Darslar paneli'
+    },
+    brand: {
+      infoTitle: 'Mentor markazi',
+      infoDescription: "Ta'lim jarayonini boshqarish, o'quvchilar natijalarini kuzatish va darslarni rejalashtiring."
+    },
+    dashboard: {
+      title: 'O‘qituvchi paneli',
+      subtitle: 'Bugungi mashg‘ulotlar va faol o‘quvchilar',
+      highlights: [
+        {
+          id: 'next-lesson',
+          label: 'Keyingi dars',
+          value: '10:00 · Algebra',
+          accent: 'primary',
+          description: '7-sinf, 204-xona'
+        },
+        {
+          id: 'assignments',
+          label: 'Tekshirilmagan topshiriqlar',
+          value: '12 ta',
+          accent: 'amber',
+          description: 'Bugun topshirilgan'
+        },
+        {
+          id: 'attendance',
+          label: 'Davomad darajasi',
+          value: '96%',
+          accent: 'emerald',
+          description: 'Hafta o‘rtacha ko‘rsatkichi'
+        }
+      ],
+      schedule: {
+        title: 'Dars jadvali',
+        subtitle: 'Bugungi mashg‘ulotlar va tayyorgarlik',
+        rows: [
+          {
+            id: 'lesson-1',
+            time: '09:00 – 09:45',
+            subject: 'IELTS Speaking',
+            group: 'Advanced Cohort',
+            location: 'Studio A',
+            status: 'Onlayn'
+          },
+          {
+            id: 'lesson-2',
+            time: '10:15 – 11:00',
+            subject: 'Matematika — Algebra',
+            group: '7-sinf',
+            location: '204-xona',
+            status: 'Oflayn'
+          },
+          {
+            id: 'lesson-3',
+            time: '12:30 – 13:15',
+            subject: 'STEM laboratoriya',
+            group: 'Maker Club',
+            location: 'Lab 3',
+            status: 'Hybrid'
+          }
+        ]
+      },
+      actions: {
+        title: 'Tezkor amallar',
+        items: [
+          {
+            id: 'plan',
+            title: 'Dars rejasini ko‘rish',
+            description: 'Bugungi mavzular va interaktiv mashqlarni tekshiring.'
+          },
+          {
+            id: 'grade',
+            title: 'Baholash jurnalini yangilash',
+            description: 'So‘nggi topshiriqlar natijalarini kiriting.'
+          },
+          {
+            id: 'mentor',
+            title: 'Mentorlik sessiyasini boshlash',
+            description: 'Faol o‘quvchilar uchun 1:1 suhbat rejalashtiring.'
+          }
+        ]
+      }
+    }
+  },
+  control: {
+    header: {
+      greeting: 'Assalomu alaykum, admin!',
+      lastUpdated: 'Monitoring vaqti',
+      subtitle: 'Tizim statistikasi'
+    },
+    navigation: {
+      dashboard: 'Nazorat paneli'
+    },
+    brand: {
+      infoTitle: 'Tizim tahlili',
+      infoDescription: 'Foydalanuvchilar, kontent va jarayonlarni yagona panel orqali kuzating.'
+    },
+    dashboard: {
+      title: 'Nazorat paneli',
+      subtitle: 'Platformadagi asosiy ko‘rsatkichlar',
+      metrics: [
+        {
+          id: 'students',
+          label: 'Faol o‘quvchilar',
+          value: '1 240',
+          change: '+12 ta · hafta',
+          tone: 'success'
+        },
+        {
+          id: 'teachers',
+          label: 'Mentorlar',
+          value: '48',
+          change: '+3 ta yangi',
+          tone: 'primary'
+        },
+        {
+          id: 'courses',
+          label: 'Faol kurslar',
+          value: '32',
+          change: '1 yangi modul',
+          tone: 'info'
+        }
+      ],
+      updates: {
+        title: 'So‘nggi yangilanishlar',
+        items: [
+          {
+            id: 'update-1',
+            title: 'Yangi kurs tasdiqlandi',
+            timestamp: 'Bugun · 09:20',
+            description: 'SAT tayyorgarlik kursi 2024-yil qabuliga tayyor.'
+          },
+          {
+            id: 'update-2',
+            title: 'Mentorlik tizimi yangilandi',
+            timestamp: 'Kecha · 18:40',
+            description: 'Baholash algoritmi va bildirishnomalar optimallashtirildi.'
+          }
+        ]
+      },
+      audit: {
+        title: 'Audit kuzatuvi',
+        subtitle: 'So‘nggi tizim hodisalari',
+        rows: [
+          {
+            id: 'audit-1',
+            actor: 'Operator 3',
+            action: 'Foydalanuvchi rolini yangiladi',
+            time: '08:45',
+            status: 'Muvaffaqiyat'
+          },
+          {
+            id: 'audit-2',
+            actor: 'Admin',
+            action: 'Yangi o‘qituvchi qo‘shildi',
+            time: '08:10',
+            status: 'Muvaffaqiyat'
+          },
+          {
+            id: 'audit-3',
+            actor: 'Monitoring',
+            action: 'To‘lov tizimi tekshiruvi',
+            time: '07:55',
+            status: 'Kutilmoqda'
+          }
+        ]
+      }
+    }
+  },
   finance: {
     transactions: {
       title: 'Moliyaviy tranzaksiyalar',

@@ -1,3 +1,5 @@
+jest.mock('@/assets/logo.svg', () => 'logo', { virtual: true });
+
 import { render, screen } from '@testing-library/vue';
 import AppLayout from '@/components/layouts/AppLayout.vue';
 import { createTestingPinia } from '@pinia/testing';
@@ -22,7 +24,7 @@ jest.mock('@/composables/useAuth', () => ({
 }));
 
 jest.mock('vue-router', () => ({
-  useRoute: () => ({ name: 'dashboard' }),
+  useRoute: () => ({ name: 'student.dashboard', meta: { layout: 'student' } }),
   useRouter: () => ({ push: jest.fn() }),
   RouterLink: {
     name: 'RouterLink',
@@ -39,7 +41,7 @@ describe('AppLayout', () => {
       }
     });
 
-    expect(screen.getByText(/320 coin/i)).toBeInTheDocument();
+    expect(screen.getByText(/320 ta/i)).toBeInTheDocument();
     expect(screen.getByTestId('balance-value')).toHaveTextContent(/125/);
   });
 });

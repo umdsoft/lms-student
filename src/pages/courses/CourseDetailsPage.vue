@@ -6,7 +6,7 @@
     <div class="flex flex-col gap-6 xl:max-h xl:overflow-y-auto xl:pr-2 xl:pb-6">
       <div class="flex flex-col gap-6 rounded-[32px] bg-white p-6 shadow-sm">
         <RouterLink
-          :to="{ name: 'courses' }"
+          :to="{ name: 'student.courses' }"
           class="inline-flex items-center gap-2 text-sm font-semibold text-primary-600 hover:text-primary-700"
         >
           <span aria-hidden="true">←</span>
@@ -67,7 +67,7 @@
               <p class="text-sm text-slate-600">{{ player.nextLesson.description }}</p>
             </div>
             <RouterLink
-              :to="{ name: 'courses.details', params: { id: course.id } }"
+              :to="{ name: 'student.courses.details', params: { id: course.id } }"
               class="inline-flex items-center justify-center rounded-full bg-primary-600 px-6 py-3 text-sm font-semibold text-white shadow hover:bg-primary-700"
             >
               {{ t('courseDetails.player.continueAction') }}
@@ -384,7 +384,7 @@
     <p class="text-lg font-semibold text-primary-800">{{ t('courseDetails.notFoundTitle') }}</p>
     <p class="max-w-md text-sm text-slate-500">{{ t('courseDetails.notFoundSubtitle') }}</p>
     <RouterLink
-      :to="{ name: 'courses' }"
+      :to="{ name: 'student.courses' }"
       class="inline-flex items-center gap-2 rounded-full bg-primary-600 px-6 py-3 text-sm font-semibold text-white shadow hover:bg-primary-700"
     >
       {{ t('courseDetails.backToCourses') }}
@@ -467,9 +467,9 @@ const visibleResources = computed(() => {
 
 const resourceLink = (resource) => {
   if (resource?.type === 'test' && resource?.id) {
-    return { name: 'courses.test-solve', params: { id: course.value?.id ?? route.params.id, testId: resource.id } };
+    return { name: 'student.courses.test-solve', params: { id: course.value?.id ?? route.params.id, testId: resource.id } };
   }
-  return { name: 'courses.details', params: { id: course.value?.id ?? route.params.id } };
+  return { name: 'student.courses.details', params: { id: course.value?.id ?? route.params.id } };
 };
 
 const isModuleExpanded = (moduleId) => expandedModuleId.value === moduleId;

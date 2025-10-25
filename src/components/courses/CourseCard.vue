@@ -37,7 +37,7 @@
         />
       </div>
       <RouterLink
-        :to="{ name: 'courses.details', params: { id: course.id } }"
+        :to="{ name: 'student.courses.details', params: { id: course.id } }"
         class="text-primary-600 text-sm font-medium hover:underline"
       >
         {{ t('components.courseCard.action') }}

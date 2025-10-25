@@ -56,6 +56,7 @@ import { useRouter, useRoute } from 'vue-router';
 import { useAuth } from '@/composables/useAuth';
 import { useI18nHelpers } from '@/composables/useI18nHelpers';
 import { useNotifications } from '@/composables/useNotifications';
+import { isSafeRedirectPath, resolveDefaultRoute } from '@/utils/navigation';
 
 const router = useRouter();
 const route = useRoute();
@@ -77,14 +78,11 @@ async function handleSubmit() {
     await login(form);
     notifySuccess('login', { name: user.value?.fullName ?? form.login });
     const redirect = route.query.redirect;
-    if (redirect && typeof redirect === 'string') {
-      const safeRedirects = ['/', '/courses', '/olympiads', '/profile', '/profile/settings'];
-      if (safeRedirects.includes(redirect)) {
-        router.push(redirect);
-        return;
-      }
+    if (isSafeRedirectPath(redirect)) {
+      router.push(redirect);
+      return;
     }
-    router.push({ name: 'dashboard' });
+    router.push(resolveDefaultRoute(user.value?.role));
   } catch (err) {
     error.value = t('login.error');
     notifyError('login');

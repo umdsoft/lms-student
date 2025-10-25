@@ -8,7 +8,7 @@
     <div v-if="!myOlympiads.length" class="rounded-3xl border border-dashed border-primary-100 bg-white/70 p-8 text-center">
       <p class="text-sm text-slate-500">{{ t('olympiads.my.empty') }}</p>
       <RouterLink
-        :to="{ name: 'olympiads' }"
+        :to="{ name: 'student.olympiads' }"
         class="mt-4 inline-flex items-center gap-2 rounded-2xl bg-primary-600 px-5 py-2 text-sm font-semibold text-white hover:bg-primary-700"
       >
         {{ t('olympiads.my.browseAction') }}
@@ -53,7 +53,7 @@
           </div>
           <div class="flex gap-3">
             <RouterLink
-              :to="{ name: 'olympiads.details', params: { id: olympiad.id } }"
+              :to="{ name: 'student.olympiads.details', params: { id: olympiad.id } }"
               class="inline-flex items-center gap-2 rounded-2xl border border-primary-100 px-4 py-2 text-sm font-semibold text-primary-600 hover:bg-primary-50"
             >
               {{ t('olympiads.my.viewDetails') }}
@@ -199,7 +199,7 @@ function toggleExpanded(id) {
 }
 
 function solveLink(olympiadId, testId) {
-  return { name: 'olympiads.mini-test', params: { id: olympiadId, testId } };
+  return { name: 'student.olympiads.mini-test', params: { id: olympiadId, testId } };
 }
 
 function getStartDate(olympiad) {
