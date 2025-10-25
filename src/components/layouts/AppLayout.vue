@@ -8,7 +8,7 @@
         <div class="space-y-3">
           <BrandLogo :show-strapline="false" />
           <p class="text-[10px] font-semibold uppercase tracking-[0.4em] text-primary-400">
-            {{ t('app.navigation.menuLabel') }}
+            {{ layoutConfig.menuLabel }}
           </p>
         </div>
         <nav class="flex-1 space-y-1">
@@ -34,8 +34,8 @@
           </RouterLink>
         </nav>
         <div class="rounded-3xl border border-white/60 bg-white/70 p-5 text-sm text-primary-700 shadow-sm">
-          <h3 class="font-semibold text-primary-800">{{ t('app.brand.infoTitle') }}</h3>
-          <p class="mt-2 leading-relaxed text-slate-600">{{ t('app.brand.infoDescription') }}</p>
+          <h3 class="font-semibold text-primary-800">{{ layoutConfig.infoTitle }}</h3>
+          <p class="mt-2 leading-relaxed text-slate-600">{{ layoutConfig.infoDescription }}</p>
         </div>
       </aside>
 
@@ -45,27 +45,29 @@
             class="mx-auto flex w-full flex-col gap-4 px-4 py-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-10 xl:px-14"
           >
             <div>
-              <p class="text-sm text-slate-500">{{ t('app.header.greeting') }}</p>
-              <h1 class="text-2xl font-semibold text-primary-700">{{ student.fullName }}</h1>
+              <p class="text-sm text-slate-500">{{ layoutConfig.greeting }}</p>
+              <h1 class="text-2xl font-semibold text-primary-700">{{ profile.fullName }}</h1>
               <p class="text-xs text-slate-400 mt-1">
-                {{ t('app.header.lastUpdated') }}: {{ lastUpdated }}
+                {{ layoutConfig.lastUpdatedLabel }}: {{ lastUpdated }}
               </p>
             </div>
             <div class="flex items-center gap-4 flex-wrap">
               <RouterLink
-                :to="{ name: 'finance.coins' }"
+                v-if="layoutConfig.showCoins"
+                :to="{ name: 'student.finance.coins' }"
                 class="flex items-center gap-2 rounded-2xl bg-primary-50 px-4 py-2 transition hover:bg-primary-100 focus:outline-none focus:ring-2 focus:ring-primary-200"
               >
                 <span class="text-primary-500 text-xl">🪙</span>
                 <div>
                   <p class="text-xs text-slate-500 uppercase tracking-wide">{{ t('app.header.coinsLabel') }}</p>
                   <p class="font-semibold text-primary-700">
-                    {{ t('app.header.coinsValue', { value: student.coins }) }}
+                    {{ t('app.header.coinsValue', { value: profile.coins }) }}
                   </p>
                 </div>
               </RouterLink>
               <RouterLink
-                :to="{ name: 'finance.transactions' }"
+                v-if="layoutConfig.showBalance"
+                :to="{ name: 'student.finance.transactions' }"
                 class="flex items-center gap-2 rounded-2xl bg-secondary/10 px-4 py-2 transition hover:bg-secondary/20 focus:outline-none focus:ring-2 focus:ring-secondary/30"
               >
                 <span class="text-secondary text-xl">💳</span>
@@ -96,10 +98,10 @@
                 <span aria-hidden="true">↗</span>
               </button>
               <div class="flex items-center gap-2">
-                <img :src="student.avatar" :alt="student.fullName" class="w-12 h-12 rounded-2xl object-cover" />
+                <img :src="profile.avatar" :alt="profile.fullName" class="w-12 h-12 rounded-2xl object-cover" />
                 <div class="text-sm">
-                  <p class="font-semibold">{{ student.fullName }}</p>
-                  <p class="text-xs text-slate-500">{{ student.cohort }}</p>
+                  <p class="font-semibold">{{ profile.fullName }}</p>
+                  <p class="text-xs text-slate-500">{{ profileSubtitle }}</p>
                 </div>
               </div>
             </div>
@@ -139,7 +141,14 @@ const { registeredCount } = storeToRefs(olympiadStore);
 
 const activeRouteName = computed(() => {
   const name = route.name || '';
-  if (name.startsWith('profile.')) return 'profile.overview';
+  if (name.startsWith('student.profile.')) return 'student.profile.overview';
+  if (name.startsWith('student.courses.')) return 'student.courses';
+  if (name.startsWith('student.olympiads.')) {
+    return name.includes('.my') ? 'student.olympiads.my' : 'student.olympiads';
+  }
+  if (name.startsWith('student.finance.')) {
+    return name.endsWith('.coins') ? 'student.finance.coins' : 'student.finance.transactions';
+  }
   return name;
 });
 
@@ -155,45 +164,114 @@ const olympiadsCount = computed(() => {
 
 const myOlympiadsCount = computed(() => registeredCount.value || 0);
 
-const navItems = computed(() => [
-  { label: t('app.navigation.dashboard'), to: { name: 'dashboard' }, match: 'dashboard', icon: '📊' },
+const layoutKey = computed(() => route.meta?.layout ?? 'student');
+
+const studentNavItems = computed(() => [
+  { label: t('app.navigation.dashboard'), to: { name: 'student.dashboard' }, match: 'student.dashboard', icon: '📊' },
   {
     label: t('app.navigation.courses'),
-    to: { name: 'courses' },
-    match: 'courses',
+    to: { name: 'student.courses' },
+    match: 'student.courses',
     icon: '📚',
     count: coursesCount.value
   },
   {
     label: t('app.navigation.olympiads'),
-    to: { name: 'olympiads' },
-    match: 'olympiads',
+    to: { name: 'student.olympiads' },
+    match: 'student.olympiads',
     icon: '🏆',
     count: olympiadsCount.value
   },
   {
     label: t('app.navigation.myOlympiads'),
-    to: { name: 'olympiads.my' },
-    match: 'olympiads.my',
+    to: { name: 'student.olympiads.my' },
+    match: 'student.olympiads.my',
     icon: '🎯',
     count: myOlympiadsCount.value
   },
-  { label: t('app.navigation.profile'), to: { name: 'profile.overview' }, match: 'profile.overview', icon: '👤' }
+  {
+    label: t('app.navigation.profile'),
+    to: { name: 'student.profile.overview' },
+    match: 'student.profile.overview',
+    icon: '👤'
+  }
 ]);
 
-const student = computed(() => ({
+const layoutConfig = computed(() => {
+  if (layoutKey.value === 'teacher') {
+    return {
+      navItems: [
+        {
+          label: t('teacher.navigation.dashboard'),
+          to: { name: 'teacher.dashboard' },
+          match: 'teacher.dashboard',
+          icon: '📘'
+        }
+      ],
+      showCoins: false,
+      showBalance: false,
+      infoTitle: t('teacher.brand.infoTitle'),
+      infoDescription: t('teacher.brand.infoDescription'),
+      menuLabel: t('app.navigation.menuLabel'),
+      greeting: t('teacher.header.greeting'),
+      lastUpdatedLabel: t('teacher.header.lastUpdated'),
+      avatarSeed: 'Teacher',
+      subtitle: user.value?.department ?? t('teacher.header.subtitle')
+    };
+  }
+
+  if (layoutKey.value === 'control') {
+    return {
+      navItems: [
+        {
+          label: t('control.navigation.dashboard'),
+          to: { name: 'control.dashboard' },
+          match: 'control.dashboard',
+          icon: '🛡️'
+        }
+      ],
+      showCoins: false,
+      showBalance: false,
+      infoTitle: t('control.brand.infoTitle'),
+      infoDescription: t('control.brand.infoDescription'),
+      menuLabel: t('app.navigation.menuLabel'),
+      greeting: t('control.header.greeting'),
+      lastUpdatedLabel: t('control.header.lastUpdated'),
+      avatarSeed: 'Admin',
+      subtitle: t('control.header.subtitle')
+    };
+  }
+
+  return {
+    navItems: studentNavItems.value,
+    showCoins: true,
+    showBalance: true,
+    infoTitle: t('app.brand.infoTitle'),
+    infoDescription: t('app.brand.infoDescription'),
+    menuLabel: t('app.navigation.menuLabel'),
+    greeting: t('app.header.greeting'),
+    lastUpdatedLabel: t('app.header.lastUpdated'),
+    avatarSeed: 'Student',
+    subtitle: user.value?.cohort ?? t('app.header.cohortFallback')
+  };
+});
+
+const navItems = computed(() => layoutConfig.value.navItems);
+
+const profile = computed(() => ({
   fullName: user.value?.fullName ?? t('app.header.guestName'),
   coins: user.value?.coins ?? 0,
-  cohort: user.value?.cohort ?? t('app.header.cohortFallback'),
   balance: user.value?.balance ?? 0,
   avatar:
     user.value?.avatar ??
-    'https://api.dicebear.com/7.x/initials/svg?seed=Student&backgroundColor=b3ebe2'
+    `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(layoutConfig.value.avatarSeed)}&backgroundColor=b3ebe2`
 }));
+
+const profileSubtitle = computed(() => layoutConfig.value.subtitle);
 
 const formattedBalance = computed(() =>
   t('app.header.balanceValue', {
-    value: new Intl.NumberFormat(locale.value === 'ru' ? 'ru-RU' : 'uz-UZ').format(student.value.balance)
+    value: new Intl.NumberFormat(locale.value === 'ru' ? 'ru-RU' : 'uz-UZ').format(profile.value.balance)
   })
 );
 

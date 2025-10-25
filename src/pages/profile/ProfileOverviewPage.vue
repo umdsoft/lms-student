@@ -18,7 +18,7 @@
                 <ProgressBadge :label="t('profile.overview.cohortLabel', { cohort: student.cohort })" tone="success" />
               </div>
               <RouterLink
-                :to="{ name: 'profile.settings' }"
+                :to="{ name: 'student.profile.settings' }"
                 class="inline-flex items-center gap-2 text-primary-600 text-sm font-semibold hover:underline"
               >
                 {{ t('profile.overview.editAction') }}

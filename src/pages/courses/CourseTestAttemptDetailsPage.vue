@@ -4,7 +4,7 @@
       <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div class="space-y-1">
           <RouterLink
-            :to="{ name: 'courses.test-solve', params: { id: courseId, testId } }"
+            :to="{ name: 'student.courses.test-solve', params: { id: courseId, testId } }"
             class="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/20"
           >
             <span aria-hidden="true">←</span>
@@ -40,7 +40,7 @@
     <div v-if="!attempt" class="rounded-[32px] border border-dashed border-primary-200 bg-white/70 p-10 text-center shadow-sm">
       <p class="text-sm text-primary-700">{{ t('courseDetails.testSolve.attemptDetails.notFound') }}</p>
       <RouterLink
-        :to="{ name: 'courses.test-solve', params: { id: courseId, testId } }"
+        :to="{ name: 'student.courses.test-solve', params: { id: courseId, testId } }"
         class="mt-4 inline-flex items-center gap-2 rounded-full bg-primary-600 px-6 py-3 text-sm font-semibold text-white shadow hover:bg-primary-700"
       >
         {{ t('courseDetails.testSolve.attemptDetails.backToTest') }}
@@ -272,7 +272,7 @@ function loadAttempt() {
   const storedAttempt = getAttempt(testId.value, attemptId.value);
   attempt.value = storedAttempt ?? null;
   if (!attempt.value) {
-    router.replace({ name: 'courses.test-solve', params: { id: courseId.value, testId: testId.value } });
+    router.replace({ name: 'student.courses.test-solve', params: { id: courseId.value, testId: testId.value } });
   }
 }
 

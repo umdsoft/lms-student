@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { useAuth } from '@/composables/useAuth';
+import { getDefaultRedirectPath, isSafeRedirectPath, resolveDefaultRoute } from '@/utils/navigation';
 
 const routes = [
   {
@@ -10,145 +11,171 @@ const routes = [
   },
   {
     path: '/',
-    name: 'dashboard',
+    redirect: '/student'
+  },
+  {
+    path: '/student',
+    name: 'student.dashboard',
     component: () => import('@/pages/core/DashboardPage.vue'),
     meta: {
       requiresAuth: true,
       roles: ['student'],
       title: 'Kundalikim',
-      layout: 'app'
+      layout: 'student'
     }
   },
   {
-    path: '/courses',
-    name: 'courses',
+    path: '/student/courses',
+    name: 'student.courses',
     component: () => import('@/pages/courses/CoursesPage.vue'),
     meta: {
       requiresAuth: true,
       roles: ['student'],
       title: 'Kurslarim',
-      layout: 'app'
+      layout: 'student'
     }
   },
   {
-    path: '/courses/:id',
-    name: 'courses.details',
+    path: '/student/courses/:id',
+    name: 'student.courses.details',
     component: () => import('@/pages/courses/CourseDetailsPage.vue'),
     meta: {
       requiresAuth: true,
       roles: ['student'],
       title: 'Kurs tafsilotlari',
-      layout: 'app'
+      layout: 'student'
     }
   },
   {
-    path: '/courses/:id/tests/:testId',
-    name: 'courses.test-solve',
+    path: '/student/courses/:id/tests/:testId',
+    name: 'student.courses.test-solve',
     component: () => import('@/pages/courses/CourseTestSolvePage.vue'),
     meta: {
       requiresAuth: true,
       roles: ['student'],
       title: 'Test yechish',
-      layout: 'app'
+      layout: 'student'
     }
   },
   {
-    path: '/courses/:id/tests/:testId/attempts/:attemptId',
-    name: 'courses.test-attempt-details',
+    path: '/student/courses/:id/tests/:testId/attempts/:attemptId',
+    name: 'student.courses.test-attempt-details',
     component: () => import('@/pages/courses/CourseTestAttemptDetailsPage.vue'),
     meta: {
       requiresAuth: true,
       roles: ['student'],
       title: 'Test natijasi',
-      layout: 'app'
+      layout: 'student'
     }
   },
   {
-    path: '/olympiads',
-    name: 'olympiads',
+    path: '/student/olympiads',
+    name: 'student.olympiads',
     component: () => import('@/pages/olympiads/OlympiadsPage.vue'),
     meta: {
       requiresAuth: true,
       roles: ['student'],
       title: 'Olimpiadalar',
-      layout: 'app'
+      layout: 'student'
     }
   },
   {
-    path: '/olympiads/my',
-    name: 'olympiads.my',
+    path: '/student/olympiads/my',
+    name: 'student.olympiads.my',
     component: () => import('@/pages/olympiads/MyOlympiadsPage.vue'),
     meta: {
       requiresAuth: true,
       roles: ['student'],
       title: 'Mening olimpiadalarim',
-      layout: 'app'
+      layout: 'student'
     }
   },
   {
-    path: '/olympiads/:id',
-    name: 'olympiads.details',
+    path: '/student/olympiads/:id',
+    name: 'student.olympiads.details',
     component: () => import('@/pages/olympiads/OlympiadDetailsPage.vue'),
     meta: {
       requiresAuth: true,
       roles: ['student'],
       title: 'Olimpiada tafsilotlari',
-      layout: 'app'
+      layout: 'student'
     }
   },
   {
-    path: '/olympiads/:id/tests/:testId',
-    name: 'olympiads.mini-test',
+    path: '/student/olympiads/:id/tests/:testId',
+    name: 'student.olympiads.mini-test',
     component: () => import('@/pages/olympiads/MiniTestSolvePage.vue'),
     meta: {
       requiresAuth: true,
       roles: ['student'],
       title: 'Demo test',
-      layout: 'app'
+      layout: 'student'
     }
   },
   {
-    path: '/finance/transactions',
-    name: 'finance.transactions',
+    path: '/student/finance/transactions',
+    name: 'student.finance.transactions',
     component: () => import('@/pages/finance/TransactionsPage.vue'),
     meta: {
       requiresAuth: true,
       roles: ['student'],
       title: 'Tranzaksiyalar',
-      layout: 'app'
+      layout: 'student'
     }
   },
   {
-    path: '/finance/coins',
-    name: 'finance.coins',
+    path: '/student/finance/coins',
+    name: 'student.finance.coins',
     component: () => import('@/pages/finance/CoinHistoryPage.vue'),
     meta: {
       requiresAuth: true,
       roles: ['student'],
       title: 'Tangalar tarixi',
-      layout: 'app'
+      layout: 'student'
     }
   },
   {
-    path: '/profile',
-    name: 'profile.overview',
+    path: '/student/profile',
+    name: 'student.profile.overview',
     component: () => import('@/pages/profile/ProfileOverviewPage.vue'),
     meta: {
       requiresAuth: true,
       roles: ['student'],
       title: 'Profil',
-      layout: 'app'
+      layout: 'student'
     }
   },
   {
-    path: '/profile/settings',
-    name: 'profile.settings',
+    path: '/student/profile/settings',
+    name: 'student.profile.settings',
     component: () => import('@/pages/profile/ProfileSettingsPage.vue'),
     meta: {
       requiresAuth: true,
       roles: ['student'],
       title: 'Profil sozlamalari',
-      layout: 'app'
+      layout: 'student'
+    }
+  },
+  {
+    path: '/teacher',
+    name: 'teacher.dashboard',
+    component: () => import('@/pages/teacher/TeacherDashboardPage.vue'),
+    meta: {
+      requiresAuth: true,
+      roles: ['teacher'],
+      title: 'O\'qituvchi paneli',
+      layout: 'teacher'
+    }
+  },
+  {
+    path: '/control',
+    name: 'control.dashboard',
+    component: () => import('@/pages/control/ControlDashboardPage.vue'),
+    meta: {
+      requiresAuth: true,
+      roles: ['admin'],
+      title: 'Boshqaruv paneli',
+      layout: 'control'
     }
   },
   {
@@ -166,34 +193,25 @@ const router = createRouter({
   routes
 });
 
-const allowedRedirects = [
-  '/',
-  '/courses',
-  '/olympiads',
-  '/olympiads/my',
-  '/finance/transactions',
-  '/finance/coins',
-  '/profile',
-  '/profile/settings'
-];
-
 router.beforeEach(async (to, from, next) => {
   const { ensureSession, isAuthenticated, user } = useAuth();
   await ensureSession();
 
+  const defaultRoute = resolveDefaultRoute(user.value?.role);
+
   if (to.meta?.publicOnly && isAuthenticated.value) {
-    return next({ name: 'dashboard' });
+    return next(defaultRoute);
   }
 
   if (to.meta?.requiresAuth && !isAuthenticated.value) {
-    const redirect = allowedRedirects.some((path) => to.fullPath === path || to.fullPath.startsWith(`${path}/`))
+    const redirect = isSafeRedirectPath(to.fullPath)
       ? to.fullPath
-      : '/';
+      : getDefaultRedirectPath(user.value?.role);
     return next({ name: 'login', query: { redirect } });
   }
 
   if (to.meta?.roles && user.value?.role && !to.meta.roles.includes(user.value.role)) {
-    return next({ name: 'dashboard' });
+    return next(defaultRoute);
   }
 
   next();

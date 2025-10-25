@@ -7,8 +7,12 @@ module.exports = {
   },
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
-    '\\.(css|scss|sass|less)$': 'identity-obj-proxy'
+    '\\.(css|scss|sass|less)$': 'identity-obj-proxy',
+    '\\.(svg|png|jpg|jpeg|gif)$': '<rootDir>/tests/__mocks__/svg.js',
+    '^@/assets/.+\\.svg$': '<rootDir>/tests/__mocks__/svg.js',
+    '^notivue$': '<rootDir>/tests/__mocks__/notivue.js'
   },
+  transformIgnorePatterns: ['/node_modules/(?!(vue-i18n)/)'],
   setupFilesAfterEnv: ['<rootDir>/tests/setupTests.js'],
   testMatch: ['<rootDir>/tests/**/*.spec.js']
 };

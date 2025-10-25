@@ -2,7 +2,7 @@
   <section class="space-y-8">
     <header class="space-y-4">
       <RouterLink
-        :to="{ name: 'olympiads.my' }"
+        :to="{ name: 'student.olympiads.my' }"
         class="inline-flex items-center gap-2 text-sm font-semibold text-primary-600 hover:text-primary-700"
       >
         <span aria-hidden="true">←</span>
@@ -21,7 +21,7 @@
     <div v-if="!hasTest" class="rounded-3xl border border-dashed border-primary-100 bg-white/70 p-10 text-center">
       <p class="text-sm text-slate-500">{{ t('olympiads.my.solvePage.unavailable') }}</p>
       <RouterLink
-        :to="{ name: 'olympiads.my' }"
+        :to="{ name: 'student.olympiads.my' }"
         class="mt-4 inline-flex items-center gap-2 rounded-2xl bg-primary-600 px-5 py-2 text-sm font-semibold text-white hover:bg-primary-700"
       >
         {{ t('olympiads.my.solvePage.back') }}

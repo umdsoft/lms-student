@@ -2,7 +2,7 @@
   <section v-if="olympiad" class="space-y-10">
     <div class="flex flex-wrap items-center justify-between gap-4">
       <RouterLink
-        :to="{ name: 'olympiads' }"
+        :to="{ name: 'student.olympiads' }"
         class="inline-flex items-center gap-2 text-sm font-semibold text-primary-600 hover:text-primary-700"
       >
         <span aria-hidden="true">←</span>
@@ -152,7 +152,7 @@
     <p class="text-lg font-semibold text-primary-800">{{ t('olympiads.details.notFoundTitle') }}</p>
     <p class="max-w-md text-sm text-slate-500">{{ t('olympiads.details.notFoundSubtitle') }}</p>
     <RouterLink
-      :to="{ name: 'olympiads' }"
+      :to="{ name: 'student.olympiads' }"
       class="inline-flex items-center gap-2 rounded-full bg-primary-600 px-6 py-3 text-sm font-semibold text-white shadow hover:bg-primary-700"
     >
       {{ t('olympiads.details.back') }}

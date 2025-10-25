@@ -17,6 +17,9 @@ import AuthLayout from '@/components/layouts/AuthLayout.vue';
 
 const layouts = {
   app: AppLayout,
+  student: AppLayout,
+  teacher: AppLayout,
+  control: AppLayout,
   auth: AuthLayout
 };
 

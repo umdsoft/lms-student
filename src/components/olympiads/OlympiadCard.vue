@@ -37,7 +37,7 @@
           {{ joinLabel }}
         </button>
         <RouterLink
-          :to="{ name: 'olympiads.details', params: { id: olympiad.id } }"
+        :to="{ name: 'student.olympiads.details', params: { id: olympiad.id } }"
           class="inline-flex items-center gap-2 rounded-2xl bg-primary-600 px-4 py-2 text-sm font-semibold text-white hover:bg-primary-700"
         >
           {{ detailsLabel }}

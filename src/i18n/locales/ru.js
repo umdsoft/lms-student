@@ -35,6 +35,182 @@ export default {
       }
     }
   },
+  teacher: {
+    header: {
+      greeting: 'Здравствуйте, наставник!',
+      lastUpdated: 'Последняя синхронизация',
+      subtitle: 'План уроков и мониторинг'
+    },
+    navigation: {
+      dashboard: 'Панель преподавателя'
+    },
+    brand: {
+      infoTitle: 'Центр наставника',
+      infoDescription: 'Управляйте занятиями, отслеживайте прогресс учеников и планируйте уроки.'
+    },
+    dashboard: {
+      title: 'Панель преподавателя',
+      subtitle: 'Актуальные занятия и активные ученики',
+      highlights: [
+        {
+          id: 'next-lesson',
+          label: 'Следующий урок',
+          value: '10:00 · Алгебра',
+          accent: 'primary',
+          description: '7 класс, аудитория 204'
+        },
+        {
+          id: 'assignments',
+          label: 'Непроверенные работы',
+          value: '12',
+          accent: 'amber',
+          description: 'Сданы сегодня'
+        },
+        {
+          id: 'attendance',
+          label: 'Посещаемость',
+          value: '96%',
+          accent: 'emerald',
+          description: 'Средний показатель недели'
+        }
+      ],
+      schedule: {
+        title: 'Расписание уроков',
+        subtitle: 'Сегодняшние занятия и подготовка',
+        rows: [
+          {
+            id: 'lesson-1',
+            time: '09:00 – 09:45',
+            subject: 'IELTS Speaking',
+            group: 'Advanced Cohort',
+            location: 'Studio A',
+            status: 'Онлайн'
+          },
+          {
+            id: 'lesson-2',
+            time: '10:15 – 11:00',
+            subject: 'Математика — Алгебра',
+            group: '7 класс',
+            location: 'Аудитория 204',
+            status: 'Офлайн'
+          },
+          {
+            id: 'lesson-3',
+            time: '12:30 – 13:15',
+            subject: 'STEM лаборатория',
+            group: 'Maker Club',
+            location: 'Лаборатория 3',
+            status: 'Гибрид'
+          }
+        ]
+      },
+      actions: {
+        title: 'Быстрые действия',
+        items: [
+          {
+            id: 'plan',
+            title: 'Открыть план урока',
+            description: 'Проверьте темы и интерактивные задания на сегодня.'
+          },
+          {
+            id: 'grade',
+            title: 'Обновить журнал оценок',
+            description: 'Внесите результаты последних работ.'
+          },
+          {
+            id: 'mentor',
+            title: 'Назначить менторскую сессию',
+            description: 'Запланируйте 1:1 встречу для активных учеников.'
+          }
+        ]
+      }
+    }
+  },
+  control: {
+    header: {
+      greeting: 'Здравствуйте, админ!',
+      lastUpdated: 'Время обновления',
+      subtitle: 'Статистика системы'
+    },
+    navigation: {
+      dashboard: 'Контрольная панель'
+    },
+    brand: {
+      infoTitle: 'Аналитика системы',
+      infoDescription: 'Контролируйте пользователей, контент и процессы в едином окне.'
+    },
+    dashboard: {
+      title: 'Контрольная панель',
+      subtitle: 'Ключевые показатели платформы',
+      metrics: [
+        {
+          id: 'students',
+          label: 'Активные ученики',
+          value: '1 240',
+          change: '+12 за неделю',
+          tone: 'success'
+        },
+        {
+          id: 'teachers',
+          label: 'Наставники',
+          value: '48',
+          change: '+3 новых',
+          tone: 'primary'
+        },
+        {
+          id: 'courses',
+          label: 'Активные курсы',
+          value: '32',
+          change: '1 новый модуль',
+          tone: 'info'
+        }
+      ],
+      updates: {
+        title: 'Последние обновления',
+        items: [
+          {
+            id: 'update-1',
+            title: 'Новый курс утверждён',
+            timestamp: 'Сегодня · 09:20',
+            description: 'Курс подготовки к SAT готов к запуску.'
+          },
+          {
+            id: 'update-2',
+            title: 'Обновлена система наставничества',
+            timestamp: 'Вчера · 18:40',
+            description: 'Оптимизирован алгоритм оценивания и уведомления.'
+          }
+        ]
+      },
+      audit: {
+        title: 'Журнал аудита',
+        subtitle: 'Последние события системы',
+        rows: [
+          {
+            id: 'audit-1',
+            actor: 'Оператор 3',
+            action: 'Изменил роль пользователя',
+            time: '08:45',
+            status: 'Успешно'
+          },
+          {
+            id: 'audit-2',
+            actor: 'Админ',
+            action: 'Добавлен новый преподаватель',
+            time: '08:10',
+            status: 'Успешно'
+          },
+          {
+            id: 'audit-3',
+            actor: 'Мониторинг',
+            action: 'Проверка платёжной системы',
+            time: '07:55',
+            status: 'В процессе'
+          }
+        ]
+      }
+    }
+  },
   finance: {
     transactions: {
       title: 'Финансовые операции',

@@ -2,7 +2,7 @@
   <section class="space-y-8">
     <header class="space-y-4">
       <RouterLink
-        :to="{ name: 'courses.details', params: { id: courseId } }"
+        :to="{ name: 'student.courses.details', params: { id: courseId } }"
         class="inline-flex items-center gap-2 text-sm font-semibold text-primary-600 hover:text-primary-700"
       >
         <span aria-hidden="true">←</span>
@@ -65,7 +65,7 @@
       <h2 class="text-lg font-semibold text-primary-800">{{ t('courseDetails.testSolve.notFoundTitle') }}</h2>
       <p class="max-w-md text-sm text-slate-500">{{ t('courseDetails.testSolve.notFoundDescription') }}</p>
       <RouterLink
-        :to="{ name: 'courses.details', params: { id: courseId } }"
+        :to="{ name: 'student.courses.details', params: { id: courseId } }"
         class="inline-flex items-center gap-2 rounded-full bg-primary-600 px-6 py-3 text-sm font-semibold text-white shadow hover:bg-primary-700"
       >
         {{ t('courseDetails.testSolve.backToCourse') }}
@@ -868,7 +868,7 @@ function closeHistoryModal() {
 function goToAttemptDetails(attemptId) {
   if (!attemptId) return;
   router.push({
-    name: 'courses.test-attempt-details',
+    name: 'student.courses.test-attempt-details',
     params: { id: courseId.value, testId: testId.value, attemptId }
   });
   showHistoryModal.value = false;

@@ -6,7 +6,7 @@
       {{ t('notFound.description') }}
     </p>
     <RouterLink
-      :to="{ name: 'dashboard' }"
+      :to="defaultRoute"
       class="inline-flex items-center gap-2 bg-primary-600 text-white px-4 py-2 rounded-2xl text-sm font-semibold hover:bg-primary-700"
     >
       {{ t('notFound.action') }}
@@ -16,8 +16,14 @@
 </template>
 
 <script setup>
+import { computed } from 'vue';
 import { RouterLink } from 'vue-router';
 import { useI18n } from 'vue-i18n';
+import { useAuth } from '@/composables/useAuth';
+import { resolveDefaultRoute } from '@/utils/navigation';
 
 const { t } = useI18n({ useScope: 'global' });
+const { user } = useAuth();
+
+const defaultRoute = computed(() => resolveDefaultRoute(user.value?.role));
 </script>
