@@ -1,7 +1,7 @@
 <template>
   <form class="space-y-6" @submit.prevent="handleSubmit">
     <div class="space-y-2 text-center">
-      <h2 class="text-2xl font-semibold text-primary-700">{{ t('login.title') }}</h2>
+      <h2 class="text-2xl font-semibold text-ink">{{ t('login.title') }}</h2>
       <p class="text-sm text-slate-500">{{ t('login.subtitle') }}</p>
     </div>
 
@@ -13,7 +13,7 @@
           type="text"
           required
           autocomplete="username"
-          class="mt-1 w-full rounded-2xl border border-primary-100 px-4 py-3 focus:border-primary-400 focus:outline-none"
+          class="mt-2 w-full rounded-lg border border-slate-300 px-4 py-3 text-sm text-ink focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
           :placeholder="t('login.loginPlaceholder')"
         />
       </label>
@@ -25,7 +25,7 @@
           type="password"
           required
           autocomplete="current-password"
-          class="mt-1 w-full rounded-2xl border border-primary-100 px-4 py-3 focus:border-primary-400 focus:outline-none"
+          class="mt-2 w-full rounded-lg border border-slate-300 px-4 py-3 text-sm text-ink focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
           :placeholder="t('login.passwordPlaceholder')"
         />
       </label>
@@ -41,7 +41,7 @@
 
     <button
       type="submit"
-      class="w-full bg-primary-600 text-white rounded-2xl py-3 font-semibold hover:bg-primary-700 transition"
+      class="w-full rounded-lg bg-primary-600 py-3 text-sm font-semibold text-white transition hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-300"
     >
       {{ t('login.submit') }}
     </button>

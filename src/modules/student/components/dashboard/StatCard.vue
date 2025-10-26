@@ -1,14 +1,14 @@
 <template>
-  <div class="bg-white rounded-3xl p-6 shadow-sm flex flex-col gap-4">
-    <div class="flex items-center justify-between">
+  <div class="flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-5">
+    <div class="flex items-start justify-between gap-3">
       <div>
-        <p class="text-sm text-slate-500 uppercase tracking-wide">{{ label }}</p>
-        <p class="text-2xl font-semibold text-primary-800">{{ value }}</p>
+        <p class="text-xs font-medium uppercase tracking-wide text-slate-400">{{ label }}</p>
+        <p class="mt-1 text-3xl font-semibold text-ink">{{ value }}</p>
       </div>
-      <span class="text-3xl">{{ icon }}</span>
+      <span class="text-2xl">{{ icon }}</span>
     </div>
-    <p class="text-sm text-slate-500">{{ description }}</p>
-    <div class="flex items-center gap-2 text-sm" :class="trendClass">
+    <p class="text-sm leading-relaxed text-slate-500">{{ description }}</p>
+    <div class="flex items-center gap-2 text-sm font-medium" :class="trendClass">
       <span>{{ trendPrefix }}{{ trendValue }}%</span>
       <span class="text-slate-400">{{ trendSuffix }}</span>
     </div>

@@ -23,8 +23,17 @@ export default {
       menuLabel: 'Меню',
       dashboard: 'Панель',
       courses: 'Курсы',
+      coursesOverview: 'Обзор курсов',
       olympiads: 'Олимпиады',
+      olympiadsAll: 'Все олимпиады',
+      myOlympiads: 'Мои олимпиады',
+      olympiadsMy: 'Мои олимпиады',
+      finance: 'Финансовый раздел',
+      financeTransactions: 'Транзакции',
+      financeCoins: 'История монет',
       profile: 'Профиль',
+      profileOverview: 'Обзор профиля',
+      profileSettings: 'Настройки',
       ariaLabel: 'Основная навигация'
     },
     language: {
@@ -1610,6 +1619,10 @@ export default {
     action: 'На главную'
   },
   components: {
+    appShell: {
+      openMenu: 'Открыть меню',
+      closeMenu: 'Закрыть меню'
+    },
     dataTable: {
       defaultTitle: 'Таблица'
     },

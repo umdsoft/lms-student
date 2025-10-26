@@ -6,7 +6,7 @@ import('@testing-library/jest-dom')
   })
   .catch(() => {
     console.warn('Optional dependency @testing-library/jest-dom is not available. Skipping extended matchers.');
-    const NodeCtor = typeof Node !== 'undefined' ? Node : null;
+    const NodeCtor = typeof globalThis !== 'undefined' && typeof globalThis.Node !== 'undefined' ? globalThis.Node : null;
 
     expect.extend({
       toBeInTheDocument(received) {

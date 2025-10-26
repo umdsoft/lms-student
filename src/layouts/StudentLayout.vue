@@ -1,197 +1,84 @@
 <template>
-  <div class="min-h-screen bg-primary-50 text-ink">
-    <div class="flex min-h-screen lg:h-screen lg:overflow-hidden">
-      <aside
-        class="hidden w-72 space-y-10 border-r border-white/60 bg-white/80 px-6 py-8 shadow-md backdrop-blur lg:flex lg:flex-col lg:sticky lg:top-0 lg:h-screen lg:overflow-y-auto"
-        :aria-label="t('app.navigation.ariaLabel')"
-      >
-        <div class="space-y-3">
-          <BrandLogo :show-strapline="false" />
-          <p class="text-[10px] font-semibold uppercase tracking-[0.4em] text-primary-400">
-            {{ t('app.navigation.menuLabel') }}
-          </p>
-        </div>
-        <nav class="flex-1 space-y-1">
-          <RouterLink
-            v-for="item in navItems"
-            :key="item.match"
-            :to="item.to"
-            class="flex items-center gap-3 px-4 py-3 rounded-2xl transition-colors"
-            :class="[
-              activeRouteName === item.match
-                ? 'bg-primary-50 text-primary-700 font-medium'
-                : 'text-slate-500 hover:bg-primary-50/70'
-            ]"
-          >
-            <span class="text-lg">{{ item.icon }}</span>
-            <span class="flex-1">{{ item.label }}</span>
-            <span
-              v-if="typeof item.count === 'number'"
-              class="inline-flex h-6 min-w-[1.5rem] items-center justify-center rounded-full bg-primary-100 px-2 text-xs font-semibold text-primary-600"
-            >
-              {{ item.count }}
-            </span>
-          </RouterLink>
-        </nav>
-        <div class="rounded-3xl border border-white/60 bg-white/70 p-5 text-sm text-primary-700 shadow-sm">
-          <h3 class="font-semibold text-primary-800">{{ t('app.brand.infoTitle') }}</h3>
-          <p class="mt-2 leading-relaxed text-slate-600">{{ t('app.brand.infoDescription') }}</p>
-        </div>
-      </aside>
+  <AppShell
+    :nav-items="navItems"
+    :profile="shellProfile"
+    :locale-options="localeOptions"
+    :current-locale="currentLocale"
+    @change-locale="onLocaleChange"
+    @logout="onLogout"
+  >
+    <template #logo>
+      <BrandLogo :show-strapline="false" />
+    </template>
 
-      <div class="flex flex-1 min-h-0 flex-col lg:overflow-hidden">
-        <header class="sticky top-0 z-40 border-b border-white/60 bg-white/80 backdrop-blur">
-          <div
-            class="mx-auto flex w-full flex-col gap-4 px-4 py-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-10 xl:px-14"
-          >
-            <div>
-              <p class="text-sm text-slate-500">{{ t('app.header.greeting') }}</p>
-              <h1 class="text-2xl font-semibold text-primary-700">{{ profile.fullName }}</h1>
-              <p class="text-xs text-slate-400 mt-1">
-                {{ t('app.header.lastUpdated') }}: {{ lastUpdated }}
-              </p>
-            </div>
-            <div class="flex items-center gap-4 flex-wrap">
-              <RouterLink
-                :to="{ name: 'student.finance.coins' }"
-                class="flex items-center gap-2 rounded-2xl bg-primary-50 px-4 py-2 transition hover:bg-primary-100 focus:outline-none focus:ring-2 focus:ring-primary-200"
-              >
-                <span class="text-primary-500 text-xl">🪙</span>
-                <div>
-                  <p class="text-xs text-slate-500 uppercase tracking-wide">{{ t('app.header.coinsLabel') }}</p>
-                  <p class="font-semibold text-primary-700">
-                    {{ t('app.header.coinsValue', { value: profile.coins }) }}
-                  </p>
-                </div>
-              </RouterLink>
-              <RouterLink
-                :to="{ name: 'student.finance.transactions' }"
-                class="flex items-center gap-2 rounded-2xl bg-secondary/10 px-4 py-2 transition hover:bg-secondary/20 focus:outline-none focus:ring-2 focus:ring-secondary/30"
-              >
-                <span class="text-secondary text-xl">💳</span>
-                <div>
-                  <p class="text-xs text-slate-500 uppercase tracking-wide">{{ t('app.header.balanceLabel') }}</p>
-                  <p data-testid="balance-value" class="font-semibold text-secondary">{{ formattedBalance }}</p>
-                </div>
-              </RouterLink>
-              <label class="flex items-center gap-2 rounded-2xl border border-primary-100 px-3 py-2 text-sm text-primary-700">
-                <span class="hidden sm:inline">{{ t('app.language.label') }}</span>
-                <select
-                  :value="currentLocale"
-                  @change="onLocaleChange"
-                  class="bg-transparent focus:outline-none text-primary-700"
-                  :aria-label="t('app.language.label')"
-                >
-                  <option v-for="option in localeOptions" :key="option.code" :value="option.code">
-                    {{ option.label }}
-                  </option>
-                </select>
-              </label>
-              <button
-                type="button"
-                @click="onLogout"
-                class="inline-flex items-center gap-2 rounded-2xl border border-primary-100 px-3 py-2 text-sm font-medium text-primary-700 hover:bg-primary-50"
-              >
-                <span class="hidden sm:inline">{{ t('app.header.logout') }}</span>
-                <span aria-hidden="true">↗</span>
-              </button>
-              <div class="flex items-center gap-2">
-                <img :src="profile.avatar" :alt="profile.fullName" class="w-12 h-12 rounded-2xl object-cover" />
-                <div class="text-sm">
-                  <p class="font-semibold">{{ profile.fullName }}</p>
-                  <p class="text-xs text-slate-500">{{ profileSubtitle }}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </header>
+    <template #sidebar-footer>
+      <h3 class="font-semibold text-ink">{{ t('app.brand.infoTitle') }}</h3>
+      <p class="mt-2 text-sm leading-relaxed text-slate-600">
+        {{ t('app.brand.infoDescription') }}
+      </p>
+    </template>
 
-        <main class="flex-1 overflow-y-auto px-4 py-6 sm:px-6 lg:px-10 xl:px-14">
-          <div class="mx-auto w-full rounded-[32px] p-6 sm:p-8">
-            <slot />
-          </div>
-        </main>
+    <template #header>
+      <p class="text-xs font-medium uppercase tracking-wide text-slate-400">{{ t('app.header.greeting') }}</p>
+      <div class="mt-2 flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h1 class="text-2xl font-semibold text-ink">{{ profile.fullName }}</h1>
+          <p class="text-xs text-slate-500">{{ profileSubtitle }}</p>
+        </div>
+        <p class="text-xs text-slate-400 sm:text-right">
+          {{ t('app.header.lastUpdated') }}: {{ lastUpdated }}
+        </p>
       </div>
-    </div>
-  </div>
+    </template>
+
+    <template #header-actions>
+      <RouterLink
+        :to="{ name: 'student.finance.coins' }"
+        class="inline-flex items-center gap-2 rounded-lg border border-primary-100 bg-primary-50 px-3 py-2 text-sm text-primary-700 hover:bg-primary-100"
+      >
+        <span class="text-base">🪙</span>
+        <div class="text-left">
+          <p class="text-[10px] uppercase tracking-wide text-primary-500">{{ t('app.header.coinsLabel') }}</p>
+          <p class="font-semibold">{{ t('app.header.coinsValue', { value: profile.coins }) }}</p>
+        </div>
+      </RouterLink>
+      <RouterLink
+        :to="{ name: 'student.finance.transactions' }"
+        class="inline-flex items-center gap-2 rounded-lg border border-secondary/20 bg-secondary/10 px-3 py-2 text-sm text-secondary hover:bg-secondary/15"
+      >
+        <span class="text-base">💳</span>
+        <div class="text-left">
+          <p class="text-[10px] uppercase tracking-wide text-secondary/80">{{ t('app.header.balanceLabel') }}</p>
+          <p data-testid="balance-value" class="font-semibold">{{ formattedBalance }}</p>
+        </div>
+      </RouterLink>
+    </template>
+
+    <slot />
+  </AppShell>
 </template>
 
 <script setup>
 import { computed } from 'vue';
 import { storeToRefs } from 'pinia';
-import { useRoute, RouterLink, useRouter } from 'vue-router';
-import { useAuth } from '@/shared/composables/useAuth';
+import { RouterLink, useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
-import { useI18nStore } from '@/shared/stores/i18n';
+import { useAuth } from '@/shared/composables/useAuth';
 import { useNotifications } from '@/shared/composables/useNotifications';
+import { useI18nStore } from '@/shared/stores/i18n';
 import BrandLogo from '@/shared/components/common/BrandLogo.vue';
+import AppShell from '@/shared/components/layout/AppShell.vue';
 import { useOlympiadStore } from '@/modules/student/stores/olympiads';
 
 const { user, lastFetchedAt, logout } = useAuth();
 const route = useRoute();
 const router = useRouter();
 const { t, tm, locale } = useI18n({ useScope: 'global' });
+const { notifySuccess, notifyError } = useNotifications();
 const i18nStore = useI18nStore();
 const { locales: availableLocalesRef, locale: activeLocale } = storeToRefs(i18nStore);
-const { notifySuccess, notifyError } = useNotifications();
 const olympiadStore = useOlympiadStore();
 const { registeredCount } = storeToRefs(olympiadStore);
-
-const activeRouteName = computed(() => {
-  const name = route.name || '';
-  if (name.startsWith('student.profile.')) return 'student.profile.overview';
-  if (name.startsWith('student.courses.')) return 'student.courses';
-  if (name.startsWith('student.olympiads.')) {
-    return name.includes('.my') ? 'student.olympiads.my' : 'student.olympiads';
-  }
-  if (name.startsWith('student.finance.')) {
-    return name.endsWith('.coins') ? 'student.finance.coins' : 'student.finance.transactions';
-  }
-  return name;
-});
-
-const coursesCount = computed(() => {
-  const items = tm('courses.items');
-  return Array.isArray(items) ? items.length : 0;
-});
-
-const olympiadsCount = computed(() => {
-  const items = tm('olympiads.items');
-  return Array.isArray(items) ? items.length : 0;
-});
-
-const myOlympiadsCount = computed(() => registeredCount.value || 0);
-
-const navItems = computed(() => [
-  { label: t('app.navigation.dashboard'), to: { name: 'student.dashboard' }, match: 'student.dashboard', icon: '📊' },
-  {
-    label: t('app.navigation.courses'),
-    to: { name: 'student.courses' },
-    match: 'student.courses',
-    icon: '📚',
-    count: coursesCount.value
-  },
-  {
-    label: t('app.navigation.olympiads'),
-    to: { name: 'student.olympiads' },
-    match: 'student.olympiads',
-    icon: '🏆',
-    count: olympiadsCount.value
-  },
-  {
-    label: t('app.navigation.myOlympiads'),
-    to: { name: 'student.olympiads.my' },
-    match: 'student.olympiads.my',
-    icon: '🎯',
-    count: myOlympiadsCount.value
-  },
-  {
-    label: t('app.navigation.profile'),
-    to: { name: 'student.profile.overview' },
-    match: 'student.profile.overview',
-    icon: '👤'
-  }
-]);
 
 const profile = computed(() => ({
   fullName: user.value?.fullName ?? t('app.header.guestName'),
@@ -203,6 +90,12 @@ const profile = computed(() => ({
 }));
 
 const profileSubtitle = computed(() => user.value?.cohort ?? t('app.header.cohortFallback'));
+
+const shellProfile = computed(() => ({
+  fullName: profile.value.fullName,
+  subtitle: profileSubtitle.value,
+  avatar: profile.value.avatar
+}));
 
 const formattedBalance = computed(() =>
   t('app.header.balanceValue', {
@@ -218,17 +111,122 @@ const lastUpdated = computed(() => {
   }).format(new Date(lastFetchedAt.value));
 });
 
+const coursesCount = computed(() => {
+  const items = tm('courses.items');
+  return Array.isArray(items) ? items.length : 0;
+});
+
+const olympiadsCount = computed(() => {
+  const items = tm('olympiads.items');
+  return Array.isArray(items) ? items.length : 0;
+});
+
+const myOlympiadsCount = computed(() => registeredCount.value || 0);
+
+const navItems = computed(() => {
+  const name = route.name || '';
+  return [
+    {
+      id: 'student-dashboard',
+      label: t('app.navigation.dashboard'),
+      to: { name: 'student.dashboard' },
+      icon: '📊',
+      active: name === 'student.dashboard'
+    },
+    {
+      id: 'student-courses',
+      label: t('app.navigation.courses'),
+      to: { name: 'student.courses' },
+      icon: '📘',
+      badge: coursesCount.value,
+      active: name.startsWith('student.courses'),
+      children: [
+        {
+          id: 'student-courses-overview',
+          label: t('app.navigation.coursesOverview'),
+          to: { name: 'student.courses' },
+          active: name === 'student.courses'
+        }
+      ]
+    },
+    {
+      id: 'student-olympiads',
+      label: t('app.navigation.olympiads'),
+      to: { name: 'student.olympiads' },
+      icon: '🏆',
+      badge: olympiadsCount.value,
+      active: name.startsWith('student.olympiads'),
+      children: [
+        {
+          id: 'student-olympiads-all',
+          label: t('app.navigation.olympiadsAll'),
+          to: { name: 'student.olympiads' },
+          active: name === 'student.olympiads'
+        },
+        {
+          id: 'student-olympiads-my',
+          label: t('app.navigation.olympiadsMy'),
+          to: { name: 'student.olympiads.my' },
+          badge: myOlympiadsCount.value,
+          active: name === 'student.olympiads.my'
+        }
+      ]
+    },
+    {
+      id: 'student-finance',
+      label: t('app.navigation.finance'),
+      to: { name: 'student.finance.transactions' },
+      icon: '💰',
+      active: name.startsWith('student.finance'),
+      children: [
+        {
+          id: 'student-finance-transactions',
+          label: t('app.navigation.financeTransactions'),
+          to: { name: 'student.finance.transactions' },
+          active: name === 'student.finance.transactions'
+        },
+        {
+          id: 'student-finance-coins',
+          label: t('app.navigation.financeCoins'),
+          to: { name: 'student.finance.coins' },
+          active: name === 'student.finance.coins'
+        }
+      ]
+    },
+    {
+      id: 'student-profile',
+      label: t('app.navigation.profile'),
+      to: { name: 'student.profile.overview' },
+      icon: '👤',
+      active: name.startsWith('student.profile'),
+      children: [
+        {
+          id: 'student-profile-overview',
+          label: t('app.navigation.profileOverview'),
+          to: { name: 'student.profile.overview' },
+          active: name === 'student.profile.overview'
+        },
+        {
+          id: 'student-profile-settings',
+          label: t('app.navigation.profileSettings'),
+          to: { name: 'student.profile.settings' },
+          active: name === 'student.profile.settings'
+        }
+      ]
+    }
+  ];
+});
+
+const localeOptions = computed(() => availableLocalesRef.value);
+const currentLocale = computed(() => activeLocale.value);
+
 async function onLogout() {
   await logout();
   notifySuccess('logout');
   router.push({ name: 'login' });
 }
 
-const localeOptions = computed(() => availableLocalesRef.value);
-const currentLocale = computed(() => activeLocale.value);
-
-function onLocaleChange(event) {
-  const value = event.target.value;
+function onLocaleChange(value) {
   if (value === currentLocale.value) {
     return;
   }
