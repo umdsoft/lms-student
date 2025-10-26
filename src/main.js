@@ -1,7 +1,7 @@
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import App from './App.vue';
-import router from './router';
+import router from './router/index';
 import './main.css';
 import i18n from './i18n';
 import { createNotivue } from 'notivue';
