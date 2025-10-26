@@ -11,6 +11,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@heroicons/vue": "^2.2.0",
     "axios": "^1.6.8",
     "chart.js": "^4.4.3",
     "dompurify": "^3.0.8",
