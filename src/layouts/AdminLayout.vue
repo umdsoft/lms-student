@@ -82,11 +82,53 @@ const navItems = computed(() => {
   const name = route.name || '';
   return [
     {
-      id: 'control-dashboard',
-      label: t('control.navigation.dashboard'),
-      to: { name: 'control.dashboard' },
+      id: 'admin-dashboard',
+      label: 'Dashboard',
+      to: { name: 'admin.dashboard' },
       iconComponent: Shield,
-      active: name === 'control.dashboard'
+      active: name === 'admin.dashboard'
+    },
+    {
+      id: 'admin-users',
+      label: 'Foydalanuvchilar',
+      to: { name: 'admin.users' },
+      iconComponent: Shield,
+      active: name === 'admin.users'
+    },
+    {
+      id: 'admin-directions',
+      label: 'Yo\'nalishlar',
+      to: { name: 'admin.directions' },
+      iconComponent: Shield,
+      active: name === 'admin.directions'
+    },
+    {
+      id: 'admin-olympiads',
+      label: 'Olimpiadalar',
+      to: { name: 'admin.olympiads' },
+      iconComponent: Shield,
+      active: name === 'admin.olympiads'
+    },
+    {
+      id: 'admin-payments',
+      label: 'To\'lovlar',
+      to: { name: 'admin.payments' },
+      iconComponent: Shield,
+      active: name === 'admin.payments'
+    },
+    {
+      id: 'admin-plans',
+      label: 'Obuna rejalari',
+      to: { name: 'admin.plans' },
+      iconComponent: Shield,
+      active: name === 'admin.plans'
+    },
+    {
+      id: 'admin-analytics',
+      label: 'Analitika',
+      to: { name: 'admin.analytics' },
+      iconComponent: Shield,
+      active: name === 'admin.analytics'
     }
   ];
 });
