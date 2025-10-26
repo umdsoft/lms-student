@@ -40,6 +40,7 @@ import { computed } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
+import { Shield } from 'lucide-vue-next';
 import { useAuth } from '@/shared/composables/useAuth';
 import { useNotifications } from '@/shared/composables/useNotifications';
 import { useI18nStore } from '@/shared/stores/i18n';
@@ -84,7 +85,7 @@ const navItems = computed(() => {
       id: 'control-dashboard',
       label: t('control.navigation.dashboard'),
       to: { name: 'control.dashboard' },
-      icon: '🛡️',
+      iconComponent: Shield,
       active: name === 'control.dashboard'
     }
   ];

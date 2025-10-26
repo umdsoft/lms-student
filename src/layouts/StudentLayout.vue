@@ -34,22 +34,22 @@
     <template #header-actions>
       <RouterLink
         :to="{ name: 'student.finance.coins' }"
-        class="inline-flex items-center gap-2 rounded-lg border border-primary-100 bg-primary-50 px-3 py-2 text-sm text-primary-700 hover:bg-primary-100"
+        class="inline-flex items-center gap-2.5 rounded-xl border border-primary-200 bg-gradient-to-br from-primary-50 to-primary-100 px-4 py-2.5 text-sm shadow-sm transition-all hover:shadow-md hover:from-primary-100 hover:to-primary-200"
       >
-        <span class="text-base">🪙</span>
+        <Coins :size="20" class="text-primary-600" />
         <div class="text-left">
-          <p class="text-[10px] uppercase tracking-wide text-primary-500">{{ t('app.header.coinsLabel') }}</p>
-          <p class="font-semibold">{{ t('app.header.coinsValue', { value: profile.coins }) }}</p>
+          <p class="text-[10px] font-semibold uppercase tracking-wide text-primary-600">{{ t('app.header.coinsLabel') }}</p>
+          <p class="font-bold text-primary-700">{{ t('app.header.coinsValue', { value: profile.coins }) }}</p>
         </div>
       </RouterLink>
       <RouterLink
         :to="{ name: 'student.finance.transactions' }"
-        class="inline-flex items-center gap-2 rounded-lg border border-secondary/20 bg-secondary/10 px-3 py-2 text-sm text-secondary hover:bg-secondary/15"
+        class="inline-flex items-center gap-2.5 rounded-xl border border-secondary/30 bg-gradient-to-br from-secondary/10 to-secondary/20 px-4 py-2.5 text-sm shadow-sm transition-all hover:shadow-md hover:from-secondary/20 hover:to-secondary/30"
       >
-        <span class="text-base">💳</span>
+        <CreditCard :size="20" class="text-secondary" />
         <div class="text-left">
-          <p class="text-[10px] uppercase tracking-wide text-secondary/80">{{ t('app.header.balanceLabel') }}</p>
-          <p data-testid="balance-value" class="font-semibold">{{ formattedBalance }}</p>
+          <p class="text-[10px] font-semibold uppercase tracking-wide text-secondary/90">{{ t('app.header.balanceLabel') }}</p>
+          <p data-testid="balance-value" class="font-bold text-secondary">{{ formattedBalance }}</p>
         </div>
       </RouterLink>
     </template>
@@ -63,6 +63,15 @@ import { computed } from 'vue';
 import { storeToRefs } from 'pinia';
 import { RouterLink, useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
+import {
+  LayoutDashboard,
+  BookOpen,
+  Trophy,
+  Wallet,
+  User,
+  CreditCard,
+  Coins
+} from 'lucide-vue-next';
 import { useAuth } from '@/shared/composables/useAuth';
 import { useNotifications } from '@/shared/composables/useNotifications';
 import { useI18nStore } from '@/shared/stores/i18n';
@@ -130,14 +139,14 @@ const navItems = computed(() => {
       id: 'student-dashboard',
       label: t('app.navigation.dashboard'),
       to: { name: 'student.dashboard' },
-      icon: '📊',
+      iconComponent: LayoutDashboard,
       active: name === 'student.dashboard'
     },
     {
       id: 'student-courses',
       label: t('app.navigation.courses'),
       to: { name: 'student.courses' },
-      icon: '📘',
+      iconComponent: BookOpen,
       badge: coursesCount.value,
       active: name.startsWith('student.courses'),
       children: [
@@ -153,7 +162,7 @@ const navItems = computed(() => {
       id: 'student-olympiads',
       label: t('app.navigation.olympiads'),
       to: { name: 'student.olympiads' },
-      icon: '🏆',
+      iconComponent: Trophy,
       badge: olympiadsCount.value,
       active: name.startsWith('student.olympiads'),
       children: [
@@ -176,7 +185,7 @@ const navItems = computed(() => {
       id: 'student-finance',
       label: t('app.navigation.finance'),
       to: { name: 'student.finance.transactions' },
-      icon: '💰',
+      iconComponent: Wallet,
       active: name.startsWith('student.finance'),
       children: [
         {
@@ -197,7 +206,7 @@ const navItems = computed(() => {
       id: 'student-profile',
       label: t('app.navigation.profile'),
       to: { name: 'student.profile.overview' },
-      icon: '👤',
+      iconComponent: User,
       active: name.startsWith('student.profile'),
       children: [
         {

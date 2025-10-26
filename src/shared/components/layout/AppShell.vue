@@ -1,6 +1,7 @@
 <template>
-  <div class="min-h-screen bg-surface text-ink">
+  <div class="min-h-screen bg-gradient-to-br from-slate-50 via-white to-primary-50/30 text-ink">
     <div class="flex min-h-screen">
+      <!-- Mobile Sidebar Overlay -->
       <Transition name="fade">
         <div
           v-if="isNavOpen"
@@ -8,25 +9,25 @@
           role="presentation"
           @click.self="isNavOpen = false"
         >
-          <aside class="absolute inset-y-0 left-0 w-72 bg-white shadow-xl">
+          <aside class="absolute inset-y-0 left-0 w-72 bg-white shadow-2xl">
             <div class="flex h-full flex-col">
-              <div class="flex items-center justify-between border-b border-slate-200 px-6 py-4">
+              <div class="flex items-center justify-between border-b border-slate-100 px-6 py-5">
                 <slot name="logo">
-                  <span class="text-sm font-semibold uppercase tracking-wide text-slate-500">{{ t('app.navigation.menuLabel') }}</span>
+                  <span class="text-sm font-bold uppercase tracking-wide text-slate-700">{{ t('app.navigation.menuLabel') }}</span>
                 </slot>
                 <button
                   type="button"
-                  class="rounded-full border border-slate-200 p-2 text-slate-500 hover:text-ink"
+                  class="rounded-lg p-2 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-600"
                   @click="isNavOpen = false"
                   :aria-label="t('components.appShell.closeMenu')"
                 >
-                  ✕
+                  <X :size="20" />
                 </button>
               </div>
               <nav class="flex-1 overflow-y-auto px-4 py-6" :aria-label="t('app.navigation.ariaLabel')">
                 <AppShellNavList :items="normalizedNavItems" @navigate="onNavigate" />
               </nav>
-              <div class="border-t border-slate-200 px-6 py-4 text-sm text-slate-500">
+              <div class="border-t border-slate-100 px-6 py-5 text-sm text-slate-600">
                 <slot name="sidebar-footer" />
               </div>
             </div>
@@ -34,48 +35,58 @@
         </div>
       </Transition>
 
+      <!-- Desktop Sidebar -->
       <aside
-        class="hidden w-72 flex-col border-r border-slate-200 bg-white/95 px-6 py-6 lg:flex"
+        class="hidden w-72 flex-col border-r border-slate-200/60 bg-white/80 backdrop-blur-xl px-6 py-6 lg:flex"
         :aria-label="t('app.navigation.ariaLabel')"
       >
         <div class="flex items-center justify-between gap-2">
           <slot name="logo">
-            <span class="text-sm font-semibold uppercase tracking-wide text-slate-500">{{ t('app.navigation.menuLabel') }}</span>
+            <span class="text-sm font-bold uppercase tracking-wide text-slate-700">{{ t('app.navigation.menuLabel') }}</span>
           </slot>
         </div>
-        <nav class="mt-6 flex-1 space-y-2 overflow-y-auto pr-1 text-sm">
+        <nav class="mt-8 flex-1 space-y-1 overflow-y-auto pr-1">
           <AppShellNavList :items="normalizedNavItems" @navigate="onNavigate" />
         </nav>
-        <div v-if="hasSidebarFooter" class="mt-6 rounded-xl border border-slate-200 bg-surface px-4 py-5 text-sm text-slate-600">
+        <div v-if="hasSidebarFooter" class="mt-6 rounded-2xl bg-gradient-to-br from-primary-50 to-primary-100/50 px-4 py-5 text-sm text-slate-700 shadow-sm">
           <slot name="sidebar-footer" />
         </div>
       </aside>
 
+      <!-- Main Content Area -->
       <div class="flex min-h-screen flex-1 flex-col">
-        <header class="border-b border-slate-200 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/90">
-          <div class="mx-auto flex w-full max-w-6xl items-start gap-6 px-4 py-5 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <header class="border-b border-slate-200/60 bg-white/80 backdrop-blur-xl">
+          <div class="mx-auto flex w-full max-w-7xl items-start gap-6 px-4 py-5 sm:px-6 lg:px-8">
+            <!-- Mobile Menu Button -->
             <button
               type="button"
-              class="mt-1 inline-flex items-center justify-center rounded-lg border border-slate-200 p-2 text-slate-500 hover:text-ink lg:hidden"
+              class="mt-1 inline-flex items-center justify-center rounded-xl border border-slate-200 p-2.5 text-slate-600 transition-colors hover:bg-slate-50 hover:text-slate-900 lg:hidden"
               :aria-label="t('components.appShell.openMenu')"
               @click="isNavOpen = true"
             >
-              ☰
+              <Menu :size="20" />
             </button>
+
+            <!-- Header Content -->
             <div class="flex-1">
               <slot name="header">
                 <p class="text-sm text-slate-500">{{ profile.subtitle }}</p>
                 <h1 class="mt-1 text-xl font-semibold text-ink">{{ profile.fullName }}</h1>
               </slot>
             </div>
+
+            <!-- Header Actions -->
             <div class="flex flex-wrap items-center gap-3 sm:gap-4">
               <slot name="header-actions" />
-              <div v-if="showLocaleSwitcher" class="flex items-center gap-2 rounded-lg border border-slate-200 px-3 py-2 text-sm">
-                <span class="hidden text-slate-500 sm:inline">{{ t('app.language.label') }}</span>
+
+              <!-- Language Switcher -->
+              <div v-if="showLocaleSwitcher" class="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm shadow-sm transition-shadow hover:shadow">
+                <Globe2 :size="16" class="text-slate-400" />
                 <select
                   :value="currentLocale"
                   @change="onLocaleChange"
-                  class="bg-transparent text-sm text-ink focus:outline-none"
+                  class="bg-transparent text-sm font-medium text-ink focus:outline-none"
                   :aria-label="t('app.language.label')"
                 >
                   <option v-for="option in localeOptions" :key="option.code" :value="option.code">
@@ -83,16 +94,20 @@
                   </option>
                 </select>
               </div>
+
+              <!-- Logout Button -->
               <button
                 type="button"
-                class="inline-flex items-center gap-2 rounded-lg border border-slate-200 px-3 py-2 text-sm text-ink transition hover:bg-surface"
+                class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition-all hover:bg-slate-50 hover:shadow"
                 @click="$emit('logout')"
               >
+                <LogOut :size="16" />
                 <span class="hidden sm:inline">{{ t('app.header.logout') }}</span>
-                <span aria-hidden="true">↗</span>
               </button>
-              <div class="flex items-center gap-2">
-                <img :src="profile.avatar" :alt="profile.fullName" class="h-10 w-10 rounded-full object-cover ring-2 ring-white" />
+
+              <!-- User Avatar -->
+              <div class="flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-3 py-2 shadow-sm">
+                <img :src="profile.avatar" :alt="profile.fullName" class="h-9 w-9 rounded-lg object-cover ring-2 ring-white shadow-sm" />
                 <div class="hidden text-left text-sm sm:block">
                   <p class="font-semibold text-ink">{{ profile.fullName }}</p>
                   <p v-if="profile.subtitle" class="text-xs text-slate-500">{{ profile.subtitle }}</p>
@@ -102,11 +117,10 @@
           </div>
         </header>
 
-        <main class="flex-1 bg-surface/60">
-          <div class="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6 lg:px-8">
-            <div class="min-h-[60vh] rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-              <slot />
-            </div>
+        <!-- Main Content -->
+        <main class="flex-1">
+          <div class="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+            <slot />
           </div>
         </main>
       </div>
@@ -117,6 +131,7 @@
 <script setup>
 import { computed, ref, useSlots } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { Menu, X, Globe2, LogOut } from 'lucide-vue-next';
 import AppShellNavList from './AppShellNavList.vue';
 
 const props = defineProps({
