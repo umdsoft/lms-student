@@ -52,6 +52,47 @@ npm test
 
 > Eslatma: Ushbu muhitda npm registry'ga ulanish cheklangani sababli `npm install` bajarilmasligi mumkin. Lokal ish stansiyangizda birinchi bo'lib bog'liqliklarni o'rnatib oling.
 
+## Development rejimida autentifikatsiya
+
+Loyiha development rejimida mock API yordamida ishlaydi va turli rollarga ega foydalanuvchilarni test qilish imkonini beradi. Tizimda 3 xil rol mavjud:
+
+### Mavjud rollar va kirish ma'lumotlari
+
+1. **Student (Talaba)**
+   - Login: `student` yoki `student@example.com`
+   - Parol: istalgan (mock rejimda tekshirilmaydi)
+   - Dashboard: `/student`
+   - To'liq ismi: Dilnoza Rahimova
+
+2. **Teacher (O'qituvchi)**
+   - Login: `teacher` yoki `teacher@example.com`
+   - Parol: istalgan (mock rejimda tekshirilmaydi)
+   - Dashboard: `/teacher`
+   - To'liq ismi: Aziza Karimova
+
+3. **Admin (Administrator)**
+   - Login: `admin` yoki `admin@example.com`
+   - Parol: istalgan (mock rejimda tekshirilmaydi)
+   - Dashboard: `/control`
+   - To'liq ismi: Sardor Rahmonov
+
+### Qanday ishlaydi?
+
+Mock API `/login` so'rovida yuborilgan login maydonini tekshiradi va unda qaysi rol nomi (student, teacher, admin) bo'lsa, shu rolga ega foydalanuvchi ma'lumotlarini qaytaradi. Rollar `localStorage` da saqlanadi, shuning uchun sahifa yangilanganidan keyin ham sessiya davom etadi.
+
+### Modullarni test qilish
+
+1. Loyihani ishga tushiring: `npm run dev`
+2. Login sahifasiga o'ting
+3. Kerakli rolni test qilish uchun mos login kiriting:
+   - `student` — talaba dashboardini ko'rish uchun
+   - `teacher` — o'qituvchi dashboardini ko'rish uchun
+   - `admin` — administrator paneliga kirish uchun
+4. Istalgan parol kiriting va kirish tugmasini bosing
+5. Tizim avtomatik ravishda to'g'ri dashboardga yo'naltiradi
+
+> **Eslatma:** Logout qilganingizdan keyin boshqa rolni test qilish uchun login sahifasida boshqa login kiriting.
+
 ## Testlar
 
 `tests/unit/AppLayout.spec.js` faylida Pinia va auth composable'lari bilan layoutning ko'rinishi tekshirilgan. Jest konfiguratsiyasi `jest.config.cjs` da joylashgan.

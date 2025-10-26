@@ -19,7 +19,17 @@ const publicRoutes = [
   },
   {
     path: '/',
-    redirect: '/student'
+    name: 'root',
+    redirect: () => {
+      // Dynamic redirect based on user role
+      const { user } = useAuth();
+      if (user.value?.role === 'admin') {
+        return '/control';
+      } else if (user.value?.role === 'teacher') {
+        return '/teacher';
+      }
+      return '/student';
+    }
   },
   {
     path: '/:pathMatch(.*)*',
