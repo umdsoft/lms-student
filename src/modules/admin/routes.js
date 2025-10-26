@@ -1,75 +1,110 @@
 /**
- * Admin module routes
- * All admin-related routes with /admin prefix
- * Note: Using 'control' in route names to maintain backward compatibility
+ * Admin Module Routes
+ * Complete routing configuration for admin panel
+ * All routes require authentication and admin role
  */
 
 export default [
+  // Backwards compatibility - redirect old routes
   {
     path: '/control',
-    name: 'control.dashboard',
-    component: () => import('@/modules/admin/pages/AdminDashboardPage.vue'),
+    redirect: '/admin/dashboard'
+  },
+  {
+    path: '/control/dashboard',
+    redirect: '/admin/dashboard'
+  },
+
+  // Main Admin Routes
+  {
+    path: '/admin',
+    redirect: '/admin/dashboard'
+  },
+  {
+    path: '/admin/dashboard',
+    name: 'admin.dashboard',
+    component: () => import('@/modules/admin/pages/ImprovedDashboardPage.vue'),
     meta: {
       requiresAuth: true,
       roles: ['admin'],
-      title: 'Boshqaruv paneli',
+      title: 'Dashboard',
+      layout: 'control'
+    }
+  },
+
+  // Olympiads Management
+  {
+    path: '/admin/olympiads',
+    name: 'admin.olympiads',
+    component: () => import('@/modules/admin/pages/olympiads/OlympiadsListPage.vue'),
+    meta: {
+      requiresAuth: true,
+      roles: ['admin'],
+      title: 'Olimpiadalar',
+      layout: 'control'
+    }
+  },
+
+  // Users Management
+  {
+    path: '/admin/users',
+    name: 'admin.users',
+    component: () => import('@/modules/admin/pages/users/UsersListPage.vue'),
+    meta: {
+      requiresAuth: true,
+      roles: ['admin'],
+      title: 'Foydalanuvchilar',
+      layout: 'control'
+    }
+  },
+
+  // Payments Management
+  {
+    path: '/admin/payments',
+    name: 'admin.payments',
+    component: () => import('@/modules/admin/pages/payments/PaymentsListPage.vue'),
+    meta: {
+      requiresAuth: true,
+      roles: ['admin'],
+      title: 'To\'lovlar',
+      layout: 'control'
+    }
+  },
+
+  // Directions & Plans
+  {
+    path: '/admin/directions',
+    name: 'admin.directions',
+    component: () => import('@/modules/admin/pages/directions/DirectionsListPage.vue'),
+    meta: {
+      requiresAuth: true,
+      roles: ['admin'],
+      title: 'Yo\'nalishlar',
+      layout: 'control'
+    }
+  },
+  {
+    path: '/admin/subscription-plans',
+    name: 'admin.plans',
+    component: () => import('@/modules/admin/pages/plans/SubscriptionPlansPage.vue'),
+    meta: {
+      requiresAuth: true,
+      roles: ['admin'],
+      title: 'Obuna rejalari',
+      layout: 'control'
+    }
+  },
+
+  // Analytics
+  {
+    path: '/admin/analytics',
+    name: 'admin.analytics',
+    component: () => import('@/modules/admin/pages/analytics/AnalyticsPage.vue'),
+    meta: {
+      requiresAuth: true,
+      roles: ['admin'],
+      title: 'Analitika',
       layout: 'control'
     }
   }
-  // TODO: Add more admin routes as we develop the admin module
-  // {
-  //   path: '/control/users',
-  //   name: 'control.users',
-  //   component: () => import('@/modules/admin/pages/Users.vue'),
-  //   meta: {
-  //     requiresAuth: true,
-  //     roles: ['admin'],
-  //     title: 'Foydalanuvchilar',
-  //     layout: 'control'
-  //   }
-  // },
-  // {
-  //   path: '/control/courses',
-  //   name: 'control.courses',
-  //   component: () => import('@/modules/admin/pages/Courses.vue'),
-  //   meta: {
-  //     requiresAuth: true,
-  //     roles: ['admin'],
-  //     title: 'Kurslar',
-  //     layout: 'control'
-  //   }
-  // },
-  // {
-  //   path: '/control/olympiads',
-  //   name: 'control.olympiads',
-  //   component: () => import('@/modules/admin/pages/Olympiads.vue'),
-  //   meta: {
-  //     requiresAuth: true,
-  //     roles: ['admin'],
-  //     title: 'Olimpiadalar',
-  //     layout: 'control'
-  //   }
-  // },
-  // {
-  //   path: '/control/reports',
-  //   name: 'control.reports',
-  //   component: () => import('@/modules/admin/pages/Reports.vue'),
-  //   meta: {
-  //     requiresAuth: true,
-  //     roles: ['admin'],
-  //     title: 'Hisobotlar',
-  //     layout: 'control'
-  //   }
-  // },
-  // {
-  //   path: '/control/settings',
-  //   name: 'control.settings',
-  //   component: () => import('@/modules/admin/pages/Settings.vue'),
-  //   meta: {
-  //     requiresAuth: true,
-  //     roles: ['admin'],
-  //     title: 'Sozlamalar',
-  //     layout: 'control'
-  //   }
-  // }
 ];
