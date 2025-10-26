@@ -1,6 +1,6 @@
 <template>
-  <div class="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold" :class="badgeClass">
-    <span class="w-2 h-2 rounded-full" :class="dotClass"></span>
+  <div class="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-medium" :class="badgeClass">
+    <span class="h-2 w-2 rounded-full" :class="dotClass"></span>
     <span>{{ label }}</span>
   </div>
 </template>
@@ -15,15 +15,15 @@ const props = defineProps({
 
 const toneConfig = {
   info: {
-    badge: 'bg-primary-50 text-primary-600',
+    badge: 'border-primary-100 bg-primary-50 text-primary-700',
     dot: 'bg-primary-500'
   },
   success: {
-    badge: 'bg-green-50 text-green-600',
-    dot: 'bg-green-500'
+    badge: 'border-emerald-100 bg-emerald-50 text-emerald-700',
+    dot: 'bg-emerald-500'
   },
   warning: {
-    badge: 'bg-warning/20 text-warning',
+    badge: 'border-warning/40 bg-warning/20 text-warning',
     dot: 'bg-warning'
   }
 };

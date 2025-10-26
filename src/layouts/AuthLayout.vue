@@ -1,30 +1,31 @@
 <template>
-  <div class="min-h-screen bg-primary-50 flex flex-col md:flex-row">
-    <aside class="md:w-2/5 bg-primary-700 text-white flex flex-col justify-between gap-10 p-10">
-      <div class="space-y-8">
-        <BrandLogo variant="dark" />
-        <div>
-          <p class="text-sm uppercase tracking-widest text-primary-100">{{ t('authLayout.strapline') }}</p>
-          <h1 class="mt-4 text-3xl font-semibold leading-tight">
-            {{ t('authLayout.headline') }}
-          </h1>
-          <p class="mt-6 text-primary-50/90 max-w-sm">
-            {{ t('authLayout.description') }}
-          </p>
+  <div class="min-h-screen bg-slate-50">
+    <div class="mx-auto flex min-h-screen max-w-6xl flex-col overflow-hidden rounded-none lg:grid lg:grid-cols-5">
+      <aside class="relative hidden flex-col justify-between bg-gradient-to-br from-primary-600 via-primary-500 to-primary-400 p-10 text-white lg:flex lg:col-span-2">
+        <div class="space-y-10">
+          <BrandLogo variant="dark" />
+          <div class="space-y-4">
+            <p class="text-xs font-semibold uppercase tracking-[0.35em] text-primary-100">
+              {{ t('authLayout.strapline') }}
+            </p>
+            <h1 class="text-3xl font-semibold leading-snug">{{ t('authLayout.headline') }}</h1>
+            <p class="max-w-sm text-sm text-primary-50/90">
+              {{ t('authLayout.description') }}
+            </p>
+          </div>
         </div>
-      </div>
-      <footer class="text-xs text-primary-200/80">
-        {{ t('authLayout.footer') }}
-      </footer>
-    </aside>
-    <main class="flex-1 flex items-center justify-center p-6 sm:p-10">
-      <div
-        class="w-full max-w-md space-y-8 rounded-3xl border border-white/70 bg-white/90 p-8 shadow-dashboard backdrop-blur"
-      >
-        <BrandLogo :show-text="false" alignment="center" />
-        <slot />
-      </div>
-    </main>
+        <footer class="text-xs text-primary-100/80">
+          {{ t('authLayout.footer') }}
+        </footer>
+        <div class="pointer-events-none absolute inset-y-0 right-0 hidden w-40 bg-white/10 blur-3xl lg:block" aria-hidden="true"></div>
+      </aside>
+      <main class="flex flex-1 items-center justify-center px-6 py-12 sm:px-10 lg:col-span-3">
+        <div class="w-full max-w-md space-y-8 rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
+          <BrandLogo :show-text="false" alignment="center" />
+          <slot />
+        </div>
+      </main>
+    </div>
   </div>
 </template>
 

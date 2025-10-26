@@ -1,135 +1,58 @@
 <template>
-  <div class="min-h-screen bg-primary-50 text-ink">
-    <div class="flex min-h-screen lg:h-screen lg:overflow-hidden">
-      <aside
-        class="hidden w-72 space-y-10 border-r border-white/60 bg-white/80 px-6 py-8 shadow-md backdrop-blur lg:flex lg:flex-col lg:sticky lg:top-0 lg:h-screen lg:overflow-y-auto"
-        :aria-label="t('app.navigation.ariaLabel')"
-      >
-        <div class="space-y-3">
-          <BrandLogo :show-strapline="false" />
-          <p class="text-[10px] font-semibold uppercase tracking-[0.4em] text-primary-400">
-            {{ t('app.navigation.menuLabel') }}
-          </p>
-        </div>
-        <nav class="flex-1 space-y-1">
-          <RouterLink
-            v-for="item in navItems"
-            :key="item.match"
-            :to="item.to"
-            class="flex items-center gap-3 px-4 py-3 rounded-2xl transition-colors"
-            :class="[
-              activeRouteName === item.match
-                ? 'bg-primary-50 text-primary-700 font-medium'
-                : 'text-slate-500 hover:bg-primary-50/70'
-            ]"
-          >
-            <span class="text-lg">{{ item.icon }}</span>
-            <span class="flex-1">{{ item.label }}</span>
-            <span
-              v-if="typeof item.count === 'number'"
-              class="inline-flex h-6 min-w-[1.5rem] items-center justify-center rounded-full bg-primary-100 px-2 text-xs font-semibold text-primary-600"
-            >
-              {{ item.count }}
-            </span>
-          </RouterLink>
-        </nav>
-        <div class="rounded-3xl border border-white/60 bg-white/70 p-5 text-sm text-primary-700 shadow-sm">
-          <h3 class="font-semibold text-primary-800">{{ t('control.brand.infoTitle') }}</h3>
-          <p class="mt-2 leading-relaxed text-slate-600">{{ t('control.brand.infoDescription') }}</p>
-        </div>
-      </aside>
+  <AppShell
+    :nav-items="navItems"
+    :profile="shellProfile"
+    :locale-options="localeOptions"
+    :current-locale="currentLocale"
+    @change-locale="onLocaleChange"
+    @logout="onLogout"
+  >
+    <template #logo>
+      <BrandLogo :show-strapline="false" />
+    </template>
 
-      <div class="flex flex-1 min-h-0 flex-col lg:overflow-hidden">
-        <header class="sticky top-0 z-40 border-b border-white/60 bg-white/80 backdrop-blur">
-          <div
-            class="mx-auto flex w-full flex-col gap-4 px-4 py-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-10 xl:px-14"
-          >
-            <div>
-              <p class="text-sm text-slate-500">{{ t('control.header.greeting') }}</p>
-              <h1 class="text-2xl font-semibold text-primary-700">{{ profile.fullName }}</h1>
-              <p class="text-xs text-slate-400 mt-1">
-                {{ t('control.header.lastUpdated') }}: {{ lastUpdated }}
-              </p>
-            </div>
-            <div class="flex items-center gap-4 flex-wrap">
-              <label class="flex items-center gap-2 rounded-2xl border border-primary-100 px-3 py-2 text-sm text-primary-700">
-                <span class="hidden sm:inline">{{ t('app.language.label') }}</span>
-                <select
-                  :value="currentLocale"
-                  @change="onLocaleChange"
-                  class="bg-transparent focus:outline-none text-primary-700"
-                  :aria-label="t('app.language.label')"
-                >
-                  <option v-for="option in localeOptions" :key="option.code" :value="option.code">
-                    {{ option.label }}
-                  </option>
-                </select>
-              </label>
-              <button
-                type="button"
-                @click="onLogout"
-                class="inline-flex items-center gap-2 rounded-2xl border border-primary-100 px-3 py-2 text-sm font-medium text-primary-700 hover:bg-primary-50"
-              >
-                <span class="hidden sm:inline">{{ t('app.header.logout') }}</span>
-                <span aria-hidden="true">↗</span>
-              </button>
-              <div class="flex items-center gap-2">
-                <img :src="profile.avatar" :alt="profile.fullName" class="w-12 h-12 rounded-2xl object-cover" />
-                <div class="text-sm">
-                  <p class="font-semibold">{{ profile.fullName }}</p>
-                  <p class="text-xs text-slate-500">{{ profileSubtitle }}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </header>
+    <template #sidebar-footer>
+      <h3 class="font-semibold text-ink">{{ t('control.brand.infoTitle') }}</h3>
+      <p class="mt-2 text-sm leading-relaxed text-slate-600">
+        {{ t('control.brand.infoDescription') }}
+      </p>
+    </template>
 
-        <main class="flex-1 overflow-y-auto px-4 py-6 sm:px-6 lg:px-10 xl:px-14">
-          <div class="mx-auto w-full rounded-[32px] p-6 sm:p-8">
-            <slot />
-          </div>
-        </main>
+    <template #header>
+      <p class="text-xs font-medium uppercase tracking-wide text-slate-400">{{ t('control.header.greeting') }}</p>
+      <div class="mt-2 flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h1 class="text-2xl font-semibold text-ink">{{ profile.fullName }}</h1>
+          <p class="text-xs text-slate-500">{{ profileSubtitle }}</p>
+        </div>
+        <p class="text-xs text-slate-400 sm:text-right">
+          {{ t('control.header.lastUpdated') }}: {{ lastUpdated }}
+        </p>
       </div>
-    </div>
-  </div>
+    </template>
+
+    <slot />
+  </AppShell>
 </template>
 
 <script setup>
 import { computed } from 'vue';
 import { storeToRefs } from 'pinia';
-import { useRoute, RouterLink, useRouter } from 'vue-router';
-import { useAuth } from '@/shared/composables/useAuth';
+import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
-import { useI18nStore } from '@/shared/stores/i18n';
+import { useAuth } from '@/shared/composables/useAuth';
 import { useNotifications } from '@/shared/composables/useNotifications';
+import { useI18nStore } from '@/shared/stores/i18n';
 import BrandLogo from '@/shared/components/common/BrandLogo.vue';
+import AppShell from '@/shared/components/layout/AppShell.vue';
 
 const { user, lastFetchedAt, logout } = useAuth();
 const route = useRoute();
 const router = useRouter();
 const { t, locale } = useI18n({ useScope: 'global' });
+const { notifySuccess, notifyError } = useNotifications();
 const i18nStore = useI18nStore();
 const { locales: availableLocalesRef, locale: activeLocale } = storeToRefs(i18nStore);
-const { notifySuccess, notifyError } = useNotifications();
-
-const activeRouteName = computed(() => {
-  return route.name || '';
-});
-
-const navItems = computed(() => [
-  {
-    label: t('control.navigation.dashboard'),
-    to: { name: 'control.dashboard' },
-    match: 'control.dashboard',
-    icon: '🛡️'
-  }
-  // TODO: Add more admin navigation items
-  // { label: t('control.navigation.users'), to: { name: 'control.users' }, match: 'control.users', icon: '👥' },
-  // { label: t('control.navigation.courses'), to: { name: 'control.courses' }, match: 'control.courses', icon: '📚' },
-  // { label: t('control.navigation.olympiads'), to: { name: 'control.olympiads' }, match: 'control.olympiads', icon: '🏆' },
-  // { label: t('control.navigation.reports'), to: { name: 'control.reports' }, match: 'control.reports', icon: '📊' },
-  // { label: t('control.navigation.settings'), to: { name: 'control.settings' }, match: 'control.settings', icon: '⚙️' },
-]);
 
 const profile = computed(() => ({
   fullName: user.value?.fullName ?? t('app.header.guestName'),
@@ -140,6 +63,12 @@ const profile = computed(() => ({
 
 const profileSubtitle = computed(() => t('control.header.subtitle'));
 
+const shellProfile = computed(() => ({
+  fullName: profile.value.fullName,
+  subtitle: profileSubtitle.value,
+  avatar: profile.value.avatar
+}));
+
 const lastUpdated = computed(() => {
   if (!lastFetchedAt.value) return t('app.header.noSync');
   return new Intl.DateTimeFormat(locale.value === 'ru' ? 'ru-RU' : 'uz-UZ', {
@@ -148,17 +77,29 @@ const lastUpdated = computed(() => {
   }).format(new Date(lastFetchedAt.value));
 });
 
+const navItems = computed(() => {
+  const name = route.name || '';
+  return [
+    {
+      id: 'control-dashboard',
+      label: t('control.navigation.dashboard'),
+      to: { name: 'control.dashboard' },
+      icon: '🛡️',
+      active: name === 'control.dashboard'
+    }
+  ];
+});
+
+const localeOptions = computed(() => availableLocalesRef.value);
+const currentLocale = computed(() => activeLocale.value);
+
 async function onLogout() {
   await logout();
   notifySuccess('logout');
   router.push({ name: 'login' });
 }
 
-const localeOptions = computed(() => availableLocalesRef.value);
-const currentLocale = computed(() => activeLocale.value);
-
-function onLocaleChange(event) {
-  const value = event.target.value;
+function onLocaleChange(value) {
   if (value === currentLocale.value) {
     return;
   }

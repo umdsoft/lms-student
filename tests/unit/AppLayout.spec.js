@@ -1,11 +1,11 @@
 jest.mock('@/assets/logo.svg', () => 'logo', { virtual: true });
 
 import { render, screen } from '@testing-library/vue';
-import AppLayout from '@/components/layouts/AppLayout.vue';
+import StudentLayout from '@/layouts/StudentLayout.vue';
 import { createTestingPinia } from '@pinia/testing';
 import { createI18nInstance } from '@/i18n';
 
-jest.mock('@/composables/useAuth', () => ({
+jest.mock('@/shared/composables/useAuth', () => ({
   useAuth: () => ({
     isAuthenticated: { value: true },
     user: {
@@ -23,6 +23,13 @@ jest.mock('@/composables/useAuth', () => ({
   })
 }));
 
+jest.mock('@/shared/composables/useNotifications', () => ({
+  useNotifications: () => ({
+    notifySuccess: jest.fn(),
+    notifyError: jest.fn()
+  })
+}));
+
 jest.mock('vue-router', () => ({
   useRoute: () => ({ name: 'student.dashboard', meta: { layout: 'student' } }),
   useRouter: () => ({ push: jest.fn() }),
@@ -33,9 +40,10 @@ jest.mock('vue-router', () => ({
   }
 }));
 
-describe('AppLayout', () => {
+describe('StudentLayout', () => {
   it('shows student coin and balance summary', () => {
-    render(AppLayout, {
+    render(StudentLayout, {
+      slots: { default: '<div />' },
       global: {
         plugins: [createTestingPinia({ createSpy: jest.fn, stubActions: false }), createI18nInstance()]
       }

@@ -23,9 +23,17 @@ export default {
       menuLabel: 'Menu',
       dashboard: 'Boshqaruv paneli',
       courses: 'Kurslar',
+      coursesOverview: 'Kurslar ko‘rinishi',
       olympiads: 'Olimpiadalar',
+      olympiadsAll: 'Barcha olimpiadalar',
       myOlympiads: 'Mening olimpiadalarim',
+      olympiadsMy: 'Mening olimpiadalarim',
+      finance: 'Moliyaviy boshqaruv',
+      financeTransactions: 'Tranzaksiyalar',
+      financeCoins: 'Tangalar tarixi',
       profile: 'Profil',
+      profileOverview: 'Profil ko‘rinishi',
+      profileSettings: 'Sozlamalar',
       ariaLabel: 'Asosiy navigatsiya'
     },
     language: {
@@ -1646,6 +1654,10 @@ export default {
     action: 'Bosh sahifa'
   },
   components: {
+    appShell: {
+      openMenu: 'Menyuni ochish',
+      closeMenu: 'Menyuni yopish'
+    },
     dataTable: {
       defaultTitle: 'Jadval'
     },
