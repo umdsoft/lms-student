@@ -4,7 +4,7 @@
  */
 
 import { defineStore } from 'pinia';
-import { olympiadsApi } from '@/api/mock';
+import { olympiadsService } from '@/api/services/olympiads';
 
 export const useOlympiadsStore = defineStore('olympiads', {
   state: () => ({
@@ -47,22 +47,19 @@ export const useOlympiadsStore = defineStore('olympiads', {
       this.error = null;
 
       try {
-        const response = await olympiadsApi.getAll({
+        const data = await olympiadsService.getAll({
           ...this.filters,
           ...filters,
           page: this.pagination.page,
           limit: this.pagination.limit
         });
 
-        if (response.success) {
-          this.olympiads = response.data.olympiads;
-          this.summary = response.data.summary;
-          this.pagination = response.data.pagination;
-        } else {
-          this.error = response.error?.message || 'Failed to fetch olympiads';
-        }
+        // Backend returns { olympiads, summary, pagination }
+        this.olympiads = data.olympiads || data.data?.olympiads || [];
+        this.summary = data.summary || data.data?.summary || null;
+        this.pagination = data.pagination || data.data?.pagination || this.pagination;
       } catch (error) {
-        this.error = error.message;
+        this.error = error.response?.data?.message || error.message;
         console.error('Fetch olympiads error:', error);
       } finally {
         this.loading = false;
@@ -74,17 +71,11 @@ export const useOlympiadsStore = defineStore('olympiads', {
       this.error = null;
 
       try {
-        const response = await olympiadsApi.getById(id);
-
-        if (response.success) {
-          this.currentOlympiad = response.data;
-          return response.data;
-        } else {
-          this.error = response.error?.message || 'Olympiad not found';
-          return null;
-        }
+        const data = await olympiadsService.getById(id);
+        this.currentOlympiad = data.olympiad || data;
+        return this.currentOlympiad;
       } catch (error) {
-        this.error = error.message;
+        this.error = error.response?.data?.message || error.message;
         console.error('Fetch olympiad error:', error);
         return null;
       } finally {
@@ -97,17 +88,11 @@ export const useOlympiadsStore = defineStore('olympiads', {
       this.error = null;
 
       try {
-        const response = await olympiadsApi.create(data);
-
-        if (response.success) {
-          await this.fetchOlympiads();
-          return response.data;
-        } else {
-          this.error = response.error?.message || 'Failed to create olympiad';
-          return null;
-        }
+        const result = await olympiadsService.create(data);
+        await this.fetchOlympiads();
+        return result.olympiad || result;
       } catch (error) {
-        this.error = error.message;
+        this.error = error.response?.data?.message || error.message;
         console.error('Create olympiad error:', error);
         return null;
       } finally {
@@ -120,20 +105,14 @@ export const useOlympiadsStore = defineStore('olympiads', {
       this.error = null;
 
       try {
-        const response = await olympiadsApi.update(id, data);
-
-        if (response.success) {
-          await this.fetchOlympiads();
-          if (this.currentOlympiad?.id === id) {
-            this.currentOlympiad = response.data;
-          }
-          return response.data;
-        } else {
-          this.error = response.error?.message || 'Failed to update olympiad';
-          return null;
+        const result = await olympiadsService.update(id, data);
+        await this.fetchOlympiads();
+        if (this.currentOlympiad?.id === id) {
+          this.currentOlympiad = result.olympiad || result;
         }
+        return result.olympiad || result;
       } catch (error) {
-        this.error = error.message;
+        this.error = error.response?.data?.message || error.message;
         console.error('Update olympiad error:', error);
         return null;
       } finally {
@@ -146,20 +125,14 @@ export const useOlympiadsStore = defineStore('olympiads', {
       this.error = null;
 
       try {
-        const response = await olympiadsApi.delete(id);
-
-        if (response.success) {
-          await this.fetchOlympiads();
-          if (this.currentOlympiad?.id === id) {
-            this.currentOlympiad = null;
-          }
-          return true;
-        } else {
-          this.error = response.error?.message || 'Failed to delete olympiad';
-          return false;
+        await olympiadsService.delete(id);
+        await this.fetchOlympiads();
+        if (this.currentOlympiad?.id === id) {
+          this.currentOlympiad = null;
         }
+        return true;
       } catch (error) {
-        this.error = error.message;
+        this.error = error.response?.data?.message || error.message;
         console.error('Delete olympiad error:', error);
         return false;
       } finally {
@@ -172,17 +145,11 @@ export const useOlympiadsStore = defineStore('olympiads', {
       this.error = null;
 
       try {
-        const response = await olympiadsApi.publish(id);
-
-        if (response.success) {
-          await this.fetchOlympiads();
-          return true;
-        } else {
-          this.error = response.error?.message || 'Failed to publish olympiad';
-          return false;
-        }
+        await olympiadsService.publish(id);
+        await this.fetchOlympiads();
+        return true;
       } catch (error) {
-        this.error = error.message;
+        this.error = error.response?.data?.message || error.message;
         console.error('Publish olympiad error:', error);
         return false;
       } finally {

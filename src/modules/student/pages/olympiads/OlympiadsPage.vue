@@ -7,7 +7,18 @@
       </p>
     </header>
 
-    <div class="space-y-10">
+    <!-- Loading State -->
+    <div v-if="loading" class="flex items-center justify-center py-12">
+      <div class="h-8 w-8 animate-spin rounded-full border-4 border-primary-600 border-t-transparent"></div>
+    </div>
+
+    <!-- Error State -->
+    <div v-else-if="error" class="rounded-lg bg-red-50 p-4 text-sm text-red-600">
+      {{ error }}
+    </div>
+
+    <!-- Content -->
+    <div v-else class="space-y-10">
       <section class="space-y-4">
         <div class="flex items-center justify-between">
           <h3 class="text-lg font-semibold text-primary-700">{{ t('olympiads.groups.upcoming') }}</h3>
@@ -42,11 +53,16 @@
 <script setup>
 import OlympiadCard from '@/modules/student/components/olympiads/OlympiadCard.vue';
 import { useI18n } from 'vue-i18n';
-import { computed } from 'vue';
+import { onMounted } from 'vue';
+import { storeToRefs } from 'pinia';
+import { useOlympiadStore } from '@/modules/student/stores/olympiads';
 
-const { t, tm } = useI18n({ useScope: 'global' });
+const { t } = useI18n({ useScope: 'global' });
+const olympiadStore = useOlympiadStore();
 
-const olympiads = computed(() => tm('olympiads.items') ?? []);
-const upcomingOlympiads = computed(() => olympiads.value.filter((item) => item.status !== 'finished'));
-const finishedOlympiads = computed(() => olympiads.value.filter((item) => item.status === 'finished'));
+const { upcomingOlympiads, finishedOlympiads, loading, error } = storeToRefs(olympiadStore);
+
+onMounted(async () => {
+  await olympiadStore.fetchOlympiads();
+});
 </script>

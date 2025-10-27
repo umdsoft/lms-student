@@ -14,6 +14,7 @@ function withCsrf(config = {}) {
   return { ...config, headers };
 }
 
+// Export individual functions
 export function post(url, data, config) {
   return api.post(url, data, withCsrf(config));
 }
@@ -29,3 +30,11 @@ export function patch(url, data, config) {
 export function del(url, config) {
   return api.delete(url, withCsrf(config));
 }
+
+// Export as csrfApi object for easier usage
+export const csrfApi = {
+  post,
+  put,
+  patch,
+  delete: del
+};
