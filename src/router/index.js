@@ -24,7 +24,7 @@ const publicRoutes = [
       // Dynamic redirect based on user role
       const { user } = useAuth();
       if (user.value?.role === 'admin') {
-        return '/control';
+        return '/admin/dashboard';
       } else if (user.value?.role === 'teacher') {
         return '/teacher';
       }
