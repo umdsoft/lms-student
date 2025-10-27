@@ -4,7 +4,7 @@ import { useAuthStore } from '@/shared/stores/auth';
 
 export function useAuth() {
   const authStore = useAuthStore();
-  const { user, status, isAuthenticated, lastFetchedAt, otpSent, phoneNumber } = storeToRefs(authStore);
+  const { user, status, loading, error, isAuthenticated } = storeToRefs(authStore);
 
   const initials = computed(() => {
     if (!user.value?.fullName) return '';
@@ -26,16 +26,12 @@ export function useAuth() {
     return authStore.login(credentials);
   }
 
+  async function register(userData) {
+    return authStore.register(userData);
+  }
+
   async function logout() {
     return authStore.logout();
-  }
-
-  async function sendOtp(phone) {
-    return authStore.sendOtp(phone);
-  }
-
-  async function verifyOtp(otp) {
-    return authStore.verifyOtp(otp);
   }
 
   async function updateProfile(updates) {
@@ -46,26 +42,19 @@ export function useAuth() {
     return authStore.uploadAvatar(file);
   }
 
-  function resetOtp() {
-    return authStore.resetOtp();
-  }
-
   return {
     user,
     status,
+    loading,
+    error,
     initials,
     safeRole,
     isAuthenticated,
-    lastFetchedAt,
-    otpSent,
-    phoneNumber,
     ensureSession,
     login,
+    register,
     logout,
-    sendOtp,
-    verifyOtp,
     updateProfile,
-    uploadAvatar,
-    resetOtp
+    uploadAvatar
   };
 }

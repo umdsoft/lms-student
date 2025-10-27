@@ -4,7 +4,6 @@
  */
 
 import api from '@/api';
-import { csrfApi } from '@/api.csrf';
 
 export const olympiadsService = {
   /**
@@ -33,7 +32,7 @@ export const olympiadsService = {
    * @returns {Promise} - Created olympiad
    */
   async create(olympiadData) {
-    const { data } = await csrfApi.post('/olympiads', olympiadData);
+    const { data } = await api.post('/olympiads', olympiadData);
     return data;
   },
 
@@ -44,7 +43,7 @@ export const olympiadsService = {
    * @returns {Promise} - Updated olympiad
    */
   async update(id, updates) {
-    const { data } = await csrfApi.put(`/olympiads/${id}`, updates);
+    const { data } = await api.put(`/olympiads/${id}`, updates);
     return data;
   },
 
@@ -54,7 +53,7 @@ export const olympiadsService = {
    * @returns {Promise} - Success response
    */
   async delete(id) {
-    const { data } = await csrfApi.delete(`/olympiads/${id}`);
+    const { data } = await api.delete(`/olympiads/${id}`);
     return data;
   },
 
@@ -64,7 +63,7 @@ export const olympiadsService = {
    * @returns {Promise} - Updated olympiad
    */
   async publish(id) {
-    const { data } = await csrfApi.post(`/olympiads/${id}/publish`);
+    const { data } = await api.post(`/olympiads/${id}/publish`);
     return data;
   },
 
@@ -74,7 +73,7 @@ export const olympiadsService = {
    * @returns {Promise} - Registration details
    */
   async register(id) {
-    const { data } = await csrfApi.post(`/olympiads/${id}/register`);
+    const { data } = await api.post(`/olympiads/${id}/register`);
     return data;
   },
 
@@ -84,7 +83,7 @@ export const olympiadsService = {
    * @returns {Promise} - Success response
    */
   async unregister(id) {
-    const { data } = await csrfApi.post(`/olympiads/${id}/unregister`);
+    const { data } = await api.post(`/olympiads/${id}/unregister`);
     return data;
   },
 
