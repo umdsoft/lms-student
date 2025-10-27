@@ -1,37 +1,24 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
 import api from '@/api';
-
-const FALLBACK_USER = {
-  id: 'std-2045',
-  fullName: 'Dilnoza Rahimova',
-  email: 'dilnoza.rahimova@example.com',
-  phone: '+998 90 123 45 67',
-  role: 'student',
-  avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Dilnoza+Rahimova',
-  coins: 320,
-  balance: 125000,
-  streak: 18,
-  cohort: 'Matematika (Intensiv)',
-  timezone: 'Asia/Tashkent'
-};
+import { csrfApi } from '@/api.csrf';
 
 export const useAuthStore = defineStore('auth', () => {
   const user = ref(null);
   const status = ref('idle');
   const lastFetchedAt = ref(null);
+  const otpSent = ref(false);
+  const phoneNumber = ref('');
 
   const isAuthenticated = computed(() => Boolean(user.value));
 
+  // Get current session from backend
   async function hydrate() {
     if (status.value === 'loading') return;
     status.value = 'loading';
     try {
-      const { data } = await api.get('/session');
-      user.value = {
-        ...FALLBACK_USER,
-        ...data?.user
-      };
+      const { data } = await api.get('/auth/me');
+      user.value = data.user || data;
       lastFetchedAt.value = new Date().toISOString();
       status.value = 'ready';
     } catch (error) {
@@ -46,21 +33,66 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       await hydrate();
     } catch (error) {
-      console.warn('Session hydrate failed (mock)', error);
+      console.warn('Session hydrate failed', error);
     }
   }
 
-  async function login(payload) {
+  // Send OTP to phone number
+  async function sendOtp(phone) {
     status.value = 'loading';
     try {
-      const { data } = await api.post('/login', payload);
-      user.value = {
-        ...FALLBACK_USER,
-        ...data?.user
-      };
+      const { data } = await csrfApi.post('/auth/send-otp', { phone });
+      phoneNumber.value = phone;
+      otpSent.value = true;
+      status.value = 'ready';
+      return data;
+    } catch (error) {
+      status.value = 'error';
+      throw error;
+    }
+  }
+
+  // Verify OTP and login/register
+  async function verifyOtp(otp) {
+    status.value = 'loading';
+    try {
+      const { data } = await csrfApi.post('/auth/verify-otp', {
+        phone: phoneNumber.value,
+        otp
+      });
+      user.value = data.user || data;
       lastFetchedAt.value = new Date().toISOString();
       status.value = 'ready';
-      return true;
+      otpSent.value = false;
+      phoneNumber.value = '';
+      return data;
+    } catch (error) {
+      status.value = 'error';
+      throw error;
+    }
+  }
+
+  // Legacy login support (for backward compatibility)
+  async function login(payload) {
+    // If payload has phone and otp, use OTP verification
+    if (payload.phone && payload.otp) {
+      phoneNumber.value = payload.phone;
+      return verifyOtp(payload.otp);
+    }
+
+    // If payload only has phone, send OTP
+    if (payload.phone) {
+      return sendOtp(payload.phone);
+    }
+
+    // Otherwise, try legacy login
+    status.value = 'loading';
+    try {
+      const { data } = await csrfApi.post('/auth/login', payload);
+      user.value = data.user || data;
+      lastFetchedAt.value = new Date().toISOString();
+      status.value = 'ready';
+      return data;
     } catch (error) {
       status.value = 'error';
       throw error;
@@ -69,13 +101,41 @@ export const useAuthStore = defineStore('auth', () => {
 
   async function logout() {
     try {
-      await api.post('/logout');
+      await csrfApi.post('/auth/logout');
     } catch (error) {
-      console.warn('Logout request failed (mock)', error);
+      console.warn('Logout request failed', error);
     } finally {
       user.value = null;
       status.value = 'idle';
       lastFetchedAt.value = null;
+      otpSent.value = false;
+      phoneNumber.value = '';
+    }
+  }
+
+  // Update user profile
+  async function updateProfile(updates) {
+    try {
+      const { data } = await csrfApi.put('/auth/profile', updates);
+      user.value = { ...user.value, ...data.user };
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  // Upload avatar
+  async function uploadAvatar(file) {
+    try {
+      const formData = new FormData();
+      formData.append('avatar', file);
+      const { data } = await csrfApi.put('/auth/profile/avatar', formData);
+      if (data.user?.avatar) {
+        user.value.avatar = data.user.avatar;
+      }
+      return data;
+    } catch (error) {
+      throw error;
     }
   }
 
@@ -84,9 +144,15 @@ export const useAuthStore = defineStore('auth', () => {
     status,
     isAuthenticated,
     lastFetchedAt,
+    otpSent,
+    phoneNumber,
     login,
     logout,
     hydrate,
-    ensureSession
+    ensureSession,
+    sendOtp,
+    verifyOtp,
+    updateProfile,
+    uploadAvatar
   };
 });
