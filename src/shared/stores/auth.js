@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
 import api from '@/api';
 import router from '@/router';
+import { resolveDefaultRoute } from '@/shared/utils/navigation';
 
 export const useAuthStore = defineStore('auth', () => {
   const user = ref(null);
@@ -13,6 +14,12 @@ export const useAuthStore = defineStore('auth', () => {
   const isStudent = computed(() => user.value?.role === 'student');
   const isTeacher = computed(() => user.value?.role === 'teacher');
   const isAdmin = computed(() => user.value?.role === 'admin');
+
+  // Redirect to dashboard based on user role
+  function redirectToDashboard(role) {
+    const route = resolveDefaultRoute(role);
+    router.push(route);
+  }
 
   // Login with phone and password
   async function login({ phone, password }) {
@@ -37,8 +44,8 @@ export const useAuthStore = defineStore('auth', () => {
       status.value = 'ready';
       loading.value = false;
 
-      // Redirect to dashboard
-      router.push('/dashboard');
+      // Note: Redirect is handled by the caller (e.g., LoginPage.vue)
+      // to support redirect query parameters and other navigation logic
 
       return response.data;
     } catch (err) {
@@ -113,6 +120,29 @@ export const useAuthStore = defineStore('auth', () => {
     return ensureSession();
   }
 
+  // Refresh access token using refresh token
+  async function refreshAccessToken() {
+    const refreshToken = localStorage.getItem('refreshToken');
+
+    if (!refreshToken) {
+      throw new Error('No refresh token available');
+    }
+
+    try {
+      const response = await api.post('/auth/refresh', { refreshToken });
+      const { accessToken } = response.data.data;
+
+      // Save new access token
+      localStorage.setItem('accessToken', accessToken);
+
+      return accessToken;
+    } catch (err) {
+      // Refresh failed - logout
+      await logout();
+      throw err;
+    }
+  }
+
   // Logout
   async function logout() {
     try {
@@ -185,6 +215,8 @@ export const useAuthStore = defineStore('auth', () => {
     fetchUser,
     ensureSession,
     initAuth,
+    refreshAccessToken,
+    redirectToDashboard,
     updateProfile,
     uploadAvatar
   };

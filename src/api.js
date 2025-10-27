@@ -24,6 +24,23 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
+// Token refresh state management
+let isRefreshing = false;
+let failedQueue = [];
+
+// Process queued requests after token refresh
+const processQueue = (error, token = null) => {
+  failedQueue.forEach((prom) => {
+    if (error) {
+      prom.reject(error);
+    } else {
+      prom.resolve(token);
+    }
+  });
+
+  failedQueue = [];
+};
+
 // Response interceptor - handle 401 and refresh token
 api.interceptors.response.use(
   (response) => response,
@@ -34,35 +51,14 @@ api.interceptors.response.use(
     if (error.response?.status === 401 && !originalRequest?._retry) {
       originalRequest._retry = true;
 
-      // Try to refresh token
+      // Skip refresh for login/register endpoints
+      if (originalRequest.url?.includes('/auth/login') || originalRequest.url?.includes('/auth/register')) {
+        return Promise.reject(error);
+      }
+
       const refreshToken = localStorage.getItem('refreshToken');
-      if (refreshToken && !originalRequest.url?.includes('/auth/login')) {
-        try {
-          const response = await axios.post(
-            `${BASE_URL}/auth/refresh`,
-            { refreshToken }
-          );
 
-          const { accessToken } = response.data.data;
-          localStorage.setItem('accessToken', accessToken);
-
-          // Retry original request with new token
-          originalRequest.headers.Authorization = `Bearer ${accessToken}`;
-          return api(originalRequest);
-        } catch (refreshError) {
-          // Refresh failed - clear tokens and redirect to login
-          localStorage.removeItem('accessToken');
-          localStorage.removeItem('refreshToken');
-
-          if (typeof window !== 'undefined') {
-            const currentPath = window.location.pathname;
-            if (!currentPath.includes('/login')) {
-              window.location.href = `/login?redirect=${encodeURIComponent(currentPath)}`;
-            }
-          }
-          return Promise.reject(refreshError);
-        }
-      } else {
+      if (!refreshToken) {
         // No refresh token - redirect to login
         if (typeof window !== 'undefined') {
           const currentPath = window.location.pathname;
@@ -70,6 +66,58 @@ api.interceptors.response.use(
             window.location.href = `/login?redirect=${encodeURIComponent(currentPath)}`;
           }
         }
+        return Promise.reject(error);
+      }
+
+      // If already refreshing, queue this request
+      if (isRefreshing) {
+        return new Promise((resolve, reject) => {
+          failedQueue.push({ resolve, reject });
+        })
+          .then((token) => {
+            originalRequest.headers.Authorization = `Bearer ${token}`;
+            return api(originalRequest);
+          })
+          .catch((err) => {
+            return Promise.reject(err);
+          });
+      }
+
+      // Start refresh process
+      isRefreshing = true;
+
+      try {
+        const response = await axios.post(
+          `${BASE_URL}/auth/refresh`,
+          { refreshToken }
+        );
+
+        const { accessToken } = response.data.data;
+        localStorage.setItem('accessToken', accessToken);
+
+        // Process queued requests with new token
+        processQueue(null, accessToken);
+
+        // Retry original request with new token
+        originalRequest.headers.Authorization = `Bearer ${accessToken}`;
+        return api(originalRequest);
+      } catch (refreshError) {
+        // Refresh failed - clear tokens and redirect to login
+        processQueue(refreshError, null);
+
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+
+        if (typeof window !== 'undefined') {
+          const currentPath = window.location.pathname;
+          if (!currentPath.includes('/login')) {
+            window.location.href = `/login?redirect=${encodeURIComponent(currentPath)}`;
+          }
+        }
+
+        return Promise.reject(refreshError);
+      } finally {
+        isRefreshing = false;
       }
     }
 
