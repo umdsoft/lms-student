@@ -1,7 +1,7 @@
 export const ROLE_ROUTE_PREFIXES = {
   student: '/student',
   teacher: '/teacher',
-  admin: '/control'
+  admin: '/admin'
 };
 
 export const SAFE_REDIRECT_PREFIXES = Object.values(ROLE_ROUTE_PREFIXES);
@@ -12,7 +12,7 @@ export function resolveDefaultRoute(role) {
       return { name: 'teacher.dashboard' };
     case 'admin':
     case 'control':
-      return { name: 'control.dashboard' };
+      return { name: 'admin.dashboard' };
     case 'student':
     default:
       return { name: 'student.dashboard' };
