@@ -4,7 +4,6 @@
  */
 
 import api from '@/api';
-import { csrfApi } from '@/api.csrf';
 
 export const notificationsService = {
   /**
@@ -23,7 +22,7 @@ export const notificationsService = {
    * @returns {Promise} - Updated notification
    */
   async markAsRead(id) {
-    const { data } = await csrfApi.put(`/notifications/${id}/read`);
+    const { data } = await api.put(`/notifications/${id}/read`);
     return data;
   },
 
@@ -32,7 +31,7 @@ export const notificationsService = {
    * @returns {Promise} - Success response
    */
   async markAllAsRead() {
-    const { data } = await csrfApi.put('/notifications/read-all');
+    const { data } = await api.put('/notifications/read-all');
     return data;
   },
 
@@ -42,7 +41,7 @@ export const notificationsService = {
    * @returns {Promise} - Success response
    */
   async delete(id) {
-    const { data } = await csrfApi.delete(`/notifications/${id}`);
+    const { data } = await api.delete(`/notifications/${id}`);
     return data;
   },
 

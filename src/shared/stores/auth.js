@@ -1,130 +1,148 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
 import api from '@/api';
-import { csrfApi } from '@/api.csrf';
+import router from '@/router';
 
 export const useAuthStore = defineStore('auth', () => {
   const user = ref(null);
   const status = ref('idle');
-  const lastFetchedAt = ref(null);
-  const otpSent = ref(false);
-  const phoneNumber = ref('');
+  const loading = ref(false);
+  const error = ref(null);
 
   const isAuthenticated = computed(() => Boolean(user.value));
+  const isStudent = computed(() => user.value?.role === 'student');
+  const isTeacher = computed(() => user.value?.role === 'teacher');
+  const isAdmin = computed(() => user.value?.role === 'admin');
 
-  // Get current session from backend
-  async function hydrate() {
-    if (status.value === 'loading') return;
-    status.value = 'loading';
+  // Login with phone and password
+  async function login({ phone, password }) {
     try {
-      const { data } = await api.get('/auth/me');
-      user.value = data.user || data;
-      lastFetchedAt.value = new Date().toISOString();
-      status.value = 'ready';
-    } catch (error) {
-      status.value = 'error';
-      user.value = null;
-      throw error;
-    }
-  }
+      loading.value = true;
+      status.value = 'loading';
+      error.value = null;
 
-  async function ensureSession() {
-    if (isAuthenticated.value) return;
-    try {
-      await hydrate();
-    } catch (error) {
-      console.warn('Session hydrate failed', error);
-    }
-  }
-
-  // Send OTP to phone number
-  async function sendOtp(phone) {
-    status.value = 'loading';
-    try {
-      const { data } = await csrfApi.post('/auth/send-otp', {
+      const response = await api.post('/auth/login', {
         phone,
-        purpose: 'LOGIN'
+        password
       });
-      phoneNumber.value = phone;
-      otpSent.value = true;
+
+      const { user: userData, accessToken, refreshToken } = response.data.data;
+
+      // Save tokens to localStorage
+      localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('refreshToken', refreshToken);
+
+      // Update state
+      user.value = userData;
       status.value = 'ready';
-      return data;
-    } catch (error) {
+      loading.value = false;
+
+      // Redirect to dashboard
+      router.push('/dashboard');
+
+      return response.data;
+    } catch (err) {
       status.value = 'error';
-      throw error;
+      loading.value = false;
+      error.value = err.response?.data?.message || 'Login failed';
+      throw err;
     }
   }
 
-  // Verify OTP and login/register
-  async function verifyOtp(otpCode) {
-    status.value = 'loading';
+  // Register new user
+  async function register(userData) {
     try {
-      const { data } = await csrfApi.post('/auth/verify-otp', {
-        phone: phoneNumber.value,
-        otpCode,
-        purpose: 'LOGIN'
+      loading.value = true;
+      status.value = 'loading';
+      error.value = null;
+
+      const response = await api.post('/auth/register', userData);
+
+      // Auto login after registration
+      await login({
+        phone: userData.phone,
+        password: userData.password
       });
-      user.value = data.user || data;
-      lastFetchedAt.value = new Date().toISOString();
-      status.value = 'ready';
-      otpSent.value = false;
-      phoneNumber.value = '';
-      return data;
-    } catch (error) {
+
+      return response.data;
+    } catch (err) {
       status.value = 'error';
-      throw error;
+      loading.value = false;
+      error.value = err.response?.data?.message || 'Registration failed';
+      throw err;
     }
   }
 
-  // Legacy login support (for backward compatibility)
-  async function login(payload) {
-    // If payload has phone and otp/otpCode, use OTP verification
-    if (payload.phone && (payload.otp || payload.otpCode)) {
-      phoneNumber.value = payload.phone;
-      return verifyOtp(payload.otp || payload.otpCode);
-    }
-
-    // If payload only has phone, send OTP
-    if (payload.phone) {
-      return sendOtp(payload.phone);
-    }
-
-    // Otherwise, try legacy login
-    status.value = 'loading';
+  // Get current user from backend
+  async function fetchUser() {
     try {
-      const { data } = await csrfApi.post('/auth/login', payload);
-      user.value = data.user || data;
-      lastFetchedAt.value = new Date().toISOString();
+      const response = await api.get('/auth/me');
+      user.value = response.data.data?.user || response.data.data;
       status.value = 'ready';
-      return data;
-    } catch (error) {
-      status.value = 'error';
-      throw error;
+      return user.value;
+    } catch (err) {
+      // If fetching user fails, logout
+      await logout();
+      throw err;
     }
   }
 
+  // Ensure session is loaded (called on app start)
+  async function ensureSession() {
+    const token = localStorage.getItem('accessToken');
+
+    if (!token) {
+      status.value = 'ready';
+      return;
+    }
+
+    if (isAuthenticated.value) {
+      return;
+    }
+
+    try {
+      await fetchUser();
+    } catch (err) {
+      console.warn('Session hydrate failed', err);
+      status.value = 'ready';
+    }
+  }
+
+  // Initialize auth (alias for ensureSession for backward compatibility)
+  async function initAuth() {
+    return ensureSession();
+  }
+
+  // Logout
   async function logout() {
     try {
-      await csrfApi.post('/auth/logout');
-    } catch (error) {
-      console.warn('Logout request failed', error);
+      await api.post('/auth/logout');
+    } catch (err) {
+      console.warn('Logout request failed', err);
     } finally {
+      // Clear everything
       user.value = null;
       status.value = 'idle';
-      lastFetchedAt.value = null;
-      otpSent.value = false;
-      phoneNumber.value = '';
+      loading.value = false;
+      error.value = null;
+
+      // Clear tokens from localStorage
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+
+      // Redirect to login
+      router.push('/login');
     }
   }
 
   // Update user profile
   async function updateProfile(updates) {
     try {
-      const { data } = await csrfApi.put('/auth/profile', updates);
-      user.value = { ...user.value, ...data.user };
-      return data;
-    } catch (error) {
-      throw error;
+      const response = await api.put('/auth/profile', updates);
+      user.value = { ...user.value, ...response.data.data.user };
+      return response.data;
+    } catch (err) {
+      throw err;
     }
   }
 
@@ -133,38 +151,41 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       const formData = new FormData();
       formData.append('avatar', file);
-      const { data } = await csrfApi.put('/auth/profile/avatar', formData);
-      if (data.user?.avatar) {
-        user.value.avatar = data.user.avatar;
+      const response = await api.put('/auth/profile/avatar', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      if (response.data.data?.user?.avatar) {
+        user.value.avatar = response.data.data.user.avatar;
       }
-      return data;
-    } catch (error) {
-      throw error;
+      return response.data;
+    } catch (err) {
+      throw err;
     }
   }
 
-  // Reset OTP state to go back to phone input
-  function resetOtp() {
-    otpSent.value = false;
-    phoneNumber.value = '';
-    status.value = 'idle';
-  }
-
   return {
+    // State
     user,
     status,
+    loading,
+    error,
+
+    // Getters
     isAuthenticated,
-    lastFetchedAt,
-    otpSent,
-    phoneNumber,
+    isStudent,
+    isTeacher,
+    isAdmin,
+
+    // Actions
     login,
+    register,
     logout,
-    hydrate,
+    fetchUser,
     ensureSession,
-    sendOtp,
-    verifyOtp,
+    initAuth,
     updateProfile,
-    uploadAvatar,
-    resetOtp
+    uploadAvatar
   };
 });

@@ -6,23 +6,25 @@ const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api/v1';
 const api = axios.create({
   baseURL: BASE_URL,
   withCredentials: true,
-  xsrfCookieName: 'csrftoken',
-  xsrfHeaderName: 'X-CSRF-Token',
+  headers: {
+    'Content-Type': 'application/json'
+  },
   timeout: 10000
 });
 
-let isRefreshing = false;
-let queuedRequests = [];
+// Request interceptor - add access token to all requests
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
 
-function queueRequest(callback) {
-  queuedRequests.push(callback);
-}
-
-function resolveQueue(error, token) {
-  queuedRequests.forEach((callback) => callback(error, token));
-  queuedRequests = [];
-}
-
+// Response interceptor - handle 401 and refresh token
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
@@ -32,13 +34,41 @@ api.interceptors.response.use(
     if (error.response?.status === 401 && !originalRequest?._retry) {
       originalRequest._retry = true;
 
-      // If on browser, redirect to login
-      if (typeof window !== 'undefined') {
-        const currentPath = window.location.pathname;
-        // Don't redirect if already on login page or if it's an auth endpoint
-        if (!currentPath.includes('/login') && !originalRequest.url?.includes('/auth/')) {
-          // Store current location for redirect after login
-          window.location.href = `/login?redirect=${encodeURIComponent(currentPath)}`;
+      // Try to refresh token
+      const refreshToken = localStorage.getItem('refreshToken');
+      if (refreshToken && !originalRequest.url?.includes('/auth/login')) {
+        try {
+          const response = await axios.post(
+            `${BASE_URL}/auth/refresh`,
+            { refreshToken }
+          );
+
+          const { accessToken } = response.data.data;
+          localStorage.setItem('accessToken', accessToken);
+
+          // Retry original request with new token
+          originalRequest.headers.Authorization = `Bearer ${accessToken}`;
+          return api(originalRequest);
+        } catch (refreshError) {
+          // Refresh failed - clear tokens and redirect to login
+          localStorage.removeItem('accessToken');
+          localStorage.removeItem('refreshToken');
+
+          if (typeof window !== 'undefined') {
+            const currentPath = window.location.pathname;
+            if (!currentPath.includes('/login')) {
+              window.location.href = `/login?redirect=${encodeURIComponent(currentPath)}`;
+            }
+          }
+          return Promise.reject(refreshError);
+        }
+      } else {
+        // No refresh token - redirect to login
+        if (typeof window !== 'undefined') {
+          const currentPath = window.location.pathname;
+          if (!currentPath.includes('/login')) {
+            window.location.href = `/login?redirect=${encodeURIComponent(currentPath)}`;
+          }
         }
       }
     }
