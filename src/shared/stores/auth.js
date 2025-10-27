@@ -9,6 +9,7 @@ export const useAuthStore = defineStore('auth', () => {
   const status = ref('idle');
   const loading = ref(false);
   const error = ref(null);
+  const lastFetchedAt = ref(null);
 
   const isAuthenticated = computed(() => Boolean(user.value));
   const isStudent = computed(() => user.value?.role === 'student');
@@ -41,6 +42,7 @@ export const useAuthStore = defineStore('auth', () => {
 
       // Update state
       user.value = userData;
+      lastFetchedAt.value = new Date().toISOString();
       status.value = 'ready';
       loading.value = false;
 
@@ -85,6 +87,7 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       const response = await api.get('/auth/me');
       user.value = response.data.data?.user || response.data.data;
+      lastFetchedAt.value = new Date().toISOString();
       status.value = 'ready';
       return user.value;
     } catch (err) {
@@ -152,6 +155,7 @@ export const useAuthStore = defineStore('auth', () => {
     } finally {
       // Clear everything
       user.value = null;
+      lastFetchedAt.value = null;
       status.value = 'idle';
       loading.value = false;
       error.value = null;
@@ -201,6 +205,7 @@ export const useAuthStore = defineStore('auth', () => {
     status,
     loading,
     error,
+    lastFetchedAt,
 
     // Getters
     isAuthenticated,

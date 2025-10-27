@@ -71,11 +71,16 @@ const shellProfile = computed(() => ({
 }));
 
 const lastUpdated = computed(() => {
-  if (!lastFetchedAt.value) return t('app.header.noSync');
-  return new Intl.DateTimeFormat(locale.value === 'ru' ? 'ru-RU' : 'uz-UZ', {
-    hour: '2-digit',
-    minute: '2-digit'
-  }).format(new Date(lastFetchedAt.value));
+  if (!lastFetchedAt?.value) return t('app.header.noSync');
+  try {
+    return new Intl.DateTimeFormat(locale.value === 'ru' ? 'ru-RU' : 'uz-UZ', {
+      hour: '2-digit',
+      minute: '2-digit'
+    }).format(new Date(lastFetchedAt.value));
+  } catch (error) {
+    console.error('Error formatting lastUpdated:', error);
+    return t('app.header.noSync');
+  }
 });
 
 const navItems = computed(() => {

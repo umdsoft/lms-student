@@ -4,7 +4,7 @@ import { useAuthStore } from '@/shared/stores/auth';
 
 export function useAuth() {
   const authStore = useAuthStore();
-  const { user, status, loading, error, isAuthenticated } = storeToRefs(authStore);
+  const { user, status, loading, error, isAuthenticated, lastFetchedAt } = storeToRefs(authStore);
 
   const initials = computed(() => {
     if (!user.value?.fullName) return '';
@@ -47,6 +47,7 @@ export function useAuth() {
     status,
     loading,
     error,
+    lastFetchedAt,
     initials,
     safeRole,
     isAuthenticated,
