@@ -41,7 +41,10 @@ export const useAuthStore = defineStore('auth', () => {
   async function sendOtp(phone) {
     status.value = 'loading';
     try {
-      const { data } = await csrfApi.post('/auth/send-otp', { phone });
+      const { data } = await csrfApi.post('/auth/send-otp', {
+        phone,
+        purpose: 'LOGIN'
+      });
       phoneNumber.value = phone;
       otpSent.value = true;
       status.value = 'ready';
@@ -53,12 +56,13 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   // Verify OTP and login/register
-  async function verifyOtp(otp) {
+  async function verifyOtp(otpCode) {
     status.value = 'loading';
     try {
       const { data } = await csrfApi.post('/auth/verify-otp', {
         phone: phoneNumber.value,
-        otp
+        otpCode,
+        purpose: 'LOGIN'
       });
       user.value = data.user || data;
       lastFetchedAt.value = new Date().toISOString();
@@ -74,10 +78,10 @@ export const useAuthStore = defineStore('auth', () => {
 
   // Legacy login support (for backward compatibility)
   async function login(payload) {
-    // If payload has phone and otp, use OTP verification
-    if (payload.phone && payload.otp) {
+    // If payload has phone and otp/otpCode, use OTP verification
+    if (payload.phone && (payload.otp || payload.otpCode)) {
       phoneNumber.value = payload.phone;
-      return verifyOtp(payload.otp);
+      return verifyOtp(payload.otp || payload.otpCode);
     }
 
     // If payload only has phone, send OTP
@@ -139,6 +143,13 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
+  // Reset OTP state to go back to phone input
+  function resetOtp() {
+    otpSent.value = false;
+    phoneNumber.value = '';
+    status.value = 'idle';
+  }
+
   return {
     user,
     status,
@@ -153,6 +164,7 @@ export const useAuthStore = defineStore('auth', () => {
     sendOtp,
     verifyOtp,
     updateProfile,
-    uploadAvatar
+    uploadAvatar,
+    resetOtp
   };
 });

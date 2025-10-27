@@ -46,6 +46,10 @@ export function useAuth() {
     return authStore.uploadAvatar(file);
   }
 
+  function resetOtp() {
+    return authStore.resetOtp();
+  }
+
   return {
     user,
     status,
@@ -61,6 +65,7 @@ export function useAuth() {
     sendOtp,
     verifyOtp,
     updateProfile,
-    uploadAvatar
+    uploadAvatar,
+    resetOtp
   };
 }
