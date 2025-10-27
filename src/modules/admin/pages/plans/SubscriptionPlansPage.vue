@@ -306,9 +306,12 @@ const plans = ref([
 const stats = computed(() => ({
   activeSubscriptions: plans.value.reduce((sum, p) => sum + (p.status === 'active' ? p.subscribersCount : 0), 0),
   monthlyRevenue: plans.value.reduce((sum, p) => {
-    if (p.status === 'active') {
-      const months = parseInt(p.duration.split(' ')[0]);
-      return sum + (p.price / months) * p.subscribersCount;
+    if (p.status === 'active' && p.duration) {
+      const durationParts = p.duration.split(' ');
+      const months = durationParts.length > 0 ? parseInt(durationParts[0]) : 1;
+      if (!isNaN(months) && months > 0) {
+        return sum + (p.price / months) * p.subscribersCount;
+      }
     }
     return sum;
   }, 0),

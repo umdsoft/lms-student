@@ -92,7 +92,12 @@ api.interceptors.response.use(
           { refreshToken }
         );
 
-        const { accessToken } = response.data.data;
+        const accessToken = response?.data?.data?.accessToken;
+
+        if (!accessToken) {
+          throw new Error('No access token in refresh response');
+        }
+
         localStorage.setItem('accessToken', accessToken);
 
         // Process queued requests with new token
@@ -126,8 +131,25 @@ api.interceptors.response.use(
       console.warn('Access forbidden:', error.response?.data?.message);
     }
 
+    // Handle 404 errors - not found
+    if (error.response?.status === 404) {
+      console.warn('Resource not found:', error.config?.url);
+    }
+
+    // Handle 500+ errors - server errors
+    if (error.response?.status >= 500) {
+      console.error('Server error:', error.response?.data?.message);
+      error.message = error.response?.data?.message || 'Server xatosi yuz berdi.';
+    }
+
+    // Handle timeout errors
+    if (error.code === 'ECONNABORTED') {
+      console.error('Request timeout');
+      error.message = 'So\'rov vaqti tugadi. Iltimos, qayta urinib ko\'ring.';
+    }
+
     // Handle network errors
-    if (!error.response) {
+    if (!error.response && error.code !== 'ECONNABORTED') {
       console.error('Network error - Backend may be offline');
       error.message = 'Tarmoq xatosi. Backend serveriga ulanib bo\'lmadi.';
     }

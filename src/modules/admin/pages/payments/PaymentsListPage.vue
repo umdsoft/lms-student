@@ -375,13 +375,19 @@ const filteredPayments = computed(() => {
   }
 
   if (filters.value.type) {
-    result = result.filter(p => p.product.type === filters.value.type);
+    result = result.filter(p => p.product?.type === filters.value.type);
   }
 
   if (filters.value.date) {
     result = result.filter(p => {
-      const paymentDate = new Date(p.createdAt).toISOString().split('T')[0];
-      return paymentDate === filters.value.date;
+      if (!p.createdAt) return false;
+      try {
+        const paymentDate = new Date(p.createdAt).toISOString().split('T')[0];
+        return paymentDate === filters.value.date;
+      } catch (error) {
+        console.warn('Invalid date format:', p.createdAt);
+        return false;
+      }
     });
   }
 
