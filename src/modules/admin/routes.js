@@ -28,7 +28,7 @@ export default [
       requiresAuth: true,
       roles: ['admin'],
       title: 'Dashboard',
-      layout: 'control'
+      layout: 'admin'
     }
   },
 
@@ -41,7 +41,7 @@ export default [
       requiresAuth: true,
       roles: ['admin'],
       title: 'Olimpiadalar',
-      layout: 'control'
+      layout: 'admin'
     }
   },
 
@@ -67,7 +67,7 @@ export default [
       requiresAuth: true,
       roles: ['admin'],
       title: 'To\'lovlar',
-      layout: 'control'
+      layout: 'admin'
     }
   },
 
@@ -80,7 +80,7 @@ export default [
       requiresAuth: true,
       roles: ['admin'],
       title: 'Yo\'nalishlar',
-      layout: 'control'
+      layout: 'admin'
     }
   },
   {
@@ -91,7 +91,7 @@ export default [
       requiresAuth: true,
       roles: ['admin'],
       title: 'Obuna rejalari',
-      layout: 'control'
+      layout: 'admin'
     }
   },
 
@@ -104,7 +104,7 @@ export default [
       requiresAuth: true,
       roles: ['admin'],
       title: 'Analitika',
-      layout: 'control'
+      layout: 'admin'
     }
   }
 ];
