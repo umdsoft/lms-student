@@ -1674,5 +1674,97 @@ export default {
       action: 'Qatnashish',
       feeLabel: 'Ishtirok narxi'
     }
+  },
+  users: {
+    title: 'Foydalanuvchilar',
+    subtitle: 'Barcha foydalanuvchilarni boshqarish va monitoring',
+    addNew: 'Foydalanuvchi qo\'shish',
+    empty: 'Hech qanday foydalanuvchi topilmadi',
+
+    stats: {
+      total: 'Jami foydalanuvchilar',
+      active: 'Aktiv',
+      students: 'O\'quvchilar',
+      teachers: 'O\'qituvchilar'
+    },
+
+    filters: {
+      searchPlaceholder: 'Ism yoki email...',
+      allRoles: 'Barcha rollar',
+      allStatuses: 'Barcha statuslar',
+      clear: 'Tozalash'
+    },
+
+    table: {
+      user: 'FOYDALANUVCHI',
+      role: 'ROL',
+      status: 'STATUS',
+      registered: 'RO\'YXATDAN O\'TGAN',
+      lastActivity: 'OXIRGI FAOLIYAT',
+      actions: 'AMALLAR',
+      noData: 'Ma\'lumot topilmadi'
+    },
+
+    roles: {
+      student: 'O\'quvchi',
+      teacher: 'O\'qituvchi',
+      admin: 'Admin'
+    },
+
+    status: {
+      active: 'Aktiv',
+      inactive: 'Noaktiv',
+      blocked: 'Bloklangan'
+    },
+
+    form: {
+      title: {
+        create: 'Yangi foydalanuvchi',
+        edit: 'Foydalanuvchini tahrirlash'
+      },
+      firstName: 'Ism',
+      lastName: 'Familiya',
+      email: 'Email',
+      phone: 'Telefon',
+      password: 'Parol',
+      role: 'Rol',
+      status: 'Status',
+      save: 'Saqlash',
+      cancel: 'Bekor qilish',
+      required: 'Majburiy maydon'
+    },
+
+    delete: {
+      title: 'Foydalanuvchini o\'chirish',
+      message: 'Rostdan ham ushbu foydalanuvchini o\'chirmoqchimisiz?',
+      confirm: 'O\'chirish',
+      cancel: 'Bekor qilish'
+    },
+
+    block: {
+      title: 'Foydalanuvchini bloklash',
+      message: 'Bloklash sababini kiriting:',
+      reasonPlaceholder: 'Sabab...',
+      confirm: 'Bloklash',
+      cancel: 'Bekor qilish'
+    },
+
+    messages: {
+      createSuccess: 'Foydalanuvchi muvaffaqiyatli yaratildi',
+      updateSuccess: 'Foydalanuvchi muvaffaqiyatli yangilandi',
+      deleteSuccess: 'Foydalanuvchi muvaffaqiyatli o\'chirildi',
+      blockSuccess: 'Foydalanuvchi bloklandi',
+      error: 'Xatolik yuz berdi'
+    },
+
+    pagination: {
+      showing: 'Ko\'rsatilmoqda',
+      to: 'dan',
+      of: 'jami',
+      results: 'ta natija',
+      previous: 'Oldingi',
+      next: 'Keyingi',
+      page: 'Sahifa'
+    }
   }
 };
