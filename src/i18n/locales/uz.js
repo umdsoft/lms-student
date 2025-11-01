@@ -1807,6 +1807,64 @@ export default {
       error: 'Xatolik yuz berdi'
     }
   },
+  courses: {
+    title: 'Kurslar',
+    addNew: 'Kurs qo\'shish',
+    createFirst: 'Birinchi kursni yarating',
+    empty: 'Hozircha kurslar mavjud emas',
+    students: 'o\'quvchi',
+    lessons: 'dars',
+    months: 'oy',
+    statistics: 'Statistika',
+
+    form: {
+      title: {
+        create: 'Yangi kurs',
+        edit: 'Kursni tahrirlash'
+      },
+      name: 'Kurs nomi',
+      level: 'Daraja',
+      description: 'Tavsif',
+      duration: 'Davomiyligi (oy)',
+      price: 'Narxi (so\'m/oy)',
+      lessonsCount: 'Darslar soni',
+      status: 'Status',
+      save: 'Saqlash',
+      cancel: 'Bekor qilish',
+      required: 'Majburiy maydon'
+    },
+
+    status: {
+      active: 'Aktiv',
+      inactive: 'Noaktiv',
+      draft: 'Qoralama'
+    },
+
+    levels: {
+      beginner: 'Boshlang\'ich',
+      elementary: 'Elementar',
+      intermediate: 'O\'rta',
+      upperIntermediate: 'Yuqori o\'rta',
+      advanced: 'Ilg\'or',
+      proficiency: 'Mukammal'
+    },
+
+    delete: {
+      title: 'Kursni o\'chirish',
+      message: 'Rostdan ham ushbu kursni o\'chirmoqchimisiz?',
+      warning: 'Diqqat!',
+      warningMessage: 'Bu kurs bilan bog\'liq barcha ma\'lumotlar o\'chiriladi. Bu amalni qaytarib bo\'lmaydi.',
+      confirm: 'O\'chirish',
+      cancel: 'Bekor qilish'
+    },
+
+    messages: {
+      createSuccess: 'Kurs muvaffaqiyatli yaratildi',
+      updateSuccess: 'Kurs muvaffaqiyatli yangilandi',
+      deleteSuccess: 'Kurs muvaffaqiyatli o\'chirildi',
+      error: 'Xatolik yuz berdi'
+    }
+  },
   users: {
     title: 'Foydalanuvchilar',
     subtitle: 'Barcha foydalanuvchilarni boshqarish va monitoring',

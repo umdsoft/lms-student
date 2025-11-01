@@ -154,6 +154,12 @@
             </div>
           </div>
         </div>
+
+        <!-- Courses Section -->
+        <CoursesSection
+          :direction-id="direction.id"
+          :can-manage="canManage"
+        />
       </div>
     </div>
 
@@ -200,13 +206,16 @@ import DirectionFormModal from '@/components/directions/DirectionFormModal.vue';
 import DirectionDeleteModal from '@/components/directions/DirectionDeleteModal.vue';
 import SubjectsManager from '@/components/directions/SubjectsManager.vue';
 import TeachersManager from '@/components/directions/TeachersManager.vue';
+import CoursesSection from '@/components/directions/CoursesSection.vue';
 import { useDirectionsStore } from '@/stores/directions';
+import { useAuth } from '@/shared/composables/useAuth';
 
 const route = useRoute();
 const router = useRouter();
 const { t } = useI18n();
 const push = useNotivue();
 const directionsStore = useDirectionsStore();
+const { user } = useAuth();
 
 const showFormModal = ref(false);
 const showDeleteModal = ref(false);
@@ -215,6 +224,7 @@ const showTeachersModal = ref(false);
 
 const direction = computed(() => directionsStore.currentDirection);
 const isLoading = computed(() => directionsStore.isLoading);
+const canManage = computed(() => user.value?.role === 'admin');
 
 const gradientClasses = computed(() => {
   const colorMap = {

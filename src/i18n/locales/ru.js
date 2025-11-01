@@ -1772,6 +1772,64 @@ export default {
       error: 'Произошла ошибка'
     }
   },
+  courses: {
+    title: 'Курсы',
+    addNew: 'Добавить курс',
+    createFirst: 'Создайте первый курс',
+    empty: 'Курсы пока отсутствуют',
+    students: 'ученик',
+    lessons: 'урок',
+    months: 'мес',
+    statistics: 'Статистика',
+
+    form: {
+      title: {
+        create: 'Новый курс',
+        edit: 'Редактировать курс'
+      },
+      name: 'Название курса',
+      level: 'Уровень',
+      description: 'Описание',
+      duration: 'Длительность (мес)',
+      price: 'Цена (сум/мес)',
+      lessonsCount: 'Количество уроков',
+      status: 'Статус',
+      save: 'Сохранить',
+      cancel: 'Отмена',
+      required: 'Обязательное поле'
+    },
+
+    status: {
+      active: 'Активный',
+      inactive: 'Неактивный',
+      draft: 'Черновик'
+    },
+
+    levels: {
+      beginner: 'Начальный',
+      elementary: 'Элементарный',
+      intermediate: 'Средний',
+      upperIntermediate: 'Выше среднего',
+      advanced: 'Продвинутый',
+      proficiency: 'Совершенный'
+    },
+
+    delete: {
+      title: 'Удалить курс',
+      message: 'Вы действительно хотите удалить этот курс?',
+      warning: 'Внимание!',
+      warningMessage: 'Все данные, связанные с этим курсом, будут удалены. Это действие нельзя отменить.',
+      confirm: 'Удалить',
+      cancel: 'Отмена'
+    },
+
+    messages: {
+      createSuccess: 'Курс успешно создан',
+      updateSuccess: 'Курс успешно обновлен',
+      deleteSuccess: 'Курс успешно удален',
+      error: 'Произошла ошибка'
+    }
+  },
   users: {
     title: 'Пользователи',
     subtitle: 'Управление и мониторинг всех пользователей',
