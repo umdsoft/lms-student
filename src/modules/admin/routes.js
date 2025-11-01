@@ -49,12 +49,12 @@ export default [
   {
     path: '/admin/users',
     name: 'admin.users',
-    component: () => import('@/modules/admin/pages/users/UsersListPage.vue'),
+    component: () => import('@/pages/users/UsersPage.vue'),
     meta: {
       requiresAuth: true,
       roles: ['admin'],
       title: 'Foydalanuvchilar',
-      layout: 'control'
+      layout: 'admin'
     }
   },
 

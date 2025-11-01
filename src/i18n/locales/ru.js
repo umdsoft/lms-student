@@ -1639,5 +1639,97 @@ export default {
       action: 'Участвовать',
       feeLabel: 'Взнос за участие'
     }
+  },
+  users: {
+    title: 'Пользователи',
+    subtitle: 'Управление и мониторинг всех пользователей',
+    addNew: 'Добавить пользователя',
+    empty: 'Пользователи не найдены',
+
+    stats: {
+      total: 'Всего пользователей',
+      active: 'Активных',
+      students: 'Учеников',
+      teachers: 'Учителей'
+    },
+
+    filters: {
+      searchPlaceholder: 'Имя или email...',
+      allRoles: 'Все роли',
+      allStatuses: 'Все статусы',
+      clear: 'Очистить'
+    },
+
+    table: {
+      user: 'ПОЛЬЗОВАТЕЛЬ',
+      role: 'РОЛЬ',
+      status: 'СТАТУС',
+      registered: 'ЗАРЕГИСТРИРОВАН',
+      lastActivity: 'ПОСЛЕДНЯЯ АКТИВНОСТЬ',
+      actions: 'ДЕЙСТВИЯ',
+      noData: 'Данные не найдены'
+    },
+
+    roles: {
+      student: 'Ученик',
+      teacher: 'Учитель',
+      admin: 'Админ'
+    },
+
+    status: {
+      active: 'Активный',
+      inactive: 'Неактивный',
+      blocked: 'Заблокирован'
+    },
+
+    form: {
+      title: {
+        create: 'Новый пользователь',
+        edit: 'Редактировать пользователя'
+      },
+      firstName: 'Имя',
+      lastName: 'Фамилия',
+      email: 'Email',
+      phone: 'Телефон',
+      password: 'Пароль',
+      role: 'Роль',
+      status: 'Статус',
+      save: 'Сохранить',
+      cancel: 'Отмена',
+      required: 'Обязательное поле'
+    },
+
+    delete: {
+      title: 'Удалить пользователя',
+      message: 'Вы действительно хотите удалить этого пользователя?',
+      confirm: 'Удалить',
+      cancel: 'Отмена'
+    },
+
+    block: {
+      title: 'Заблокировать пользователя',
+      message: 'Введите причину блокировки:',
+      reasonPlaceholder: 'Причина...',
+      confirm: 'Заблокировать',
+      cancel: 'Отмена'
+    },
+
+    messages: {
+      createSuccess: 'Пользователь успешно создан',
+      updateSuccess: 'Пользователь успешно обновлен',
+      deleteSuccess: 'Пользователь успешно удален',
+      blockSuccess: 'Пользователь заблокирован',
+      error: 'Произошла ошибка'
+    },
+
+    pagination: {
+      showing: 'Показано',
+      to: 'до',
+      of: 'из',
+      results: 'результатов',
+      previous: 'Предыдущая',
+      next: 'Следующая',
+      page: 'Страница'
+    }
   }
 };
