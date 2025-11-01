@@ -41,7 +41,7 @@ export const useUsersStore = defineStore('users', {
       search: '',
       role: '',
       status: '',
-      sortBy: 'createdAt',
+      sortBy: 'created_at',
       sortOrder: 'desc'
     },
 
@@ -274,7 +274,7 @@ export const useUsersStore = defineStore('users', {
         search: '',
         role: '',
         status: '',
-        sortBy: 'createdAt',
+        sortBy: 'created_at',
         sortOrder: 'desc'
       };
       this.pagination.page = 1;
