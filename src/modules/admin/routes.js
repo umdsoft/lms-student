@@ -75,11 +75,22 @@ export default [
   {
     path: '/admin/directions',
     name: 'admin.directions',
-    component: () => import('@/modules/admin/pages/directions/DirectionsListPage.vue'),
+    component: () => import('@/pages/directions/DirectionsPage.vue'),
     meta: {
       requiresAuth: true,
       roles: ['admin'],
       title: 'Yo\'nalishlar',
+      layout: 'admin'
+    }
+  },
+  {
+    path: '/admin/directions/:id',
+    name: 'admin.direction-detail',
+    component: () => import('@/pages/directions/DirectionDetailPage.vue'),
+    meta: {
+      requiresAuth: true,
+      roles: ['admin'],
+      title: 'Yo\'nalish',
       layout: 'admin'
     }
   },

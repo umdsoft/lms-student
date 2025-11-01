@@ -44,6 +44,21 @@ export default {
       }
     }
   },
+  common: {
+    actions: {
+      back: 'Ortga qaytish'
+    },
+    pagination: {
+      previous: 'Oldingi',
+      next: 'Keyingi',
+      page: 'Sahifa',
+      of: 'dan'
+    },
+    sort: {
+      asc: 'O\'sish tartibi',
+      desc: 'Kamayish tartibi'
+    }
+  },
   teacher: {
     header: {
       greeting: 'Assalomu alaykum, ustoz!',
@@ -1673,6 +1688,123 @@ export default {
     olympiadCard: {
       action: 'Qatnashish',
       feeLabel: 'Ishtirok narxi'
+    }
+  },
+  directions: {
+    title: "Yo'nalishlar",
+    subtitle: "O'quv yo'nalishlari va fanlari boshqaruvi",
+    addNew: "Yo'nalish qo'shish",
+    empty: "Hech qanday yo'nalish topilmadi",
+    labels: {
+      students: "o'quvchi",
+      courses: 'kurs',
+      status: 'Status'
+    },
+    stats: {
+      total: "Jami yo'nalishlar",
+      active: "Aktiv yo'nalishlar",
+      students: "Jami o'quvchilar",
+      courses: 'Jami kurslar'
+    },
+    filters: {
+      searchPlaceholder: "Yo'nalish nomi...",
+      allStatuses: 'Barchasi',
+      sortBy: {
+        label: 'Tartib',
+        name: "Nom bo'yicha",
+        displayOrder: 'Tartib raqami',
+        createdAt: 'Yaratilgan sana'
+      },
+      clear: 'Tozalash'
+    },
+    status: {
+      active: 'Aktiv',
+      inactive: 'Noaktiv'
+    },
+    form: {
+      title: {
+        create: "Yangi yo'nalish",
+        edit: "Yo'nalishni tahrirlash"
+      },
+      subtitle: "Yo'nalish haqidagi asosiy ma'lumotlarni kiriting",
+      name: 'Nomi',
+      description: 'Tavsif',
+      color: 'Rang',
+      icon: 'Ikonka',
+      status: 'Status',
+      displayOrder: 'Tartib raqami',
+      save: 'Saqlash',
+      cancel: 'Bekor qilish',
+      required: 'Majburiy maydon',
+      preview: 'Ko\'rinish',
+      previewPlaceholder: "Yo'nalish nomi",
+      previewDescription: "Qisqa tavsif bu yerda paydo bo'ladi"
+    },
+    colors: {
+      blue: "Ko'k",
+      purple: 'Binafsharang',
+      orange: "To'q sariq",
+      green: 'Yashil',
+      red: 'Qizil',
+      indigo: 'Indigo',
+      pink: 'Pushti',
+      yellow: 'Sariq'
+    },
+    icons: {
+      book: 'Kitob',
+      beaker: 'Laboratoriya',
+      laptop: 'Kompyuter',
+      globe: 'Globus',
+      calculator: 'Kalkulyator',
+      atom: 'Atom',
+      dna: 'DNK',
+      palette: 'Palitra',
+      microscope: 'Mikroskop'
+    },
+    actions: {
+      edit: 'Tahrirlash',
+      view: "Ko'rish",
+      delete: "O'chirish",
+      activate: 'Aktivlashtirish',
+      deactivate: 'Faolsizlantirish'
+    },
+    delete: {
+      title: "Yo'nalishni o'chirish",
+      message: "Rostdan ham ushbu yo'nalishni o'chirmoqchimisiz?",
+      confirm: "O'chirish",
+      cancel: 'Bekor qilish'
+    },
+    subjects: {
+      title: 'Fanlar',
+      add: 'Fan qo\'shish',
+      empty: 'Fanlar mavjud emas',
+      manage: 'Fanlarni boshqarish',
+      description: "Yo'nalish fanlarini qo'shing yoki olib tashlang",
+      placeholder: 'Fan nomi...',
+      addButton: 'Qo\'shish',
+      pending: 'Qo\'shilayotgan fanlar',
+      current: 'Mavjud fanlar',
+      remove: "O'chirish",
+      save: 'Saqlash'
+    },
+    teachers: {
+      title: "O'qituvchilar",
+      assign: "O'qituvchi tayinlash",
+      empty: "O'qituvchilar tayinlanmagan",
+      manage: "O'qituvchilarni boshqarish",
+      description: "Yo'nalishga mas'ul o'qituvchilarni tanlang",
+      search: 'Qidiruv',
+      searchPlaceholder: "Ism yoki email...",
+      available: 'Mavjud o\'qituvchilar',
+      assigned: 'Tayinlangan o\'qituvchilar',
+      remove: "O'chirish",
+      emptySearch: 'O\'qituvchi topilmadi'
+    },
+    messages: {
+      createSuccess: "Yo'nalish muvaffaqiyatli yaratildi",
+      updateSuccess: "Yo'nalish muvaffaqiyatli yangilandi",
+      deleteSuccess: "Yo'nalish muvaffaqiyatli o'chirildi",
+      error: 'Xatolik yuz berdi'
     }
   },
   users: {
