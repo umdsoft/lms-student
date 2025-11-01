@@ -44,6 +44,21 @@ export default {
       }
     }
   },
+  common: {
+    actions: {
+      back: 'Назад'
+    },
+    pagination: {
+      previous: 'Предыдущая',
+      next: 'Следующая',
+      page: 'Страница',
+      of: 'из'
+    },
+    sort: {
+      asc: 'По возрастанию',
+      desc: 'По убыванию'
+    }
+  },
   teacher: {
     header: {
       greeting: 'Здравствуйте, наставник!',
@@ -1638,6 +1653,123 @@ export default {
     olympiadCard: {
       action: 'Участвовать',
       feeLabel: 'Взнос за участие'
+    }
+  },
+  directions: {
+    title: 'Направления',
+    subtitle: 'Управление учебными направлениями и предметами',
+    addNew: 'Добавить направление',
+    empty: 'Направления не найдены',
+    labels: {
+      students: 'ученик',
+      courses: 'курс',
+      status: 'Статус'
+    },
+    stats: {
+      total: 'Всего направлений',
+      active: 'Активных направлений',
+      students: 'Всего учеников',
+      courses: 'Всего курсов'
+    },
+    filters: {
+      searchPlaceholder: 'Название направления...',
+      allStatuses: 'Все',
+      sortBy: {
+        label: 'Сортировка',
+        name: 'По названию',
+        displayOrder: 'По порядку',
+        createdAt: 'По дате создания'
+      },
+      clear: 'Очистить'
+    },
+    status: {
+      active: 'Активный',
+      inactive: 'Неактивный'
+    },
+    form: {
+      title: {
+        create: 'Новое направление',
+        edit: 'Редактировать направление'
+      },
+      subtitle: 'Заполните основную информацию о направлении',
+      name: 'Название',
+      description: 'Описание',
+      color: 'Цвет',
+      icon: 'Иконка',
+      status: 'Статус',
+      displayOrder: 'Порядок отображения',
+      save: 'Сохранить',
+      cancel: 'Отмена',
+      required: 'Обязательное поле',
+      preview: 'Предпросмотр',
+      previewPlaceholder: 'Название направления',
+      previewDescription: 'Краткое описание появится здесь'
+    },
+    colors: {
+      blue: 'Синий',
+      purple: 'Фиолетовый',
+      orange: 'Оранжевый',
+      green: 'Зелёный',
+      red: 'Красный',
+      indigo: 'Индиго',
+      pink: 'Розовый',
+      yellow: 'Жёлтый'
+    },
+    icons: {
+      book: 'Книга',
+      beaker: 'Лаборатория',
+      laptop: 'Ноутбук',
+      globe: 'Глобус',
+      calculator: 'Калькулятор',
+      atom: 'Атом',
+      dna: 'ДНК',
+      palette: 'Палитра',
+      microscope: 'Микроскоп'
+    },
+    actions: {
+      edit: 'Редактировать',
+      view: 'Просмотр',
+      delete: 'Удалить',
+      activate: 'Включить',
+      deactivate: 'Выключить'
+    },
+    delete: {
+      title: 'Удалить направление',
+      message: 'Вы уверены, что хотите удалить это направление?',
+      confirm: 'Удалить',
+      cancel: 'Отмена'
+    },
+    subjects: {
+      title: 'Предметы',
+      add: 'Добавить предмет',
+      empty: 'Предметы не добавлены',
+      manage: 'Управление предметами',
+      description: 'Добавляйте или удаляйте предметы направления',
+      placeholder: 'Название предмета...',
+      addButton: 'Добавить',
+      pending: 'Ожидающие добавления',
+      current: 'Текущие предметы',
+      remove: 'Удалить',
+      save: 'Сохранить'
+    },
+    teachers: {
+      title: 'Преподаватели',
+      assign: 'Назначить преподавателя',
+      empty: 'Преподаватели не назначены',
+      manage: 'Управление преподавателями',
+      description: 'Выберите ответственных преподавателей',
+      search: 'Поиск',
+      searchPlaceholder: 'Имя или email...',
+      available: 'Доступные преподаватели',
+      assigned: 'Назначенные преподаватели',
+      remove: 'Удалить',
+      emptySearch: 'Преподаватели не найдены'
+    },
+    messages: {
+      createSuccess: 'Направление успешно создано',
+      updateSuccess: 'Направление успешно обновлено',
+      deleteSuccess: 'Направление успешно удалено',
+      error: 'Произошла ошибка'
     }
   },
   users: {
