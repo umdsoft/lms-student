@@ -21,6 +21,7 @@ const layouts = {
   app: StudentLayout,
   student: StudentLayout,
   teacher: TeacherLayout,
+  admin: AdminLayout,
   control: AdminLayout,
   auth: AuthLayout
 };
