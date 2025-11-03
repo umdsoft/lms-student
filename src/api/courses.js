@@ -1,5 +1,5 @@
-import api from './api';
-import { withCsrf } from './api.csrf';
+import api from '../api';
+import { withCsrf } from '../api.csrf';
 
 export default {
   /**
