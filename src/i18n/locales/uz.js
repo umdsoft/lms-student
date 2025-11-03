@@ -45,8 +45,13 @@ export default {
     }
   },
   common: {
+    loading: 'Yuklanmoqda...',
     actions: {
-      back: 'Ortga qaytish'
+      back: 'Ortga qaytish',
+      edit: 'Tahrirlash',
+      delete: 'O\'chirish',
+      save: 'Saqlash',
+      cancel: 'Bekor qilish'
     },
     pagination: {
       previous: 'Oldingi',
@@ -1814,8 +1819,26 @@ export default {
     empty: 'Hozircha kurslar mavjud emas',
     students: 'o\'quvchi',
     lessons: 'dars',
-    months: 'oy',
-    statistics: 'Statistika',
+    view: 'Ko\'rish',
+    description: 'Tavsif',
+
+    stats: {
+      modules: 'Modullar',
+      lessons: 'Darslar',
+      duration: 'Davomiyligi',
+      students: 'O\'quvchilar'
+    },
+
+    actions: {
+      edit: 'Tahrirlash',
+      delete: 'O\'chirish'
+    },
+
+    pricingType: {
+      label: 'Narx turi',
+      subscription: 'Obuna ichida',
+      individual: 'Alohida sotiladi'
+    },
 
     form: {
       title: {
@@ -1825,13 +1848,12 @@ export default {
       name: 'Kurs nomi',
       level: 'Daraja',
       description: 'Tavsif',
-      duration: 'Davomiyligi (oy)',
-      price: 'Narxi (so\'m/oy)',
-      lessonsCount: 'Darslar soni',
+      price: 'Narxi (so\'m)',
+      teacher: 'O\'qituvchi',
+      teacherUnassigned: 'Tayinlanmagan',
       status: 'Status',
       save: 'Saqlash',
-      cancel: 'Bekor qilish',
-      required: 'Majburiy maydon'
+      cancel: 'Bekor qilish'
     },
 
     status: {
@@ -1856,6 +1878,116 @@ export default {
       warningMessage: 'Bu kurs bilan bog\'liq barcha ma\'lumotlar o\'chiriladi. Bu amalni qaytarib bo\'lmaydi.',
       confirm: 'O\'chirish',
       cancel: 'Bekor qilish'
+    },
+
+    modules: {
+      title: 'Modullar',
+      add: 'Modul qo\'shish',
+      empty: 'Modullar mavjud emas',
+      emptyDescription: 'Birinchi modulni yarating',
+      createFirst: 'Birinchi modulni yarating',
+      lessonsCount: 'dars',
+      edit: 'Tahrirlash',
+      view: 'Ko\'rish',
+      delete: 'O\'chirish',
+      moveUp: 'Yuqoriga',
+      moveDown: 'Pastga',
+      description: 'Tavsif',
+
+      form: {
+        title: {
+          create: 'Yangi modul',
+          edit: 'Modulni tahrirlash'
+        },
+        name: 'Modul nomi',
+        namePlaceholder: 'Modul nomini kiriting',
+        description: 'Tavsif',
+        descriptionPlaceholder: 'Modul tavsifini kiriting',
+        save: 'Saqlash',
+        cancel: 'Bekor qilish'
+      },
+
+      delete: {
+        title: 'Modulni o\'chirish',
+        message: 'Rostdan ham ushbu modulni o\'chirmoqchimisiz?',
+        warning: 'Diqqat!',
+        warningMessage: 'Bu modul bilan bog\'liq barcha darslar o\'chiriladi. Bu amalni qaytarib bo\'lmaydi.',
+        confirm: 'O\'chirish',
+        cancel: 'Bekor qilish'
+      },
+
+      messages: {
+        createSuccess: 'Modul muvaffaqiyatli yaratildi',
+        updateSuccess: 'Modul muvaffaqiyatli yangilandi',
+        deleteSuccess: 'Modul muvaffaqiyatli o\'chirildi',
+        error: 'Xatolik yuz berdi'
+      }
+    },
+
+    lessons: {
+      title: 'Darslar',
+      add: 'Dars qo\'shish',
+      empty: 'Darslar mavjud emas',
+      emptyDescription: 'Birinchi darsni yarating',
+      createFirst: 'Birinchi darsni yarating',
+      edit: 'Tahrirlash',
+      view: 'Ko\'rish',
+      delete: 'O\'chirish',
+      moveUp: 'Yuqoriga',
+      moveDown: 'Pastga',
+      files: 'fayl',
+      tests: 'test',
+      description: 'Tavsif',
+      filesTitle: 'Fayllar',
+      noFiles: 'Fayllar mavjud emas',
+      noVideo: 'Video mavjud emas',
+      directVideo: 'To\'g\'ridan-to\'g\'ri video',
+      videoNotSupported: 'Brauzeringiz bu video formatini qo\'llab-quvvatlamaydi',
+
+      form: {
+        title: {
+          create: 'Yangi dars',
+          edit: 'Darsni tahrirlash'
+        },
+        name: 'Dars nomi',
+        namePlaceholder: 'Dars nomini kiriting',
+        description: 'Tavsif',
+        descriptionPlaceholder: 'Dars tavsifini kiriting',
+        videoUrl: 'Video URL',
+        videoUrlPlaceholder: 'https://youtube.com/watch?v=... yoki direct video URL',
+        videoHint: 'YouTube link yoki to\'g\'ridan-to\'g\'ri video URL',
+        videoPreview: 'Video oldindan ko\'rish',
+        duration: 'Davomiyligi',
+        durationUnit: 'daqiqa',
+        files: 'Fayllar',
+        addFile: 'Fayl qo\'shish',
+        save: 'Saqlash',
+        cancel: 'Bekor qilish'
+      },
+
+      delete: {
+        title: 'Darsni o\'chirish',
+        message: 'Rostdan ham ushbu darsni o\'chirmoqchimisiz?',
+        warning: 'Diqqat!',
+        warningMessage: 'Bu dars bilan bog\'liq barcha fayllar va testlar o\'chiriladi. Bu amalni qaytarib bo\'lmaydi.',
+        confirm: 'O\'chirish',
+        cancel: 'Bekor qilish'
+      },
+
+      messages: {
+        createSuccess: 'Dars muvaffaqiyatli yaratildi',
+        updateSuccess: 'Dars muvaffaqiyatli yangilandi',
+        deleteSuccess: 'Dars muvaffaqiyatli o\'chirildi',
+        fileDeleteSuccess: 'Fayl o\'chirildi',
+        fileDeleteError: 'Faylni o\'chirishda xatolik',
+        error: 'Xatolik yuz berdi'
+      }
+    },
+
+    tests: {
+      title: 'Testlar',
+      add: 'Test qo\'shish',
+      empty: 'Testlar mavjud emas'
     },
 
     messages: {

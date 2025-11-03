@@ -5,6 +5,7 @@ export const useCoursesStore = defineStore('courses', {
   state: () => ({
     courses: [],
     currentCourse: null,
+    teachers: [],
     loading: false,
     error: null
   }),
@@ -202,6 +203,23 @@ export const useCoursesStore = defineStore('courses', {
     },
 
     /**
+     * Fetch all teachers for course assignment
+     */
+    async fetchTeachers() {
+      try {
+        const response = await coursesApi.getTeachers();
+        if (response?.success) {
+          this.teachers = response.data || [];
+        } else {
+          throw new Error(response?.message || 'Failed to fetch teachers');
+        }
+      } catch (error) {
+        console.error('Fetch teachers error:', error);
+        this.teachers = [];
+      }
+    },
+
+    /**
      * Clear error state
      */
     clearError() {
@@ -214,6 +232,7 @@ export const useCoursesStore = defineStore('courses', {
     reset() {
       this.courses = [];
       this.currentCourse = null;
+      this.teachers = [];
       this.loading = false;
       this.error = null;
     }

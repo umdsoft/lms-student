@@ -94,6 +94,46 @@ export default [
       layout: 'admin'
     }
   },
+
+  // Course Routes
+  {
+    path: '/admin/courses/:id',
+    name: 'admin.course-detail',
+    component: () => import('@/pages/courses/CourseDetailPage.vue'),
+    meta: {
+      requiresAuth: true,
+      roles: ['admin'],
+      title: 'Kurs',
+      layout: 'admin'
+    }
+  },
+
+  // Module Routes
+  {
+    path: '/admin/modules/:id',
+    name: 'admin.module-detail',
+    component: () => import('@/pages/courses/ModuleDetailPage.vue'),
+    meta: {
+      requiresAuth: true,
+      roles: ['admin'],
+      title: 'Modul',
+      layout: 'admin'
+    }
+  },
+
+  // Lesson Routes
+  {
+    path: '/admin/lessons/:id',
+    name: 'admin.lesson-detail',
+    component: () => import('@/pages/courses/LessonDetailPage.vue'),
+    meta: {
+      requiresAuth: true,
+      roles: ['admin'],
+      title: 'Dars',
+      layout: 'admin'
+    }
+  },
+
   {
     path: '/admin/subscription-plans',
     name: 'admin.plans',

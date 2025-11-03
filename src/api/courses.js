@@ -69,5 +69,14 @@ export default {
   async getCourseStatistics(id) {
     const { data } = await api.get(`/courses/${id}/statistics`);
     return data;
+  },
+
+  /**
+   * Get all teachers (for teacher selection)
+   * @returns {Promise} API response
+   */
+  async getTeachers() {
+    const { data } = await api.get('/users', { params: { role: 'teacher' } });
+    return data;
   }
 };
