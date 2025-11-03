@@ -53,7 +53,7 @@
         :can-manage="canManage"
         @edit="handleEdit"
         @delete="handleDelete"
-        @view-stats="handleViewStats"
+        @view="handleView"
       />
     </div>
 
@@ -76,6 +76,7 @@
 
 <script setup>
 import { computed, onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useNotivue } from 'notivue';
 import { useCoursesStore } from '@/stores/courses';
@@ -85,6 +86,7 @@ import CourseDeleteModal from '@/components/courses/CourseDeleteModal.vue';
 
 const { t } = useI18n();
 const push = useNotivue();
+const router = useRouter();
 const coursesStore = useCoursesStore();
 
 const props = defineProps({
@@ -137,12 +139,8 @@ const handleDelete = (course) => {
   showDeleteModal.value = true;
 };
 
-const handleViewStats = (course) => {
-  // TODO: Navigate to course statistics page
-  push.info({
-    title: t('courses.statistics'),
-    message: `${course.name} statistikasi`
-  });
+const handleView = (course) => {
+  router.push({ name: 'admin.course-detail', params: { id: course.id } });
 };
 
 const handleSave = async () => {

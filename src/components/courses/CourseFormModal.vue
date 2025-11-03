@@ -58,41 +58,43 @@
         />
       </div>
 
-      <!-- Duration and Lessons Count (Grid) -->
-      <div class="grid gap-4 sm:grid-cols-2">
-        <div>
-          <label for="course-duration" class="mb-1 block text-sm font-medium text-gray-700">
-            {{ t('courses.form.duration') }}
+      <!-- Pricing Type -->
+      <div>
+        <label class="mb-2 block text-sm font-medium text-gray-700">
+          {{ t('courses.pricingType.label') }}
+          <span class="text-red-500">*</span>
+        </label>
+        <div class="space-y-2">
+          <label class="flex items-center cursor-pointer">
+            <input
+              v-model="formData.pricingType"
+              type="radio"
+              value="subscription"
+              class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-2 focus:ring-blue-500"
+            />
+            <span class="ml-3 text-sm text-gray-700">
+              {{ t('courses.pricingType.subscription') }}
+            </span>
           </label>
-          <input
-            id="course-duration"
-            v-model.number="formData.duration"
-            type="number"
-            min="0"
-            class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
-            placeholder="6"
-          />
-        </div>
-
-        <div>
-          <label for="course-lessons" class="mb-1 block text-sm font-medium text-gray-700">
-            {{ t('courses.form.lessonsCount') }}
+          <label class="flex items-center cursor-pointer">
+            <input
+              v-model="formData.pricingType"
+              type="radio"
+              value="individual"
+              class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-2 focus:ring-blue-500"
+            />
+            <span class="ml-3 text-sm text-gray-700">
+              {{ t('courses.pricingType.individual') }}
+            </span>
           </label>
-          <input
-            id="course-lessons"
-            v-model.number="formData.lessonsCount"
-            type="number"
-            min="0"
-            class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
-            placeholder="24"
-          />
         </div>
       </div>
 
-      <!-- Price -->
-      <div>
+      <!-- Price (conditional - only for individual) -->
+      <div v-if="formData.pricingType === 'individual'">
         <label for="course-price" class="mb-1 block text-sm font-medium text-gray-700">
           {{ t('courses.form.price') }}
+          <span class="text-red-500">*</span>
         </label>
         <input
           id="course-price"
@@ -100,9 +102,31 @@
           type="number"
           min="0"
           step="1000"
+          required
           class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
           placeholder="500000"
         />
+      </div>
+
+      <!-- Teacher (Optional) -->
+      <div>
+        <label for="course-teacher" class="mb-1 block text-sm font-medium text-gray-700">
+          {{ t('courses.form.teacher') }}
+        </label>
+        <select
+          id="course-teacher"
+          v-model="formData.teacherId"
+          class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+        >
+          <option :value="null">{{ t('courses.form.teacherUnassigned') }}</option>
+          <option
+            v-for="teacher in teachers"
+            :key="teacher.id"
+            :value="teacher.id"
+          >
+            {{ formatTeacherName(teacher) }}
+          </option>
+        </select>
       </div>
 
       <!-- Status -->
@@ -148,7 +172,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { ref, watch, computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useNotivue } from 'notivue';
 import BaseModal from '@/components/common/BaseModal.vue';
@@ -157,6 +181,8 @@ import { useCoursesStore } from '@/stores/courses';
 const { t } = useI18n();
 const push = useNotivue();
 const coursesStore = useCoursesStore();
+
+const teachers = computed(() => coursesStore.teachers);
 
 const props = defineProps({
   show: {
@@ -184,15 +210,20 @@ const formData = ref({
   name: '',
   level: '',
   description: '',
-  duration: 0,
-  lessonsCount: 0,
+  pricingType: 'subscription',
   price: 0,
+  teacherId: null,
   status: 'draft',
   directionId: props.directionId
 });
 
 const loading = ref(false);
 const error = ref(null);
+
+// Fetch teachers on mount
+onMounted(() => {
+  coursesStore.fetchTeachers();
+});
 
 // Watch for course changes to populate form in edit mode
 watch(
@@ -203,9 +234,9 @@ watch(
         name: newCourse.name || '',
         level: newCourse.level || '',
         description: newCourse.description || '',
-        duration: newCourse.duration || 0,
-        lessonsCount: newCourse.lessonsCount || 0,
+        pricingType: newCourse.pricingType || 'subscription',
         price: newCourse.price || 0,
+        teacherId: newCourse.teacherId || null,
         status: newCourse.status || 'draft',
         directionId: props.directionId
       };
@@ -216,14 +247,18 @@ watch(
   { immediate: true }
 );
 
+const formatTeacherName = (teacher) => {
+  return `${teacher.firstName || ''} ${teacher.lastName || ''}`.trim() || teacher.email;
+};
+
 const resetForm = () => {
   formData.value = {
     name: '',
     level: '',
     description: '',
-    duration: 0,
-    lessonsCount: 0,
+    pricingType: 'subscription',
     price: 0,
+    teacherId: null,
     status: 'draft',
     directionId: props.directionId
   };
