@@ -25,11 +25,12 @@ export default {
 
   /**
    * Create a new test
+   * @param {number} lessonId - Lesson ID
    * @param {object} testData - Test data
    * @returns {Promise} API response
    */
-  async createTest(testData) {
-    return withCsrf(() => api.post('/tests', testData));
+  async createTest(lessonId, testData) {
+    return withCsrf(() => api.post(`/lessons/${lessonId}/tests`, testData));
   },
 
   /**
@@ -49,6 +50,16 @@ export default {
    */
   async deleteTest(id) {
     return withCsrf(() => api.delete(`/tests/${id}`));
+  },
+
+  /**
+   * Update test status
+   * @param {number} id - Test ID
+   * @param {string} status - New status (active, inactive, draft)
+   * @returns {Promise} API response
+   */
+  async updateTestStatus(id, status) {
+    return withCsrf(() => api.patch(`/tests/${id}/status`, { status }));
   },
 
   /**

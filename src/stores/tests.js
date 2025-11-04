@@ -11,6 +11,7 @@ export const useTestsStore = defineStore('tests', {
 
   getters: {
     testsList: (state) => state.tests,
+    activeTests: (state) => state.tests.filter(t => t.status === 'active'),
     isLoading: (state) => state.loading,
     hasError: (state) => Boolean(state.error)
   },
@@ -66,19 +67,18 @@ export const useTestsStore = defineStore('tests', {
 
     /**
      * Create new test
+     * @param {number} lessonId - Lesson ID
      * @param {object} testData - Test data
      * @returns {Promise} API response
      */
-    async createTest(testData) {
+    async createTest(lessonId, testData) {
       this.error = null;
 
       try {
-        const response = await testsApi.createTest(testData);
+        const response = await testsApi.createTest(lessonId, testData);
         if (response?.data?.success) {
           // Refresh tests list for this lesson
-          if (testData.lessonId) {
-            await this.fetchTestsByLesson(testData.lessonId);
-          }
+          await this.fetchTestsByLesson(lessonId);
           return response.data;
         }
         throw new Error(response?.data?.message || 'Failed to create test');
@@ -141,6 +141,31 @@ export const useTestsStore = defineStore('tests', {
         throw new Error(response?.data?.message || 'Failed to delete test');
       } catch (error) {
         this.error = error.response?.data?.message || error.message || "Testni o'chirishda xatolik";
+        throw error;
+      }
+    },
+
+    /**
+     * Update test status
+     * @param {number} id - Test ID
+     * @param {string} status - New status
+     * @param {number} lessonId - Lesson ID (for refreshing list)
+     */
+    async updateTestStatus(id, status, lessonId) {
+      this.error = null;
+
+      try {
+        const response = await testsApi.updateTestStatus(id, status);
+        if (response?.data?.success) {
+          // Refresh tests list
+          if (lessonId) {
+            await this.fetchTestsByLesson(lessonId);
+          }
+          return response.data;
+        }
+        throw new Error(response?.data?.message || 'Failed to update status');
+      } catch (error) {
+        this.error = error.response?.data?.message || error.message || 'Statusni yangilashda xatolik';
         throw error;
       }
     },

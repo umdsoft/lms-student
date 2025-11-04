@@ -73,19 +73,18 @@ export const useModulesStore = defineStore('modules', {
 
     /**
      * Create new module
+     * @param {number} courseId - Course ID
      * @param {object} moduleData - Module data
      * @returns {Promise} API response
      */
-    async createModule(moduleData) {
+    async createModule(courseId, moduleData) {
       this.error = null;
 
       try {
-        const response = await modulesApi.createModule(moduleData);
+        const response = await modulesApi.createModule(courseId, moduleData);
         if (response?.data?.success) {
           // Refresh modules list for this course
-          if (moduleData.courseId) {
-            await this.fetchModulesByCourse(moduleData.courseId);
-          }
+          await this.fetchModulesByCourse(courseId);
           return response.data;
         }
         throw new Error(response?.data?.message || 'Failed to create module');
@@ -175,35 +174,52 @@ export const useModulesStore = defineStore('modules', {
     },
 
     /**
-     * Move module up in order
-     * @param {number} courseId - Course ID
-     * @param {number} index - Current index
+     * Reorder single module
+     * @param {number} id - Module ID
+     * @param {number} newOrder - New order position
+     * @param {number} courseId - Course ID (for refreshing)
      */
-    async moveModuleUp(courseId, index) {
-      if (index <= 0) return;
+    async reorderModule(id, newOrder, courseId) {
+      this.error = null;
 
-      const sortedModules = this.sortedModules;
-      const newOrder = [...sortedModules];
-      [newOrder[index - 1], newOrder[index]] = [newOrder[index], newOrder[index - 1]];
+      try {
+        const response = await modulesApi.reorderModule(id, newOrder);
+        if (response?.data?.success) {
+          // Refresh modules list
+          await this.fetchModulesByCourse(courseId);
+          return response.data;
+        }
+        throw new Error(response?.data?.message || 'Failed to reorder module');
+      } catch (error) {
+        this.error = error.response?.data?.message || error.message || 'Modulni tartibga solishda xatolik';
+        throw error;
+      }
+    },
 
-      const moduleIds = newOrder.map(m => m.id);
-      await this.reorderModules(courseId, moduleIds);
+    /**
+     * Move module up in order
+     * @param {number} moduleId - Module ID
+     * @param {number} courseId - Course ID
+     */
+    async moveModuleUp(moduleId, courseId) {
+      const index = this.modules.findIndex(m => m.id === moduleId);
+      if (index > 0) {
+        const newOrder = this.modules[index - 1].order;
+        await this.reorderModule(moduleId, newOrder, courseId);
+      }
     },
 
     /**
      * Move module down in order
+     * @param {number} moduleId - Module ID
      * @param {number} courseId - Course ID
-     * @param {number} index - Current index
      */
-    async moveModuleDown(courseId, index) {
-      const sortedModules = this.sortedModules;
-      if (index >= sortedModules.length - 1) return;
-
-      const newOrder = [...sortedModules];
-      [newOrder[index], newOrder[index + 1]] = [newOrder[index + 1], newOrder[index]];
-
-      const moduleIds = newOrder.map(m => m.id);
-      await this.reorderModules(courseId, moduleIds);
+    async moveModuleDown(moduleId, courseId) {
+      const index = this.modules.findIndex(m => m.id === moduleId);
+      if (index < this.modules.length - 1) {
+        const newOrder = this.modules[index + 1].order;
+        await this.reorderModule(moduleId, newOrder, courseId);
+      }
     },
 
     /**

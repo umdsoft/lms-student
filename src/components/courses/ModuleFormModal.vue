@@ -150,7 +150,7 @@ const handleSubmit = async () => {
         title: t('courses.modules.messages.updateSuccess')
       });
     } else {
-      await modulesStore.createModule(formData.value);
+      await modulesStore.createModule(props.courseId, formData.value);
       push.success({
         title: t('courses.modules.messages.createSuccess')
       });

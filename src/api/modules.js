@@ -25,11 +25,12 @@ export default {
 
   /**
    * Create a new module
+   * @param {number} courseId - Course ID
    * @param {object} moduleData - Module data
    * @returns {Promise} API response
    */
-  async createModule(moduleData) {
-    return withCsrf(() => api.post('/modules', moduleData));
+  async createModule(courseId, moduleData) {
+    return withCsrf(() => api.post(`/courses/${courseId}/modules`, moduleData));
   },
 
   /**
@@ -52,7 +53,27 @@ export default {
   },
 
   /**
-   * Reorder modules
+   * Reorder single module
+   * @param {number} id - Module ID
+   * @param {number} newOrder - New order position
+   * @returns {Promise} API response
+   */
+  async reorderModule(id, newOrder) {
+    return withCsrf(() => api.patch(`/modules/${id}/reorder`, { order: newOrder }));
+  },
+
+  /**
+   * Bulk reorder modules
+   * @param {number} courseId - Course ID
+   * @param {Array} modules - Array of {id, order} objects
+   * @returns {Promise} API response
+   */
+  async bulkReorderModules(courseId, modules) {
+    return withCsrf(() => api.post(`/courses/${courseId}/modules/reorder-bulk`, { modules }));
+  },
+
+  /**
+   * Reorder modules (legacy)
    * @param {number} courseId - Course ID
    * @param {Array} moduleIds - Array of module IDs in new order
    * @returns {Promise} API response
