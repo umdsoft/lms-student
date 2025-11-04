@@ -25,11 +25,12 @@ export default {
 
   /**
    * Create a new lesson
+   * @param {number} moduleId - Module ID
    * @param {object} lessonData - Lesson data
    * @returns {Promise} API response
    */
-  async createLesson(lessonData) {
-    return withCsrf(() => api.post('/lessons', lessonData));
+  async createLesson(moduleId, lessonData) {
+    return withCsrf(() => api.post(`/modules/${moduleId}/lessons`, lessonData));
   },
 
   /**
@@ -52,7 +53,27 @@ export default {
   },
 
   /**
-   * Reorder lessons
+   * Reorder single lesson
+   * @param {number} id - Lesson ID
+   * @param {number} newOrder - New order position
+   * @returns {Promise} API response
+   */
+  async reorderLesson(id, newOrder) {
+    return withCsrf(() => api.patch(`/lessons/${id}/reorder`, { order: newOrder }));
+  },
+
+  /**
+   * Bulk reorder lessons
+   * @param {number} moduleId - Module ID
+   * @param {Array} lessons - Array of {id, order} objects
+   * @returns {Promise} API response
+   */
+  async bulkReorderLessons(moduleId, lessons) {
+    return withCsrf(() => api.post(`/modules/${moduleId}/lessons/reorder-bulk`, { lessons }));
+  },
+
+  /**
+   * Reorder lessons (legacy)
    * @param {number} moduleId - Module ID
    * @param {Array} lessonIds - Array of lesson IDs in new order
    * @returns {Promise} API response
@@ -62,7 +83,33 @@ export default {
   },
 
   /**
+   * Get lesson files
+   * @param {number} lessonId - Lesson ID
+   * @returns {Promise} API response
+   */
+  async getLessonFiles(lessonId) {
+    const { data } = await api.get(`/lessons/${lessonId}/files`);
+    return data;
+  },
+
+  /**
    * Upload lesson file
+   * @param {number} lessonId - Lesson ID
+   * @param {FormData} formData - File data
+   * @returns {Promise} API response
+   */
+  async uploadLessonFile(lessonId, formData) {
+    return withCsrf(() =>
+      api.post(`/lessons/${lessonId}/files`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+    );
+  },
+
+  /**
+   * Upload lesson file (legacy)
    * @param {number} lessonId - Lesson ID
    * @param {FormData} formData - File data
    * @returns {Promise} API response
@@ -79,6 +126,15 @@ export default {
 
   /**
    * Delete lesson file
+   * @param {number} fileId - File ID
+   * @returns {Promise} API response
+   */
+  async deleteLessonFile(fileId) {
+    return withCsrf(() => api.delete(`/lesson-files/${fileId}`));
+  },
+
+  /**
+   * Delete lesson file (legacy)
    * @param {number} lessonId - Lesson ID
    * @param {number} fileId - File ID
    * @returns {Promise} API response

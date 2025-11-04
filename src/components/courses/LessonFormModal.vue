@@ -376,7 +376,7 @@ const handleSubmit = async () => {
       lessonId = props.lesson.id;
       push.success({ title: t('courses.lessons.messages.updateSuccess') });
     } else {
-      const result = await lessonsStore.createLesson(formData.value);
+      const result = await lessonsStore.createLesson(props.moduleId, formData.value);
       lessonId = result.data?.id;
       push.success({ title: t('courses.lessons.messages.createSuccess') });
     }

@@ -74,19 +74,18 @@ export const useLessonsStore = defineStore('lessons', {
 
     /**
      * Create new lesson
+     * @param {number} moduleId - Module ID
      * @param {object} lessonData - Lesson data
      * @returns {Promise} API response
      */
-    async createLesson(lessonData) {
+    async createLesson(moduleId, lessonData) {
       this.error = null;
 
       try {
-        const response = await lessonsApi.createLesson(lessonData);
+        const response = await lessonsApi.createLesson(moduleId, lessonData);
         if (response?.data?.success) {
           // Refresh lessons list for this module
-          if (lessonData.moduleId) {
-            await this.fetchLessonsByModule(lessonData.moduleId);
-          }
+          await this.fetchLessonsByModule(moduleId);
           return response.data;
         }
         throw new Error(response?.data?.message || 'Failed to create lesson');
@@ -176,51 +175,71 @@ export const useLessonsStore = defineStore('lessons', {
     },
 
     /**
-     * Move lesson up in order
-     * @param {number} moduleId - Module ID
-     * @param {number} index - Current index
+     * Reorder single lesson
+     * @param {number} id - Lesson ID
+     * @param {number} newOrder - New order position
+     * @param {number} moduleId - Module ID (for refreshing)
      */
-    async moveLessonUp(moduleId, index) {
-      if (index <= 0) return;
+    async reorderLesson(id, newOrder, moduleId) {
+      this.error = null;
 
-      const sortedLessons = this.sortedLessons;
-      const newOrder = [...sortedLessons];
-      [newOrder[index - 1], newOrder[index]] = [newOrder[index], newOrder[index - 1]];
+      try {
+        const response = await lessonsApi.reorderLesson(id, newOrder);
+        if (response?.data?.success) {
+          // Refresh lessons list
+          await this.fetchLessonsByModule(moduleId);
+          return response.data;
+        }
+        throw new Error(response?.data?.message || 'Failed to reorder lesson');
+      } catch (error) {
+        this.error = error.response?.data?.message || error.message || 'Darsni tartibga solishda xatolik';
+        throw error;
+      }
+    },
 
-      const lessonIds = newOrder.map(l => l.id);
-      await this.reorderLessons(moduleId, lessonIds);
+    /**
+     * Move lesson up in order
+     * @param {number} lessonId - Lesson ID
+     * @param {number} moduleId - Module ID
+     */
+    async moveLessonUp(lessonId, moduleId) {
+      const index = this.lessons.findIndex(l => l.id === lessonId);
+      if (index > 0) {
+        const newOrder = this.lessons[index - 1].order;
+        await this.reorderLesson(lessonId, newOrder, moduleId);
+      }
     },
 
     /**
      * Move lesson down in order
+     * @param {number} lessonId - Lesson ID
      * @param {number} moduleId - Module ID
-     * @param {number} index - Current index
      */
-    async moveLessonDown(moduleId, index) {
-      const sortedLessons = this.sortedLessons;
-      if (index >= sortedLessons.length - 1) return;
-
-      const newOrder = [...sortedLessons];
-      [newOrder[index], newOrder[index + 1]] = [newOrder[index + 1], newOrder[index]];
-
-      const lessonIds = newOrder.map(l => l.id);
-      await this.reorderLessons(moduleId, lessonIds);
+    async moveLessonDown(lessonId, moduleId) {
+      const index = this.lessons.findIndex(l => l.id === lessonId);
+      if (index < this.lessons.length - 1) {
+        const newOrder = this.lessons[index + 1].order;
+        await this.reorderLesson(lessonId, newOrder, moduleId);
+      }
     },
 
     /**
      * Upload file for lesson
      * @param {number} lessonId - Lesson ID
-     * @param {File} file - File to upload
+     * @param {File|FormData} fileData - File or FormData to upload
      */
-    async uploadFile(lessonId, file) {
+    async uploadLessonFile(lessonId, fileData) {
       this.error = null;
       this.uploadProgress = 0;
 
-      const formData = new FormData();
-      formData.append('file', file);
+      const formData = fileData instanceof FormData ? fileData : (() => {
+        const fd = new FormData();
+        fd.append('file', fileData);
+        return fd;
+      })();
 
       try {
-        const response = await lessonsApi.uploadFile(lessonId, formData);
+        const response = await lessonsApi.uploadLessonFile(lessonId, formData);
         if (response?.data?.success) {
           // Refresh current lesson
           await this.fetchLesson(lessonId);
@@ -239,18 +258,29 @@ export const useLessonsStore = defineStore('lessons', {
     },
 
     /**
-     * Delete file from lesson
+     * Upload file for lesson (legacy)
      * @param {number} lessonId - Lesson ID
-     * @param {number} fileId - File ID
+     * @param {File} file - File to upload
      */
-    async deleteFile(lessonId, fileId) {
+    async uploadFile(lessonId, file) {
+      return this.uploadLessonFile(lessonId, file);
+    },
+
+    /**
+     * Delete file from lesson
+     * @param {number} fileId - File ID
+     * @param {number} lessonId - Lesson ID (for refreshing)
+     */
+    async deleteLessonFile(fileId, lessonId) {
       this.error = null;
 
       try {
-        const response = await lessonsApi.deleteFile(lessonId, fileId);
+        const response = await lessonsApi.deleteLessonFile(fileId);
         if (response?.data?.success) {
           // Refresh current lesson
-          await this.fetchLesson(lessonId);
+          if (lessonId) {
+            await this.fetchLesson(lessonId);
+          }
           return response.data;
         }
         throw new Error(response?.data?.message || 'Failed to delete file');
@@ -258,6 +288,15 @@ export const useLessonsStore = defineStore('lessons', {
         this.error = error.response?.data?.message || error.message || "Faylni o'chirishda xatolik";
         throw error;
       }
+    },
+
+    /**
+     * Delete file from lesson (legacy)
+     * @param {number} lessonId - Lesson ID
+     * @param {number} fileId - File ID
+     */
+    async deleteFile(lessonId, fileId) {
+      return this.deleteLessonFile(fileId, lessonId);
     },
 
     /**

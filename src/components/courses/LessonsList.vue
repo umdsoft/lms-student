@@ -147,10 +147,16 @@ const handleDelete = () => {
 };
 
 const handleMoveUp = async (index) => {
-  await lessonsStore.moveLessonUp(props.moduleId, index);
+  const lesson = sortedLessons.value[index];
+  if (lesson) {
+    await lessonsStore.moveLessonUp(lesson.id, props.moduleId);
+  }
 };
 
 const handleMoveDown = async (index) => {
-  await lessonsStore.moveLessonDown(props.moduleId, index);
+  const lesson = sortedLessons.value[index];
+  if (lesson) {
+    await lessonsStore.moveLessonDown(lesson.id, props.moduleId);
+  }
 };
 </script>
