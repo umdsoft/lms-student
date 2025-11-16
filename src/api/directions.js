@@ -33,6 +33,7 @@ export default {
     return withCsrf(() => api.delete(`/directions/${id}`));
   },
 
+  // Subject management
   async getSubjects(directionId) {
     const { data } = await api.get(`/directions/${directionId}/subjects`);
     return data;
@@ -42,10 +43,23 @@ export default {
     return withCsrf(() => api.post(`/directions/${directionId}/subjects`, { subjects }));
   },
 
+  async createSubject(directionId, subjectData) {
+    return withCsrf(() => api.post(`/directions/${directionId}/subjects`, subjectData));
+  },
+
+  async updateSubject(directionId, subjectId, subjectData) {
+    return withCsrf(() => api.put(`/directions/${directionId}/subjects/${subjectId}`, subjectData));
+  },
+
   async removeSubject(directionId, subjectId) {
     return withCsrf(() => api.delete(`/directions/${directionId}/subjects/${subjectId}`));
   },
 
+  async reorderSubjects(directionId, subjectIds) {
+    return withCsrf(() => api.put(`/directions/${directionId}/subjects/reorder`, { subjectIds }));
+  },
+
+  // Teacher management
   async getTeachers(directionId) {
     const { data } = await api.get(`/directions/${directionId}/teachers`);
     return data;
@@ -57,5 +71,27 @@ export default {
 
   async removeTeacher(directionId, teacherId) {
     return withCsrf(() => api.delete(`/directions/${directionId}/teachers/${teacherId}`));
+  },
+
+  // Course management
+  async getCourses(directionId) {
+    const { data } = await api.get(`/directions/${directionId}/courses`);
+    return data;
+  },
+
+  async createCourse(directionId, courseData) {
+    return withCsrf(() => api.post(`/directions/${directionId}/courses`, courseData));
+  },
+
+  async updateCourse(directionId, courseId, courseData) {
+    return withCsrf(() => api.put(`/directions/${directionId}/courses/${courseId}`, courseData));
+  },
+
+  async deleteCourse(directionId, courseId) {
+    return withCsrf(() => api.delete(`/directions/${directionId}/courses/${courseId}`));
+  },
+
+  async updateCourseStatus(directionId, courseId, isPublished) {
+    return withCsrf(() => api.patch(`/directions/${directionId}/courses/${courseId}/status`, { isPublished }));
   }
 };
