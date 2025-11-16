@@ -202,6 +202,7 @@
 
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue';
+import { useRouter } from 'vue-router';
 import { useDirectionsStore } from '@/stores/directions';
 import { push } from 'notivue';
 import {
@@ -218,6 +219,9 @@ import {
   LanguageIcon,
   ExclamationCircleIcon
 } from '@heroicons/vue/24/outline';
+
+// Router
+const router = useRouter();
 
 // Store
 const directionsStore = useDirectionsStore();
@@ -361,16 +365,11 @@ const editDirection = (direction) => {
 };
 
 const viewDetails = async (direction) => {
-  try {
-    await directionsStore.fetchDirection(direction.id);
-    selectedDirection.value = directionsStore.currentDirection;
-    showDetailsModal.value = true;
-  } catch (error) {
-    push.error({
-      title: 'Xatolik',
-      message: 'Yo\'nalish ma\'lumotlarini yuklashda xatolik'
-    });
-  }
+  // Navigate to direction detail page
+  router.push({
+    name: 'admin.direction-detail',
+    params: { id: direction.id }
+  });
 };
 
 const handleDelete = async (direction) => {
