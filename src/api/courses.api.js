@@ -1,5 +1,5 @@
-import api from './api';
-import { apiRequest } from './api.csrf';
+import api from '../api';
+import { apiRequest } from '../api.csrf';
 
 /**
  * Courses API Service

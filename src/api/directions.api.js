@@ -1,6 +1,5 @@
-import api from './api';
-import { apiRequest } from './api.csrf';
-
+import api from '../api';
+import { apiRequest } from '../api.csrf';
 /**
  * Directions API Service
  * Handles all direction-related API calls with proper error handling and CSRF protection
