@@ -86,8 +86,29 @@ export async function fetchCsrfToken() {
   }
 }
 
+/**
+ * Make an API request with CSRF protection
+ * Automatically adds CSRF token to request headers for state-changing operations
+ *
+ * @param {Object} config - Axios request configuration
+ * @param {string} config.method - HTTP method (GET, POST, PUT, DELETE, PATCH, etc.)
+ * @param {string} config.url - Request URL
+ * @param {Object} [config.data] - Request data
+ * @param {Object} [config.params] - Query parameters
+ * @param {Object} [config.headers] - Additional headers
+ * @returns {Promise} API response
+ *
+ * @example
+ * await apiRequest({ method: 'POST', url: '/users', data: userData });
+ * await apiRequest({ method: 'DELETE', url: '/users/123' });
+ */
+export async function apiRequest(config) {
+  return withCsrf(() => api.request(config));
+}
+
 export default {
   getCsrfToken,
   withCsrf,
-  fetchCsrfToken
+  fetchCsrfToken,
+  apiRequest
 };
