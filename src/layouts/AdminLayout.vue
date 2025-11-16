@@ -40,7 +40,15 @@ import { computed } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
-import { Shield } from 'lucide-vue-next';
+import {
+  LayoutDashboard,
+  Users,
+  GraduationCap,
+  Trophy,
+  CreditCard,
+  Package,
+  BarChart3
+} from 'lucide-vue-next';
 import { useAuth } from '@/shared/composables/useAuth';
 import { useNotifications } from '@/shared/composables/useNotifications';
 import { useI18nStore } from '@/shared/stores/i18n';
@@ -85,49 +93,49 @@ const navItems = computed(() => {
       id: 'admin-dashboard',
       label: 'Dashboard',
       to: { name: 'admin.dashboard' },
-      iconComponent: Shield,
+      iconComponent: LayoutDashboard,
       active: name === 'admin.dashboard'
     },
     {
       id: 'admin-users',
       label: 'Foydalanuvchilar',
       to: { name: 'admin.users' },
-      iconComponent: Shield,
+      iconComponent: Users,
       active: name === 'admin.users'
     },
     {
       id: 'admin-directions',
       label: 'Yo\'nalishlar',
       to: { name: 'admin.directions' },
-      iconComponent: Shield,
+      iconComponent: GraduationCap,
       active: name === 'admin.directions'
     },
     {
       id: 'admin-olympiads',
       label: 'Olimpiadalar',
       to: { name: 'admin.olympiads' },
-      iconComponent: Shield,
+      iconComponent: Trophy,
       active: name === 'admin.olympiads'
     },
     {
       id: 'admin-payments',
       label: 'To\'lovlar',
       to: { name: 'admin.payments' },
-      iconComponent: Shield,
+      iconComponent: CreditCard,
       active: name === 'admin.payments'
     },
     {
       id: 'admin-plans',
       label: 'Obuna rejalari',
       to: { name: 'admin.plans' },
-      iconComponent: Shield,
+      iconComponent: Package,
       active: name === 'admin.plans'
     },
     {
       id: 'admin-analytics',
       label: 'Analitika',
       to: { name: 'admin.analytics' },
-      iconComponent: Shield,
+      iconComponent: BarChart3,
       active: name === 'admin.analytics'
     }
   ];

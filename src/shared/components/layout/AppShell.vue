@@ -35,9 +35,9 @@
         </div>
       </Transition>
 
-      <!-- Desktop Sidebar -->
+      <!-- Desktop Sidebar (Fixed) -->
       <aside
-        class="hidden w-72 flex-col border-r border-slate-200/60 bg-white/80 backdrop-blur-xl px-6 py-6 lg:flex"
+        class="hidden fixed left-0 top-0 bottom-0 w-72 flex-col border-r border-slate-200/60 bg-white/80 backdrop-blur-xl px-6 py-6 lg:flex overflow-y-auto"
         :aria-label="t('app.navigation.ariaLabel')"
       >
         <div class="flex items-center justify-between gap-2">
@@ -54,9 +54,9 @@
       </aside>
 
       <!-- Main Content Area -->
-      <div class="flex min-h-screen flex-1 flex-col">
-        <!-- Header -->
-        <header class="border-b border-slate-200/60 bg-white/80 backdrop-blur-xl">
+      <div class="flex min-h-screen flex-1 flex-col lg:ml-72">
+        <!-- Header (Sticky/Fixed) -->
+        <header class="sticky top-0 z-30 border-b border-slate-200/60 bg-white/95 backdrop-blur-xl shadow-sm">
           <div class="mx-auto flex w-full max-w-7xl items-start gap-6 px-4 py-5 sm:px-6 lg:px-8">
             <!-- Mobile Menu Button -->
             <button
@@ -194,6 +194,7 @@ function onNavigate() {
 </script>
 
 <style scoped>
+/* Fade transitions for mobile overlay */
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.2s ease;
@@ -202,5 +203,33 @@ function onNavigate() {
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+
+/* Smooth scrolling */
+aside {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar for sidebar */
+aside::-webkit-scrollbar {
+  width: 6px;
+}
+
+aside::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+aside::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+aside::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Sticky header smooth transition */
+header {
+  transition: box-shadow 0.2s ease;
 }
 </style>

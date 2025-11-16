@@ -1,8 +1,8 @@
 export default {
   app: {
     brand: {
-      strapline: "Huquqiy targ'ibot",
-      name: 'LMS Study Studio',
+      strapline: "O'quv platformasi",
+      name: 'EDULIFE',
       infoTitle: 'Matematika va Ingliz tili',
       infoDescription:
         "Ushbu panelda kurslaringiz, o'sish dinamikangiz va kelgusi olimpiadalar bo'yicha tezkor ma'lumot olasiz."

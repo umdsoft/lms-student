@@ -9,14 +9,16 @@
   >
     <img :src="logo" :alt="brandName" class="h-10 w-auto" />
     <div v-if="showText" class="leading-tight">
+      <h1 class="text-xl font-bold tracking-tight" :class="brandClass">
+        {{ brandName }}
+      </h1>
       <p
         v-if="showStrapline && strapline"
-        class="text-[10px] uppercase tracking-[0.4em]"
+        class="text-[10px] uppercase tracking-wide mt-0.5"
         :class="straplineClass"
       >
         {{ strapline }}
       </p>
-     
     </div>
   </div>
 </template>
