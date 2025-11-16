@@ -58,7 +58,8 @@
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-2">Qidiruv</label>
           <input
-            v-model="filters.search"
+            :value="directionsStore.filters.search"
+            @input="updateSearch($event.target.value)"
             type="text"
             placeholder="Yo'nalish nomi..."
             class="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
@@ -67,7 +68,8 @@
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
           <select
-            v-model="filters.status"
+            :value="directionsStore.filters.status"
+            @change="updateStatus($event.target.value)"
             class="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
           >
             <option value="">Barchasi</option>
@@ -78,7 +80,8 @@
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-2">Tartib</label>
           <select
-            v-model="filters.sort"
+            :value="directionsStore.filters.sortBy"
+            @change="updateSort($event.target.value)"
             class="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
           >
             <option value="name">Nom bo'yicha</option>
@@ -94,15 +97,31 @@
       </div>
     </div>
 
+    <!-- Loading State -->
+    <div v-if="directionsStore.loading" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div v-for="i in 6" :key="i" class="rounded-2xl bg-white p-6 shadow-sm border border-gray-200 animate-pulse">
+        <div class="h-24 bg-gray-200 rounded mb-4"></div>
+        <div class="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+        <div class="h-4 bg-gray-200 rounded w-1/2"></div>
+      </div>
+    </div>
+
     <!-- Directions Grid -->
-    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <div v-else class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
       <div
         v-for="direction in filteredDirections"
         :key="direction.id"
         class="rounded-2xl bg-white shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow"
       >
         <!-- Card Header with gradient -->
-        <div :class="direction.colorClass" class="p-6 text-white">
+        <div
+          :style="{
+            background: direction.colorPrimary
+              ? `linear-gradient(to bottom right, ${direction.colorPrimary}, ${direction.colorSecondary || direction.colorPrimary})`
+              : 'linear-gradient(to bottom right, #3B82F6, #1D4ED8)'
+          }"
+          class="p-6 text-white"
+        >
           <div class="flex items-start justify-between">
             <div class="flex-1">
               <h3 class="text-xl font-bold">{{ direction.name }}</h3>
@@ -113,11 +132,11 @@
           <div class="mt-4 flex items-center gap-4 text-sm">
             <div class="flex items-center gap-1">
               <UsersIcon class="h-4 w-4" />
-              <span>{{ direction.studentsCount }} o'quvchi</span>
+              <span>{{ direction.totalStudents || 0 }} o'quvchi</span>
             </div>
             <div class="flex items-center gap-1">
               <BookOpenIcon class="h-4 w-4" />
-              <span>{{ direction.coursesCount }} kurs</span>
+              <span>{{ direction.totalCourses || 0 }} kurs</span>
             </div>
           </div>
         </div>
@@ -127,44 +146,21 @@
           <!-- Status -->
           <div class="flex items-center justify-between">
             <span class="text-sm font-medium text-gray-700">Status:</span>
-            <span :class="getStatusBadgeClass(direction.status)" class="inline-flex rounded-full px-3 py-1 text-xs font-semibold">
-              {{ getStatusLabel(direction.status) }}
+            <span :class="getStatusBadgeClass(direction.isActive)" class="inline-flex rounded-full px-3 py-1 text-xs font-semibold">
+              {{ getStatusLabel(direction.isActive) }}
             </span>
           </div>
 
-          <!-- Subjects -->
-          <div>
-            <span class="text-sm font-medium text-gray-700">Fanlar:</span>
-            <div class="mt-2 flex flex-wrap gap-2">
-              <span
-                v-for="subject in direction.subjects"
-                :key="subject"
-                class="inline-flex items-center rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700"
-              >
-                {{ subject }}
-              </span>
-            </div>
+          <!-- Display Order -->
+          <div class="flex items-center justify-between">
+            <span class="text-sm font-medium text-gray-700">Tartib raqami:</span>
+            <span class="text-sm text-gray-900 font-medium">{{ direction.displayOrder || '-' }}</span>
           </div>
 
-          <!-- Teachers -->
-          <div>
-            <span class="text-sm font-medium text-gray-700">O'qituvchilar:</span>
-            <div class="mt-2 flex -space-x-2">
-              <img
-                v-for="(teacher, index) in direction.teachers.slice(0, 3)"
-                :key="index"
-                :src="teacher.avatar"
-                :alt="teacher.name"
-                :title="teacher.name"
-                class="h-8 w-8 rounded-full border-2 border-white"
-              />
-              <div
-                v-if="direction.teachers.length > 3"
-                class="flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-gray-200 text-xs font-medium text-gray-600"
-              >
-                +{{ direction.teachers.length - 3 }}
-              </div>
-            </div>
+          <!-- Total Topics -->
+          <div class="flex items-center justify-between">
+            <span class="text-sm font-medium text-gray-700">Jami mavzular:</span>
+            <span class="text-sm text-gray-900 font-medium">{{ direction.totalTopics || 0 }}</span>
           </div>
 
           <!-- Actions -->
@@ -183,16 +179,31 @@
     </div>
 
     <!-- Empty State -->
-    <div v-if="filteredDirections.length === 0" class="rounded-2xl bg-white p-12 text-center shadow-sm border border-gray-200">
+    <div v-if="!directionsStore.loading && filteredDirections.length === 0 && !directionsStore.error" class="rounded-2xl bg-white p-12 text-center shadow-sm border border-gray-200">
       <AcademicCapIcon class="mx-auto h-16 w-16 text-gray-400" />
       <h3 class="mt-4 text-lg font-medium text-gray-900">Yo'nalishlar topilmadi</h3>
       <p class="mt-2 text-sm text-gray-500">Yangi yo'nalish qo'shish uchun yuqoridagi tugmani bosing</p>
+    </div>
+
+    <!-- Error State -->
+    <div v-if="!directionsStore.loading && directionsStore.error" class="rounded-2xl bg-white p-12 text-center shadow-sm border border-red-200">
+      <ExclamationCircleIcon class="mx-auto h-16 w-16 text-red-400" />
+      <h3 class="mt-4 text-lg font-medium text-gray-900">Xatolik yuz berdi</h3>
+      <p class="mt-2 text-sm text-gray-500">{{ directionsStore.error }}</p>
+      <button
+        @click="loadDirections"
+        class="mt-4 inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+      >
+        Qayta urinish
+      </button>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
+import { useDirectionsStore } from '@/stores/directions';
+import { push } from 'notivue';
 import {
   AcademicCapIcon,
   UsersIcon,
@@ -204,189 +215,180 @@ import {
   BeakerIcon,
   CalculatorIcon,
   GlobeAltIcon,
-  LanguageIcon
+  LanguageIcon,
+  ExclamationCircleIcon
 } from '@heroicons/vue/24/outline';
 
-// Mock data
-const directions = ref([
-  {
-    id: 1,
-    name: 'Matematika',
-    description: 'Aniq fanlar va matematika asoslari',
-    icon: 'calculator',
-    colorClass: 'bg-gradient-to-br from-blue-500 to-blue-600',
-    status: 'active',
-    studentsCount: 150,
-    coursesCount: 12,
-    subjects: ['Algebra', 'Geometriya', 'Statistika', 'Analiz'],
-    teachers: [
-      { name: 'Dilnoza Karimova', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=DK' },
-      { name: 'Malika Tosheva', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=MT' },
-      { name: 'Zulfiya Normatova', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=ZN' }
-    ]
-  },
-  {
-    id: 2,
-    name: 'Fizika',
-    description: 'Fizika va tabiiy fanlar',
-    icon: 'beaker',
-    colorClass: 'bg-gradient-to-br from-purple-500 to-purple-600',
-    status: 'active',
-    studentsCount: 120,
-    coursesCount: 10,
-    subjects: ['Mexanika', 'Optika', 'Elektr', 'Kvant fizika'],
-    teachers: [
-      { name: 'Dilnoza Karimova', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=DK' },
-      { name: 'Malika Tosheva', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=MT' }
-    ]
-  },
-  {
-    id: 3,
-    name: 'Kimyo',
-    description: 'Kimyo va biologiya asoslari',
-    icon: 'beaker',
-    colorClass: 'bg-gradient-to-br from-green-500 to-green-600',
-    status: 'active',
-    studentsCount: 100,
-    coursesCount: 8,
-    subjects: ['Organik kimyo', 'Noorganik kimyo', 'Biokimyo'],
-    teachers: [
-      { name: 'Zulfiya Normatova', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=ZN' }
-    ]
-  },
-  {
-    id: 4,
-    name: 'Ingliz tili',
-    description: 'Chet tillari va filologiya',
-    icon: 'language',
-    colorClass: 'bg-gradient-to-br from-orange-500 to-orange-600',
-    status: 'active',
-    studentsCount: 200,
-    coursesCount: 15,
-    subjects: ['Grammar', 'Speaking', 'Writing', 'IELTS'],
-    teachers: [
-      { name: 'Dilnoza Karimova', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=DK' },
-      { name: 'Malika Tosheva', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=MT' },
-      { name: 'Zulfiya Normatova', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=ZN' },
-      { name: 'Nodira Ahmedova', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=NA' }
-    ]
-  },
-  {
-    id: 5,
-    name: 'Tarix',
-    description: 'Tarix va ijtimoiy fanlar',
-    icon: 'globe',
-    colorClass: 'bg-gradient-to-br from-red-500 to-red-600',
-    status: 'active',
-    studentsCount: 80,
-    coursesCount: 6,
-    subjects: ['O\'zbekiston tarixi', 'Jahon tarixi', 'Arxeologiya'],
-    teachers: [
-      { name: 'Malika Tosheva', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=MT' }
-    ]
-  },
-  {
-    id: 6,
-    name: 'Informatika',
-    description: 'IT va dasturlash asoslari',
-    icon: 'academic',
-    colorClass: 'bg-gradient-to-br from-indigo-500 to-indigo-600',
-    status: 'inactive',
-    studentsCount: 0,
-    coursesCount: 0,
-    subjects: ['Dasturlash', 'Web development', 'Ma\'lumotlar bazasi'],
-    teachers: []
-  }
-]);
+// Store
+const directionsStore = useDirectionsStore();
 
-const filters = ref({
-  search: '',
-  status: '',
-  sort: 'name'
+// Local state
+const showFormModal = ref(false);
+const showDetailsModal = ref(false);
+const selectedDirection = ref(null);
+const isEditMode = ref(false);
+
+// Load data on mount
+onMounted(async () => {
+  await loadDirections();
+  await directionsStore.fetchStatistics();
 });
 
-const stats = computed(() => ({
-  total: directions.value.length,
-  active: directions.value.filter(d => d.status === 'active').length,
-  totalStudents: directions.value.reduce((sum, d) => sum + d.studentsCount, 0),
-  totalCourses: directions.value.reduce((sum, d) => sum + d.coursesCount, 0)
-}));
+// Load directions with error handling
+const loadDirections = async () => {
+  try {
+    await directionsStore.fetchDirections();
+  } catch (error) {
+    push.error({
+      title: 'Xatolik',
+      message: 'Yo\'nalishlarni yuklashda xatolik yuz berdi'
+    });
+  }
+};
 
+// Watch filters and reload data
+watch(
+  () => [
+    directionsStore.filters.search,
+    directionsStore.filters.status,
+    directionsStore.filters.sortBy
+  ],
+  () => {
+    loadDirections();
+  }
+);
+
+// Stats from store
+const stats = computed(() => directionsStore.stats);
+
+// Get filtered directions from store
 const filteredDirections = computed(() => {
-  let result = directions.value;
+  let result = directionsStore.directions;
 
-  if (filters.value.search) {
-    const search = filters.value.search.toLowerCase();
+  if (directionsStore.filters.search) {
+    const search = directionsStore.filters.search.toLowerCase();
     result = result.filter(d =>
-      d.name.toLowerCase().includes(search) ||
-      d.description.toLowerCase().includes(search)
+      d.name?.toLowerCase().includes(search) ||
+      d.description?.toLowerCase().includes(search)
     );
   }
 
-  if (filters.value.status) {
-    result = result.filter(d => d.status === filters.value.status);
+  if (directionsStore.filters.status) {
+    const statusFilter = directionsStore.filters.status;
+    result = result.filter(d => {
+      if (statusFilter === 'active') return d.isActive === true;
+      if (statusFilter === 'inactive') return d.isActive === false;
+      return true;
+    });
   }
 
   // Sort
   result = [...result].sort((a, b) => {
-    switch (filters.value.sort) {
+    switch (directionsStore.filters.sortBy) {
       case 'students':
-        return b.studentsCount - a.studentsCount;
+        return (b.totalStudents || 0) - (a.totalStudents || 0);
       case 'courses':
-        return b.coursesCount - a.coursesCount;
+        return (b.totalCourses || 0) - (a.totalCourses || 0);
       case 'name':
       default:
-        return a.name.localeCompare(b.name);
+        return (a.name || '').localeCompare(b.name || '');
     }
   });
 
   return result;
 });
 
+// Icon mapping
 const getIcon = (iconName) => {
   const icons = {
     calculator: CalculatorIcon,
     beaker: BeakerIcon,
     globe: GlobeAltIcon,
     language: LanguageIcon,
-    academic: AcademicCapIcon
+    academic: AcademicCapIcon,
+    'code-bracket': AcademicCapIcon
   };
   return icons[iconName] || AcademicCapIcon;
 };
 
-const getStatusBadgeClass = (status) => {
-  const classes = {
-    active: 'bg-green-100 text-green-800',
-    inactive: 'bg-gray-100 text-gray-800'
-  };
-  return classes[status] || classes.active;
+// Get color class based on direction colors
+const getColorClass = (direction) => {
+  if (direction.colorPrimary) {
+    return `bg-gradient-to-br from-[${direction.colorPrimary}] to-[${direction.colorSecondary || direction.colorPrimary}]`;
+  }
+  return 'bg-gradient-to-br from-blue-500 to-blue-600';
 };
 
-const getStatusLabel = (status) => {
-  const labels = {
-    active: 'Aktiv',
-    inactive: 'Noaktiv'
-  };
-  return labels[status] || status;
+// Status badge
+const getStatusBadgeClass = (isActive) => {
+  return isActive
+    ? 'bg-green-100 text-green-800'
+    : 'bg-gray-100 text-gray-800';
+};
+
+const getStatusLabel = (isActive) => {
+  return isActive ? 'Aktiv' : 'Noaktiv';
+};
+
+// Filters
+const updateSearch = (value) => {
+  directionsStore.setFilters({ search: value });
+};
+
+const updateStatus = (value) => {
+  directionsStore.setFilters({ status: value });
+};
+
+const updateSort = (value) => {
+  directionsStore.setFilters({ sortBy: value });
 };
 
 const resetFilters = () => {
-  filters.value = {
-    search: '',
-    status: '',
-    sort: 'name'
-  };
+  directionsStore.clearFilters();
 };
 
+// CRUD operations
 const openCreateModal = () => {
-  alert('Yangi yo\'nalish qo\'shish funksiyasi tez orada qo\'shiladi');
+  selectedDirection.value = null;
+  isEditMode.value = false;
+  showFormModal.value = true;
 };
 
 const editDirection = (direction) => {
-  alert(`${direction.name} ni tahrirlash funksiyasi tez orada qo\'shiladi`);
+  selectedDirection.value = direction;
+  isEditMode.value = true;
+  showFormModal.value = true;
 };
 
-const viewDetails = (direction) => {
-  alert(`${direction.name} haqida batafsil ma'lumot tez orada qo\'shiladi`);
+const viewDetails = async (direction) => {
+  try {
+    await directionsStore.fetchDirection(direction.id);
+    selectedDirection.value = directionsStore.currentDirection;
+    showDetailsModal.value = true;
+  } catch (error) {
+    push.error({
+      title: 'Xatolik',
+      message: 'Yo\'nalish ma\'lumotlarini yuklashda xatolik'
+    });
+  }
+};
+
+const handleDelete = async (direction) => {
+  if (!confirm(`${direction.name} yo'nalishini o'chirishni xohlaysizmi?`)) {
+    return;
+  }
+
+  try {
+    await directionsStore.deleteDirection(direction.id);
+    push.success({
+      title: 'Muvaffaqiyatli',
+      message: 'Yo\'nalish muvaffaqiyatli o\'chirildi'
+    });
+  } catch (error) {
+    push.error({
+      title: 'Xatolik',
+      message: 'Yo\'nalishni o\'chirishda xatolik yuz berdi'
+    });
+  }
 };
 </script>

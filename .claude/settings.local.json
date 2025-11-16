@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find:*)",
+      "Bash(tree:*)",
+      "Bash(cat:*)",
+      "Bash(if [ -d \"d:/lms/lms-student/docs\" ])",
+      "Bash(then echo \"exists\")",
+      "Bash(else mkdir -p \"d:/lms/lms-student/docs\")",
+      "Bash(fi)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
