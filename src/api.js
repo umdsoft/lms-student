@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { keysToCamelCase, keysToSnakeCase } from './utils/caseConverter';
 
 // Get API base URL from environment variable
 const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api/v1';
@@ -12,13 +13,25 @@ const api = axios.create({
   timeout: 10000
 });
 
-// Request interceptor - add access token to all requests
+// Request interceptor - add access token and transform data to snake_case
 api.interceptors.request.use(
   (config) => {
+    // Add access token
     const token = localStorage.getItem('accessToken');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+
+    // Transform request body to snake_case
+    if (config.data && typeof config.data === 'object') {
+      config.data = keysToSnakeCase(config.data);
+    }
+
+    // Transform query params to snake_case
+    if (config.params && typeof config.params === 'object') {
+      config.params = keysToSnakeCase(config.params);
+    }
+
     return config;
   },
   (error) => Promise.reject(error)
@@ -41,10 +54,20 @@ const processQueue = (error, token = null) => {
   failedQueue = [];
 };
 
-// Response interceptor - handle 401 and refresh token
+// Response interceptor - transform response to camelCase and handle 401/refresh token
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    // Transform response data to camelCase
+    if (response.data) {
+      response.data = keysToCamelCase(response.data);
+    }
+    return response;
+  },
   async (error) => {
+    // Transform error response to camelCase
+    if (error.response?.data) {
+      error.response.data = keysToCamelCase(error.response.data);
+    }
     const originalRequest = error.config;
 
     // Handle 401 errors - unauthorized
