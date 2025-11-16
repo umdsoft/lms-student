@@ -1,128 +1,211 @@
 <template>
-  <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-md">
-    <!-- Header -->
-    <div class="mb-4 flex items-start justify-between">
-      <div class="flex items-center gap-3">
-        <div class="text-4xl">📖</div>
-        <div>
-          <h3 class="text-lg font-semibold text-gray-900">{{ course.name }}</h3>
-          <p v-if="course.level" class="text-sm text-gray-600">{{ course.level }}</p>
+  <div
+    class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden flex flex-col h-full"
+  >
+    <!-- Thumbnail with gradient fallback -->
+    <div class="h-48 bg-gradient-to-br from-blue-500 to-purple-600 relative overflow-hidden">
+      <img
+        v-if="course.thumbnail"
+        :src="course.thumbnail"
+        :alt="course.name"
+        class="w-full h-full object-cover"
+      />
+      <div v-else class="w-full h-full flex items-center justify-center text-white">
+        <svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+          />
+        </svg>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="p-5 flex-1 flex flex-col">
+      <!-- Title and status -->
+      <div class="flex justify-between items-start mb-3">
+        <h3 class="text-lg font-semibold text-gray-900 flex-1 line-clamp-2">
+          {{ course.name }}
+        </h3>
+        <span
+          :class="['ml-2 px-2 py-1 text-xs font-medium rounded-full whitespace-nowrap', statusClass]"
+        >
+          {{ statusText }}
+        </span>
+      </div>
+
+      <!-- Description -->
+      <p v-if="course.description" class="text-sm text-gray-600 mb-4 line-clamp-2">
+        {{ course.description }}
+      </p>
+
+      <!-- Info: level, teacher, modules -->
+      <div class="space-y-2 mb-4 flex-1">
+        <!-- Level -->
+        <div class="flex items-center text-sm text-gray-700">
+          <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M13 10V3L4 14h7v7l9-11h-7z"
+            />
+          </svg>
+          <span>Daraja: <strong>{{ levelText }}</strong></span>
+        </div>
+
+        <!-- Teacher -->
+        <div v-if="course.teacher" class="flex items-center text-sm text-gray-700">
+          <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+            />
+          </svg>
+          <span>{{ course.teacher.firstName }} {{ course.teacher.lastName }}</span>
+        </div>
+
+        <!-- Modules -->
+        <div v-if="course.modules && course.modules.length > 0" class="flex items-center text-sm text-gray-700">
+          <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+            />
+          </svg>
+          <span>Modullar: <strong>{{ course.modules.length }}</strong></span>
         </div>
       </div>
 
-      <span
-        :class="[
-          'rounded-full px-3 py-1 text-xs font-medium',
-          statusClasses
-        ]"
-      >
-        {{ t(`courses.status.${course.status}`) }}
-      </span>
-    </div>
-
-    <!-- Stats -->
-    <div class="mb-4 flex flex-wrap items-center gap-4 text-sm text-gray-600">
-      <div class="flex items-center gap-1.5">
-        <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-          <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
-        </svg>
-        <span>{{ course.enrolledStudents || 0 }} {{ t('courses.students') }}</span>
+      <!-- Price -->
+      <div class="mb-4">
+        <div
+          v-if="course.pricingType === 'free'"
+          class="text-lg font-bold text-green-600"
+        >
+          Bepul
+        </div>
+        <div v-else class="text-lg font-bold text-gray-900">
+          {{ formatPrice(course.price) }}
+          <span class="text-sm font-normal text-gray-500">
+            {{ pricingTypeText }}
+          </span>
+        </div>
       </div>
 
-      <div class="flex items-center gap-1.5">
-        <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-          <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z" />
-        </svg>
-        <span>{{ course.lessonsCount || 0 }} {{ t('courses.lessons') }}</span>
+      <!-- Actions -->
+      <div class="flex gap-2">
+        <button
+          @click="$emit('view', course)"
+          class="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium text-sm"
+        >
+          Ko'rish
+        </button>
+        <button
+          @click="$emit('edit', course)"
+          class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm"
+          title="Tahrirlash"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+            />
+          </svg>
+        </button>
+        <button
+          @click="$emit('delete', course)"
+          class="px-4 py-2 border border-red-300 text-red-600 rounded-lg hover:bg-red-50 transition-colors text-sm"
+          title="O'chirish"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+            />
+          </svg>
+        </button>
       </div>
-
-      <div class="flex items-center gap-1.5">
-        <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
-        </svg>
-        <span>{{ course.duration || 0 }} {{ t('courses.months') }}</span>
-      </div>
-    </div>
-
-    <!-- Price -->
-    <div v-if="course.price" class="mb-4">
-      <p class="text-base font-semibold text-gray-900">
-        {{ formatPrice(course.price) }} so'm/oy
-      </p>
-    </div>
-
-    <!-- Description -->
-    <p v-if="course.description" class="mb-4 line-clamp-2 text-sm text-gray-600">
-      {{ course.description }}
-    </p>
-
-    <!-- Actions -->
-    <div v-if="canManage" class="flex gap-2 border-t border-gray-100 pt-4">
-      <button
-        type="button"
-        class="flex flex-1 items-center justify-center gap-2 rounded-lg border border-gray-300 px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50"
-        @click="$emit('edit', course)"
-      >
-        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-        </svg>
-        {{ t('common.actions.edit') }}
-      </button>
-
-      <button
-        type="button"
-        class="flex flex-1 items-center justify-center gap-2 rounded-lg bg-blue-600 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700"
-        @click="$emit('view', course)"
-      >
-        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
-        </svg>
-        {{ t('courses.view') }}
-      </button>
-
-      <button
-        type="button"
-        class="rounded-lg border border-red-300 px-3 py-2 text-sm font-medium text-red-700 transition-colors hover:bg-red-50"
-        @click="$emit('delete', course)"
-      >
-        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-        </svg>
-      </button>
     </div>
   </div>
 </template>
 
 <script setup>
 import { computed } from 'vue';
-import { useI18n } from 'vue-i18n';
-
-const { t } = useI18n();
 
 const props = defineProps({
   course: {
     type: Object,
     required: true
-  },
-  canManage: {
-    type: Boolean,
-    default: false
   }
 });
 
-defineEmits(['edit', 'delete', 'view']);
+defineEmits(['view', 'edit', 'delete']);
 
-const statusClasses = computed(() => {
-  const statusMap = {
+// Status badge classes and text
+const statusClass = computed(() => {
+  const classes = {
     active: 'bg-green-100 text-green-800',
+    draft: 'bg-yellow-100 text-yellow-800',
     inactive: 'bg-gray-100 text-gray-800',
-    draft: 'bg-yellow-100 text-yellow-800'
+    archived: 'bg-red-100 text-red-800'
   };
-  return statusMap[props.course.status] || statusMap.draft;
+  return classes[props.course.status] || classes.draft;
 });
 
+const statusText = computed(() => {
+  const texts = {
+    active: 'Aktiv',
+    draft: 'Qoralama',
+    inactive: 'Faol emas',
+    archived: 'Arxiv'
+  };
+  return texts[props.course.status] || 'Qoralama';
+});
+
+// Level text
+const levelText = computed(() => {
+  const levels = {
+    beginner: "Boshlang'ich",
+    elementary: 'Elementar',
+    intermediate: "O'rta",
+    advanced: 'Yuqori',
+    expert: 'Ekspert'
+  };
+  return levels[props.course.level] || props.course.level;
+});
+
+// Pricing type text
+const pricingTypeText = computed(() => {
+  const types = {
+    'one-time': '(bir martalik)',
+    subscription: '(oylik)'
+  };
+  return types[props.course.pricingType] || '';
+});
+
+// Format price
 const formatPrice = (price) => {
-  return new Intl.NumberFormat('uz-UZ').format(price);
+  if (!price && price !== 0) return "0 so'm";
+  return new Intl.NumberFormat('uz-UZ').format(price) + " so'm";
 };
 </script>
+
+<style scoped>
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+</style>

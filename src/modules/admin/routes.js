@@ -86,7 +86,7 @@ export default [
   {
     path: '/admin/directions/:id',
     name: 'admin.direction-detail',
-    component: () => import('@/pages/directions/DirectionDetailPage.vue'),
+    component: () => import('@/pages/admin/DirectionDetail.vue'),
     meta: {
       requiresAuth: true,
       roles: ['admin'],
