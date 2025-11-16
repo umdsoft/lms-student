@@ -259,7 +259,13 @@ const handleSubmit = () => {
   if (!formData.name.trim()) {
     return;
   }
+
+  // Emit save event with form data
   emit('save', { ...formData });
+
+  // Close modal after emitting save
+  // Parent will handle success notification
+  emit('update:show', false);
 };
 
 const handleClose = () => {

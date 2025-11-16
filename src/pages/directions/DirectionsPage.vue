@@ -196,23 +196,50 @@ const openDeleteModal = (direction) => {
 };
 
 const viewDirection = (direction) => {
-  router.push({ name: 'admin.direction-detail', params: { id: direction.id } });
+  // Navigate to direction detail page
+  if (!direction?.id) {
+    push.error({
+      title: 'Xatolik',
+      message: "Yo'nalish ID topilmadi"
+    });
+    return;
+  }
+
+  router.push({
+    name: 'admin.direction-detail',
+    params: { id: direction.id }
+  }).catch((error) => {
+    console.error('Navigation error:', error);
+    push.error({
+      title: 'Xatolik',
+      message: "Sahifaga o'tishda xatolik yuz berdi"
+    });
+  });
 };
 
 const handleSaveDirection = async (directionData) => {
   try {
     if (formMode.value === 'create') {
       await directionsStore.createDirection(directionData);
-      push.success({ title: t('directions.messages.createSuccess') });
+      push.success({
+        title: 'Muvaffaqiyatli',
+        message: "Yangi yo'nalish muvaffaqiyatli qo'shildi"
+      });
     } else if (selectedDirection.value) {
       await directionsStore.updateDirection(selectedDirection.value.id, directionData);
-      push.success({ title: t('directions.messages.updateSuccess') });
+      push.success({
+        title: 'Muvaffaqiyatli',
+        message: "Yo'nalish muvaffaqiyatli yangilandi"
+      });
     }
     await directionsStore.fetchStatistics();
     showFormModal.value = false;
     selectedDirection.value = null;
   } catch (error) {
-    push.error({ title: t('directions.messages.error') });
+    push.error({
+      title: 'Xatolik',
+      message: error.message || "Yo'nalishni saqlashda xatolik yuz berdi"
+    });
   }
 };
 
@@ -220,12 +247,18 @@ const handleDeleteDirection = async () => {
   if (!selectedDirection.value) return;
   try {
     await directionsStore.deleteDirection(selectedDirection.value.id);
-    push.success({ title: t('directions.messages.deleteSuccess') });
+    push.success({
+      title: 'Muvaffaqiyatli',
+      message: "Yo'nalish muvaffaqiyatli o'chirildi"
+    });
     await directionsStore.fetchStatistics();
     showDeleteModal.value = false;
     selectedDirection.value = null;
   } catch (error) {
-    push.error({ title: t('directions.messages.error') });
+    push.error({
+      title: 'Xatolik',
+      message: error.message || "Yo'nalishni o'chirishda xatolik yuz berdi"
+    });
   }
 };
 </script>
