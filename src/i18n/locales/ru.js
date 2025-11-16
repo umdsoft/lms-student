@@ -1,8 +1,8 @@
 export default {
   app: {
     brand: {
-      strapline: 'Правовое просвещение',
-      name: 'LMS Study Studio',
+      strapline: 'Образовательная платформа',
+      name: 'EDULIFE',
       infoTitle: 'Математика и английский язык',
       infoDescription:
         'На этой панели вы быстро получаете информацию о курсах, динамике прогресса и предстоящих олимпиадах.'
