@@ -64,7 +64,12 @@ const emit = defineEmits(['update:show', 'confirm']);
 const { t } = useI18n();
 
 function handleConfirm() {
+  // Emit confirm event first
   emit('confirm');
+
+  // Close modal after emitting confirm
+  // Parent will handle the actual deletion and show notification
+  emit('update:show', false);
 }
 
 function handleClose() {
