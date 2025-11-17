@@ -106,24 +106,43 @@ export const useCoursesStore = defineStore('courses', {
     async fetchCoursesByDirection(directionId) {
       this.loading = true;
       this.error = null;
+
       try {
+        console.log(`🔍 [Courses Store] Fetching courses for direction: ${directionId}`);
+
         const response = await coursesApi.getByDirection(directionId);
+
         if (response.success) {
           // Remove old courses for this direction
           this.courses = this.courses.filter(c => c.directionId !== directionId);
+
           // Add new courses - ensure response.data is an array
+          let coursesArray = [];
+
           if (Array.isArray(response.data)) {
-            this.courses.push(...response.data);
+            coursesArray = response.data;
           } else if (response.data) {
             // If response.data is an object with courses array
-            const coursesArray = response.data.courses || response.data.data || [];
-            if (Array.isArray(coursesArray)) {
-              this.courses.push(...coursesArray);
-            }
+            coursesArray = response.data.courses || response.data.data || [];
           }
+
+          // 🔥 CRITICAL FIX: Add directionId to each course
+          // Backend doesn't include directionId in response, so we add it manually
+          const coursesWithDirection = coursesArray.map(course => ({
+            ...course,
+            directionId: directionId // Add directionId field for filtering
+          }));
+
+          this.courses.push(...coursesWithDirection);
+
+          console.log(`✅ [Courses Store] Loaded ${coursesWithDirection.length} courses for direction ${directionId}`);
+        } else {
+          console.warn('⚠️ [Courses Store] Response success is false:', response);
         }
+
         return response;
       } catch (error) {
+        console.error('❌ [Courses Store] Error fetching courses:', error);
         this.error = error.response?.data?.message || 'Kurslarni yuklashda xatolik yuz berdi';
         throw error;
       } finally {
