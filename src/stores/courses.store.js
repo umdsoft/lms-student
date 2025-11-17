@@ -111,8 +111,16 @@ export const useCoursesStore = defineStore('courses', {
         if (response.success) {
           // Remove old courses for this direction
           this.courses = this.courses.filter(c => c.directionId !== directionId);
-          // Add new courses
-          this.courses.push(...response.data);
+          // Add new courses - ensure response.data is an array
+          if (Array.isArray(response.data)) {
+            this.courses.push(...response.data);
+          } else if (response.data) {
+            // If response.data is an object with courses array
+            const coursesArray = response.data.courses || response.data.data || [];
+            if (Array.isArray(coursesArray)) {
+              this.courses.push(...coursesArray);
+            }
+          }
         }
         return response;
       } catch (error) {
