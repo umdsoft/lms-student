@@ -242,3 +242,10 @@ export const useDirectionsStore = defineStore('directions', {
     }
   }
 });
+
+// 🔧 HMR: Prevent store corruption during hot module replacement
+if (import.meta.hot) {
+  import.meta.hot.accept((newModule) => {
+    console.log('🔥 [Directions Store] HMR update received');
+  });
+}
