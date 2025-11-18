@@ -72,8 +72,12 @@ export const useDirectionsStore = defineStore('directions', {
     async fetchDirectionById(id) {
       this.loading = true;
       this.error = null;
+
       try {
+        console.log(`🔍 [Directions Store] Fetching direction: ${id}`);
+
         const response = await directionsApi.getById(id);
+
         if (response.success) {
           this.currentDirection = response.data;
 
@@ -84,9 +88,15 @@ export const useDirectionsStore = defineStore('directions', {
           } else {
             this.directions.push(response.data);
           }
+
+          console.log(`✅ [Directions Store] Direction loaded: ${response.data.name}`);
+        } else {
+          console.warn('⚠️ [Directions Store] Response success is false:', response);
         }
+
         return response;
       } catch (error) {
+        console.error('❌ [Directions Store] Error fetching direction:', error);
         this.error = error.response?.data?.message || "Yo'nalishni yuklashda xatolik yuz berdi";
         throw error;
       } finally {
