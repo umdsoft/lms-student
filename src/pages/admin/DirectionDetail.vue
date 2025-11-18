@@ -330,8 +330,37 @@ import Notification from '@/components/common/Notification.vue';
 
 const route = useRoute();
 const router = useRouter();
-const directionsStore = useDirectionsStore();
-const coursesStore = useCoursesStore();
+
+// 🔧 FIX: Ensure stores are properly initialized
+// This fixes SPA navigation issue where store actions might not be available
+let directionsStore = useDirectionsStore();
+let coursesStore = useCoursesStore();
+
+// 🔧 Defensive check: Verify store has required methods
+const ensureStoreReady = () => {
+  // Re-initialize stores if methods are missing (HMR/timing issue)
+  if (typeof directionsStore?.fetchDirectionById !== 'function') {
+    console.warn('⚠️ [DirectionDetail] Directions store not ready, re-initializing...');
+    directionsStore = useDirectionsStore();
+  }
+  if (typeof coursesStore?.fetchCoursesByDirection !== 'function') {
+    console.warn('⚠️ [DirectionDetail] Courses store not ready, re-initializing...');
+    coursesStore = useCoursesStore();
+  }
+
+  // Final verification
+  const isReady = typeof directionsStore?.fetchDirectionById === 'function' &&
+                  typeof coursesStore?.fetchCoursesByDirection === 'function';
+
+  if (!isReady) {
+    console.error('❌ [DirectionDetail] Store methods still missing after re-init:', {
+      directionsStore: Object.keys(directionsStore || {}).filter(k => typeof directionsStore?.[k] === 'function'),
+      coursesStore: Object.keys(coursesStore || {}).filter(k => typeof coursesStore?.[k] === 'function')
+    });
+  }
+
+  return isReady;
+};
 
 // Get direction ID from route
 const directionId = computed(() => parseInt(route.params.id));
@@ -464,6 +493,11 @@ const loadData = async () => {
 
     console.log(`🚀 [DirectionDetail] Loading data for direction: ${id}`);
 
+    // 🔧 FIX: Ensure stores are ready before using them
+    if (!ensureStoreReady()) {
+      throw new Error('Store\'lar tayyor emas. Iltimos, sahifani yangilang (F5).');
+    }
+
     // Validate direction ID
     if (!id || isNaN(id)) {
       throw new Error('Noto\'g\'ri yo\'nalish ID');
@@ -500,8 +534,25 @@ const loadData = async () => {
 
 onMounted(() => {
   console.log(`🎬 [DirectionDetail] Component mounted, route params:`, route.params);
+
+  // 🔧 Enhanced diagnostic logging
+  console.log('🔍 [DirectionDetail] Store diagnostic info:');
+  console.log('   - Directions store exists:', !!directionsStore);
+  console.log('   - Directions store ID:', directionsStore?.$id);
+  console.log('   - fetchDirectionById type:', typeof directionsStore?.fetchDirectionById);
+  console.log('   - Courses store exists:', !!coursesStore);
+  console.log('   - Courses store ID:', coursesStore?.$id);
+  console.log('   - fetchCoursesByDirection type:', typeof coursesStore?.fetchCoursesByDirection);
+
   loadData();
 });
+
+// 🔧 HMR: Accept hot module replacement for this component
+if (import.meta.hot) {
+  import.meta.hot.accept(() => {
+    console.log('🔥 [DirectionDetail] HMR triggered - stores will be re-initialized on next use');
+  });
+}
 </script>
 
 <style scoped>

@@ -312,3 +312,10 @@ export const useCoursesStore = defineStore('courses', {
     }
   }
 });
+
+// 🔧 HMR: Prevent store corruption during hot module replacement
+if (import.meta.hot) {
+  import.meta.hot.accept((newModule) => {
+    console.log('🔥 [Courses Store] HMR update received');
+  });
+}
