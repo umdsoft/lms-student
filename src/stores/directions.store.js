@@ -216,17 +216,19 @@ export const useDirectionsStore = defineStore('directions', {
         const response = await directionsApi.getById(id);
 
         if (response?.success) {
-          this.currentDirection = response.data;
+          // Handle nested direction data structure from API
+          const directionData = response.data?.direction || response.data;
+          this.currentDirection = directionData;
 
           // Update in directions array if exists
           const index = this.directions.findIndex(d => d.id === id);
           if (index !== -1) {
-            this.directions[index] = response.data;
+            this.directions[index] = directionData;
           } else {
-            this.directions.push(response.data);
+            this.directions.push(directionData);
           }
 
-          console.log(`✅ [Directions Store] Direction loaded: ${response.data.name}`);
+          console.log(`✅ [Directions Store] Direction loaded: ${directionData?.name || 'Unknown'}`);
         } else {
           console.warn('⚠️ [Directions Store] Response success is false:', response);
           throw new Error(response?.message || 'Failed to load direction');
@@ -266,17 +268,19 @@ export const useDirectionsStore = defineStore('directions', {
         const response = await directionsApi.getWithCourses(id);
 
         if (response?.success) {
-          this.currentDirection = response.data;
+          // Handle nested direction data structure from API
+          const directionData = response.data?.direction || response.data;
+          this.currentDirection = directionData;
 
           // Update in directions array if exists
           const index = this.directions.findIndex(d => d.id === id);
           if (index !== -1) {
-            this.directions[index] = response.data;
+            this.directions[index] = directionData;
           } else {
-            this.directions.push(response.data);
+            this.directions.push(directionData);
           }
 
-          console.log(`✅ [Directions Store] Direction with courses loaded: ${response.data.name}`);
+          console.log(`✅ [Directions Store] Direction with courses loaded: ${directionData?.name || 'Unknown'}`);
         }
 
         return response;

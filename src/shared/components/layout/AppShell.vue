@@ -57,7 +57,7 @@
       <div class="flex min-h-screen flex-1 flex-col lg:ml-72">
         <!-- Header (Sticky/Fixed) -->
         <header class="sticky top-0 z-30 border-b border-slate-200/60 bg-white/95 backdrop-blur-xl shadow-sm">
-          <div class="mx-auto flex w-full max-w-7xl items-start gap-6 px-4 py-5 sm:px-6 lg:px-8">
+          <div class="mx-auto flex w-full max-w-[1600px] items-start gap-6 px-4 py-5 sm:px-6 lg:px-8 xl:px-10">
             <!-- Mobile Menu Button -->
             <button
               type="button"
@@ -119,7 +119,7 @@
 
         <!-- Main Content -->
         <main class="flex-1">
-          <div class="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+          <div class="mx-auto w-full max-w-[1600px] px-4 py-8 sm:px-6 lg:px-8 xl:px-10">
             <slot />
           </div>
         </main>
@@ -174,6 +174,7 @@ function normalizeNavItem(item, fallbackId) {
     label: item.label,
     to: item.to,
     icon: item.icon,
+    iconComponent: item.iconComponent,
     badge: item.badge,
     description: item.description,
     active: Boolean(item.active),
