@@ -213,7 +213,7 @@ import { useAuth } from '@/shared/composables/useAuth';
 const route = useRoute();
 const router = useRouter();
 const { t } = useI18n();
-const push = useNotivue();
+const { push } = useNotivue();
 const directionsStore = useDirectionsStore();
 const { user } = useAuth();
 

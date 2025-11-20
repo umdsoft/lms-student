@@ -181,6 +181,36 @@ export const useCoursesStore = defineStore('courses', {
     },
 
     /**
+     * Fetch single course by slug
+     * @param {string} slug - Course slug
+     * @returns {Promise<Object>} API response
+     */
+    async fetchCourseBySlug(slug) {
+      this.loading = true;
+      this.error = null;
+      try {
+        const response = await coursesApi.getBySlug(slug);
+        if (response.success) {
+          this.currentCourse = response.data;
+
+          // Update in courses array if exists
+          const index = this.courses.findIndex(c => c.slug === slug);
+          if (index !== -1) {
+            this.courses[index] = response.data;
+          } else {
+            this.courses.push(response.data);
+          }
+        }
+        return response;
+      } catch (error) {
+        this.error = error.response?.data?.message || 'Kursni yuklashda xatolik yuz berdi';
+        throw error;
+      } finally {
+        this.loading = false;
+      }
+    },
+
+    /**
      * Create new course
      * @param {Object} courseData - Course data to create
      * @returns {Promise<Object>} API response

@@ -147,7 +147,7 @@ const directionsStore = useDirectionsStore();
 const authStore = useAuthStore();
 const router = useRouter();
 const { t } = useI18n();
-const push = useNotivue();
+const { push } = useNotivue();
 
 const showFormModal = ref(false);
 const showDeleteModal = ref(false);

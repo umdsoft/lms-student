@@ -85,7 +85,7 @@ import CourseFormModal from '@/components/courses/CourseFormModal.vue';
 import CourseDeleteModal from '@/components/courses/CourseDeleteModal.vue';
 
 const { t } = useI18n();
-const push = useNotivue();
+const { push } = useNotivue();
 const router = useRouter();
 const coursesStore = useCoursesStore();
 

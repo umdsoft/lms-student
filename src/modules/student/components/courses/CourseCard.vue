@@ -67,7 +67,7 @@
 
         <!-- Action Button -->
         <RouterLink
-          :to="{ name: 'student.courses.details', params: { id: course.id } }"
+          :to="{ name: 'student.courses.details', params: { slug: course.slug || course.id } }"
           class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-primary-600 text-white text-sm font-semibold shadow-sm transition-all hover:bg-primary-700 hover:shadow-md group-hover:scale-105"
         >
           <span>{{ t('components.courseCard.action') }}</span>

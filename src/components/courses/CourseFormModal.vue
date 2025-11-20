@@ -179,7 +179,7 @@ import BaseModal from '@/components/common/BaseModal.vue';
 import { useCoursesStore } from '@/stores/courses';
 
 const { t } = useI18n();
-const push = useNotivue();
+const { push } = useNotivue();
 const coursesStore = useCoursesStore();
 
 const teachers = computed(() => coursesStore.teachers);

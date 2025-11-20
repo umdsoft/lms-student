@@ -68,7 +68,7 @@ import BaseModal from '@/components/common/BaseModal.vue';
 import { useLessonsStore } from '@/stores/lessons';
 
 const { t } = useI18n();
-const push = useNotivue();
+const { push } = useNotivue();
 const lessonsStore = useLessonsStore();
 
 const props = defineProps({
