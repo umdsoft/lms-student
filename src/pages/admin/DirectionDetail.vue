@@ -368,7 +368,24 @@ const directionId = computed(() => parseInt(route.params.id));
 // Get data from stores
 const direction = computed(() => directionsStore.currentDirection);
 const courses = computed(() => coursesStore.getCoursesByDirection(directionId.value));
-const loading = computed(() => directionsStore.loading || coursesStore.loading);
+
+// 🔧 FIX: Properly check loading state
+// directionsStore.loading is an object, not a boolean
+// We need to check if ANY of its properties are true
+const loading = computed(() => {
+  // Use the store's isLoading getter which properly checks the loading object
+  const directionsLoading = directionsStore.isLoading || false;
+  const coursesLoading = coursesStore.loading || false;
+
+  console.log('🔍 [DirectionDetail] Loading states:', {
+    directionsLoading,
+    coursesLoading,
+    combined: directionsLoading || coursesLoading
+  });
+
+  return directionsLoading || coursesLoading;
+});
+
 const error = computed(() => directionsStore.error || coursesStore.error);
 
 // Filters
@@ -495,12 +512,16 @@ const loadData = async () => {
 
     // 🔧 FIX: Ensure stores are ready before using them
     if (!ensureStoreReady()) {
-      throw new Error('Store\'lar tayyor emas. Iltimos, sahifani yangilang (F5).');
+      const errorMsg = 'Store\'lar tayyor emas. Iltimos, sahifani yangilang (F5).';
+      console.error(`❌ [DirectionDetail] ${errorMsg}`);
+      throw new Error(errorMsg);
     }
 
     // Validate direction ID
     if (!id || isNaN(id)) {
-      throw new Error('Noto\'g\'ri yo\'nalish ID');
+      const errorMsg = 'Noto\'g\'ri yo\'nalish ID';
+      console.error(`❌ [DirectionDetail] ${errorMsg}`);
+      throw new Error(errorMsg);
     }
 
     // Load direction info
@@ -508,8 +529,12 @@ const loadData = async () => {
     await directionsStore.fetchDirectionById(id);
 
     if (!directionsStore.currentDirection) {
-      throw new Error('Yo\'nalish topilmadi');
+      const errorMsg = 'Yo\'nalish topilmadi';
+      console.error(`❌ [DirectionDetail] ${errorMsg}`);
+      throw new Error(errorMsg);
     }
+
+    console.log(`✅ [DirectionDetail] Direction loaded: ${directionsStore.currentDirection.name}`);
 
     // Load courses for this direction
     console.log(`📚 [DirectionDetail] Fetching courses...`);
@@ -523,12 +548,20 @@ const loadData = async () => {
     // teachers.value = await teachersApi.getAll();
   } catch (error) {
     console.error('❌ [DirectionDetail] Error loading data:', error);
+    console.error('❌ [DirectionDetail] Error details:', {
+      message: error.message,
+      response: error.response?.data,
+      stack: error.stack
+    });
 
     // Ensure error is set for UI display
     if (!directionsStore.error && !coursesStore.error) {
       // Manually set error if stores didn't set it
       directionsStore.error = error.message || 'Ma\'lumotlarni yuklashda xatolik yuz berdi';
     }
+
+    // Show notification to user
+    showNotification('error', 'Xatolik', error.message || 'Ma\'lumotlarni yuklashda xatolik yuz berdi');
   }
 };
 
