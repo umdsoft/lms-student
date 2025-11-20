@@ -172,7 +172,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, onBeforeUnmount, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useNotivue } from 'notivue';
@@ -197,16 +197,52 @@ const isLoading = computed(() => coursesStore.isLoading);
 const canManage = computed(() => user.value?.role === 'admin');
 
 onMounted(() => {
+  console.log('[CourseDetailPage] Component mounted, route params:', route.params);
   if (route.params.id) {
     loadCourse(route.params.id);
   }
 });
 
+// Watch for route changes (when navigating between different courses)
+watch(
+  () => route.params.id,
+  (newId, oldId) => {
+    console.log('[CourseDetailPage] Route param changed:', { from: oldId, to: newId });
+    if (newId && newId !== oldId) {
+      loadCourse(newId);
+    }
+  }
+);
+
+// Clear current course when leaving the page
+onBeforeUnmount(() => {
+  console.log('[CourseDetailPage] Component unmounting, clearing current course');
+  coursesStore.currentCourse = null;
+});
+
 const loadCourse = async (id) => {
+  console.log('[CourseDetailPage] Loading course with ID:', id);
+
+  // Skip if already loading to prevent race conditions
+  if (coursesStore.loading) {
+    console.log('[CourseDetailPage] Already loading, skipping...');
+    return;
+  }
+
   try {
     await coursesStore.fetchCourse(id);
+    console.log('[CourseDetailPage] Course loaded successfully:', coursesStore.currentCourse?.name);
   } catch (error) {
-    push.error({ title: t('courses.messages.error') });
+    console.error('[CourseDetailPage] Error loading course:', error);
+    // Defensive check for push before using it
+    if (push && typeof push.error === 'function') {
+      push.error({
+        title: t('courses.messages.error'),
+        message: error?.message || 'Kursni yuklashda xatolik yuz berdi'
+      });
+    } else {
+      console.error('[CourseDetailPage] Notivue push is not available');
+    }
   }
 };
 
