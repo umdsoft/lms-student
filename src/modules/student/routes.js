@@ -27,7 +27,7 @@ export default [
     }
   },
   {
-    path: '/student/courses/:id',
+    path: '/student/courses/:slug',
     name: 'student.courses.details',
     component: () => import('@/modules/student/pages/courses/CourseDetailsPage.vue'),
     meta: {
@@ -38,7 +38,7 @@ export default [
     }
   },
   {
-    path: '/student/courses/:id/tests/:testId',
+    path: '/student/courses/:slug/tests/:testId',
     name: 'student.courses.test-solve',
     component: () => import('@/modules/student/pages/courses/CourseTestSolvePage.vue'),
     meta: {
@@ -49,7 +49,7 @@ export default [
     }
   },
   {
-    path: '/student/courses/:id/tests/:testId/attempts/:attemptId',
+    path: '/student/courses/:slug/tests/:testId/attempts/:attemptId',
     name: 'student.courses.test-attempt-details',
     component: () => import('@/modules/student/pages/courses/CourseTestAttemptDetailsPage.vue'),
     meta: {

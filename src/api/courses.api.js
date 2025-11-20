@@ -52,6 +52,21 @@ export const coursesApi = {
   },
 
   /**
+   * Get single course by slug
+   * @param {string} slug - Course slug
+   * @returns {Promise<Object>} API response with course data
+   */
+  async getBySlug(slug) {
+    try {
+      const response = await api.get(`/courses/slug/${slug}`);
+      return response.data;
+    } catch (error) {
+      console.error('Get course by slug error:', error);
+      throw error;
+    }
+  },
+
+  /**
    * Create new course
    * @param {Object} courseData - Course data to create
    * @returns {Promise<Object>} API response with created course

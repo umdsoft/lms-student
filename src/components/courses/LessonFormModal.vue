@@ -229,7 +229,7 @@ import { useLessonsStore } from '@/stores/lessons';
 import { processVideoUrl, minutesToSeconds, secondsToMinutes } from '@/utils/videoProcessor';
 
 const { t } = useI18n();
-const push = useNotivue();
+const { push } = useNotivue();
 const lessonsStore = useLessonsStore();
 
 const props = defineProps({

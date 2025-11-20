@@ -7,7 +7,7 @@ function resolveMessage(t, key, params) {
 }
 
 export function useNotifications() {
-  const push = useNotivue();
+  const { push } = useNotivue();
   const { t } = useI18nHelpers();
 
   function dispatch(type, key, params = {}) {

@@ -393,15 +393,17 @@
 </template>
 
 <script setup>
-import { computed, ref, watch } from 'vue';
+import { computed, ref, watch, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
+import { useCoursesStore } from '@/stores/courses.store';
 
 const { t, tm } = useI18n({ useScope: 'global' });
 const route = useRoute();
+const coursesStore = useCoursesStore();
 
-const courses = computed(() => tm('courses.items') ?? []);
-const course = computed(() => courses.value.find((item) => item.id === route.params.id));
+// Fetch course from API
+const course = computed(() => coursesStore.currentCourse);
 
 const details = computed(() => tm('courseDetails') ?? {});
 const player = computed(() => ({
@@ -419,6 +421,22 @@ const results = computed(() => details.value.results ?? { summary: [], milestone
 const activeTab = ref('');
 const expandedModuleId = ref(null);
 
+// Load course data on mount and when route changes
+onMounted(async () => {
+  if (route.params.slug) {
+    await coursesStore.fetchCourseBySlug(route.params.slug);
+  }
+});
+
+watch(
+  () => route.params.slug,
+  async (slug) => {
+    if (slug) {
+      await coursesStore.fetchCourseBySlug(slug);
+    }
+  }
+);
+
 watch(
   tabs,
   (nextTabs) => {
@@ -431,15 +449,6 @@ watch(
     }
   },
   { immediate: true }
-);
-
-watch(
-  () => route.params.id,
-  () => {
-    if (tabs.value?.length) {
-      activeTab.value = tabs.value[0].key;
-    }
-  }
 );
 
 watch(
@@ -467,9 +476,9 @@ const visibleResources = computed(() => {
 
 const resourceLink = (resource) => {
   if (resource?.type === 'test' && resource?.id) {
-    return { name: 'student.courses.test-solve', params: { id: course.value?.id ?? route.params.id, testId: resource.id } };
+    return { name: 'student.courses.test-solve', params: { slug: course.value?.slug ?? route.params.slug, testId: resource.id } };
   }
-  return { name: 'student.courses.details', params: { id: course.value?.id ?? route.params.id } };
+  return { name: 'student.courses.details', params: { slug: course.value?.slug ?? route.params.slug } };
 };
 
 const isModuleExpanded = (moduleId) => expandedModuleId.value === moduleId;

@@ -160,7 +160,7 @@ import { formatVideoDuration } from '@/utils/videoProcessor';
 const route = useRoute();
 const router = useRouter();
 const { t } = useI18n();
-const push = useNotivue();
+const { push } = useNotivue();
 const lessonsStore = useLessonsStore();
 const { user } = useAuth();
 
