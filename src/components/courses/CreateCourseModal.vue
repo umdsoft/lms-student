@@ -4,10 +4,9 @@
       <div
         v-if="isOpen"
         class="fixed inset-0 z-50 overflow-y-auto"
-        @click.self="handleBackdropClick"
       >
-        <!-- Backdrop -->
-        <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity"></div>
+        <!-- Backdrop - Click does NOT close modal -->
+        <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity" @click.stop></div>
 
         <!-- Modal Content -->
         <div class="flex min-h-full items-center justify-center p-4">
@@ -378,12 +377,19 @@ const handleSubmit = async () => {
       response = await coursesStore.createCourse(courseData);
     }
 
-    if (response.success) {
+    // ✅ SAFE RESPONSE HANDLING
+    const result = response?.data ?? response;
+    const isSuccess = result?.success === true;
+
+    if (isSuccess) {
       // ✅ Emit success event (parent will show notification)
-      emit('success', response.data);
+      emit('success', result.data);
 
       // ✅ Close modal
       closeModal();
+    } else {
+      // API returned success: false
+      errorMessage.value = result?.message || 'Kursni saqlashda xatolik yuz berdi';
     }
   } catch (error) {
     console.error('Course save error:', error);

@@ -9,10 +9,11 @@
       leave-from-class="opacity-100"
       leave-to-class="opacity-0"
     >
+      <!-- Backdrop - Click does NOT close modal -->
       <div
         v-if="show"
         class="fixed inset-0 bg-black/50 z-40 backdrop-blur-sm"
-        @click="handleBackdropClick"
+        @click.stop
       ></div>
     </Transition>
 
@@ -25,10 +26,11 @@
       leave-from-class="opacity-100 scale-100"
       leave-to-class="opacity-0 scale-95"
     >
+      <!-- Modal container - Click does NOT close modal -->
       <div
         v-if="show"
         class="fixed inset-0 z-50 flex items-center justify-center p-4"
-        @click.self="handleBackdropClick"
+        @click.stop
       >
         <div
           :class="[
