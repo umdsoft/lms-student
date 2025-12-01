@@ -153,7 +153,7 @@ const props = defineProps({
     default: () => []
   },
   course: {
-    type: Object,
+    type: [Object, null],
     default: null
   }
 });

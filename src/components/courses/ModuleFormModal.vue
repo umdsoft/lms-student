@@ -85,7 +85,7 @@ const props = defineProps({
     required: true
   },
   module: {
-    type: Object,
+    type: [Object, null],
     default: null
   },
   mode: {
@@ -106,6 +106,16 @@ const formData = ref({
 const loading = ref(false);
 const error = ref(null);
 
+// Define resetForm BEFORE the watch to avoid hoisting issues
+const resetForm = () => {
+  formData.value = {
+    name: '',
+    description: '',
+    courseId: props.courseId
+  };
+  error.value = null;
+};
+
 // Watch for module changes to populate form in edit mode
 watch(
   () => props.module,
@@ -122,15 +132,6 @@ watch(
   },
   { immediate: true }
 );
-
-const resetForm = () => {
-  formData.value = {
-    name: '',
-    description: '',
-    courseId: props.courseId
-  };
-  error.value = null;
-};
 
 const handleClose = () => {
   if (!loading.value) {

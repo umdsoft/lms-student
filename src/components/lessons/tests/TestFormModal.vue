@@ -272,7 +272,7 @@ const props = defineProps({
     required: true
   },
   test: {
-    type: Object,
+    type: [Object, null],
     default: null
   },
   saving: {

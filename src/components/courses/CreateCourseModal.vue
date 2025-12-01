@@ -237,7 +237,7 @@ const props = defineProps({
     default: false
   },
   course: {
-    type: Object,
+    type: [Object, null],
     default: null
   },
   directionId: {
@@ -274,6 +274,23 @@ const formData = ref({
   status: 'draft'
 });
 
+/**
+ * Reset form to default state - defined BEFORE watch to avoid hoisting issues
+ */
+const resetForm = () => {
+  formData.value = {
+    name: '',
+    level: 'elementary',
+    description: '',
+    pricingType: 'free',
+    price: 0,
+    teacherId: null,
+    status: 'draft'
+  };
+  errorMessage.value = '';
+  errors.value = {};
+};
+
 // Watch for course prop changes (for edit mode)
 watch(
   () => props.course,
@@ -304,23 +321,6 @@ watch(
     }
   }
 );
-
-/**
- * Reset form to default state
- */
-const resetForm = () => {
-  formData.value = {
-    name: '',
-    level: 'elementary',
-    description: '',
-    pricingType: 'free',
-    price: 0,
-    teacherId: null,
-    status: 'draft'
-  };
-  errorMessage.value = '';
-  errors.value = {};
-};
 
 /**
  * Validate form
