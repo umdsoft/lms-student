@@ -9,8 +9,23 @@ export default {
    * @returns {Promise} API response
    */
   async getLessonsByModule(moduleId, params = {}) {
-    const { data } = await api.get(`/modules/${moduleId}/lessons`, { params });
-    return data;
+    try {
+      // Try the dedicated lessons endpoint first
+      const { data } = await api.get(`/modules/${moduleId}/lessons`, { params });
+      return data;
+    } catch (error) {
+      // If lessons endpoint fails, try getting lessons from module data
+      if (error.response?.status === 404 || error.response?.status === 500) {
+        const { data } = await api.get(`/modules/${moduleId}`);
+        if (data?.success && data?.data?.lessons) {
+          return {
+            success: true,
+            data: data.data.lessons
+          };
+        }
+      }
+      throw error;
+    }
   },
 
   /**
@@ -30,7 +45,8 @@ export default {
    * @returns {Promise} API response
    */
   async createLesson(moduleId, lessonData) {
-    return withCsrf(() => api.post(`/modules/${moduleId}/lessons`, lessonData));
+    const response = await withCsrf(() => api.post(`/modules/${moduleId}/lessons`, lessonData));
+    return response.data;
   },
 
   /**
@@ -40,7 +56,8 @@ export default {
    * @returns {Promise} API response
    */
   async updateLesson(id, lessonData) {
-    return withCsrf(() => api.put(`/lessons/${id}`, lessonData));
+    const response = await withCsrf(() => api.put(`/lessons/${id}`, lessonData));
+    return response.data;
   },
 
   /**
@@ -49,7 +66,8 @@ export default {
    * @returns {Promise} API response
    */
   async deleteLesson(id) {
-    return withCsrf(() => api.delete(`/lessons/${id}`));
+    const response = await withCsrf(() => api.delete(`/lessons/${id}`));
+    return response.data;
   },
 
   /**
@@ -59,7 +77,8 @@ export default {
    * @returns {Promise} API response
    */
   async reorderLesson(id, newOrder) {
-    return withCsrf(() => api.patch(`/lessons/${id}/reorder`, { order: newOrder }));
+    const response = await withCsrf(() => api.patch(`/lessons/${id}/reorder`, { order: newOrder }));
+    return response.data;
   },
 
   /**
@@ -69,7 +88,8 @@ export default {
    * @returns {Promise} API response
    */
   async bulkReorderLessons(moduleId, lessons) {
-    return withCsrf(() => api.post(`/modules/${moduleId}/lessons/reorder-bulk`, { lessons }));
+    const response = await withCsrf(() => api.post(`/modules/${moduleId}/lessons/reorder-bulk`, { lessons }));
+    return response.data;
   },
 
   /**
@@ -79,7 +99,8 @@ export default {
    * @returns {Promise} API response
    */
   async reorderLessons(moduleId, lessonIds) {
-    return withCsrf(() => api.patch(`/modules/${moduleId}/lessons/reorder`, { lessonIds }));
+    const response = await withCsrf(() => api.patch(`/modules/${moduleId}/lessons/reorder`, { lessonIds }));
+    return response.data;
   },
 
   /**
@@ -99,13 +120,14 @@ export default {
    * @returns {Promise} API response
    */
   async uploadLessonFile(lessonId, formData) {
-    return withCsrf(() =>
+    const response = await withCsrf(() =>
       api.post(`/lessons/${lessonId}/files`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       })
     );
+    return response.data;
   },
 
   /**
@@ -115,13 +137,14 @@ export default {
    * @returns {Promise} API response
    */
   async uploadFile(lessonId, formData) {
-    return withCsrf(() =>
+    const response = await withCsrf(() =>
       api.post(`/lessons/${lessonId}/files`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       })
     );
+    return response.data;
   },
 
   /**
@@ -130,7 +153,8 @@ export default {
    * @returns {Promise} API response
    */
   async deleteLessonFile(fileId) {
-    return withCsrf(() => api.delete(`/lesson-files/${fileId}`));
+    const response = await withCsrf(() => api.delete(`/lesson-files/${fileId}`));
+    return response.data;
   },
 
   /**
@@ -140,7 +164,8 @@ export default {
    * @returns {Promise} API response
    */
   async deleteFile(lessonId, fileId) {
-    return withCsrf(() => api.delete(`/lessons/${lessonId}/files/${fileId}`));
+    const response = await withCsrf(() => api.delete(`/lessons/${lessonId}/files/${fileId}`));
+    return response.data;
   },
 
   /**

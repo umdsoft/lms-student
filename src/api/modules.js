@@ -30,7 +30,8 @@ export default {
    * @returns {Promise} API response
    */
   async createModule(courseId, moduleData) {
-    return withCsrf(() => api.post(`/courses/${courseId}/modules`, moduleData));
+    const response = await withCsrf(() => api.post(`/courses/${courseId}/modules`, moduleData));
+    return response.data;
   },
 
   /**
@@ -40,7 +41,8 @@ export default {
    * @returns {Promise} API response
    */
   async updateModule(id, moduleData) {
-    return withCsrf(() => api.put(`/modules/${id}`, moduleData));
+    const response = await withCsrf(() => api.put(`/modules/${id}`, moduleData));
+    return response.data;
   },
 
   /**
@@ -49,7 +51,8 @@ export default {
    * @returns {Promise} API response
    */
   async deleteModule(id) {
-    return withCsrf(() => api.delete(`/modules/${id}`));
+    const response = await withCsrf(() => api.delete(`/modules/${id}`));
+    return response.data;
   },
 
   /**
@@ -59,7 +62,8 @@ export default {
    * @returns {Promise} API response
    */
   async reorderModule(id, newOrder) {
-    return withCsrf(() => api.patch(`/modules/${id}/reorder`, { order: newOrder }));
+    const response = await withCsrf(() => api.patch(`/modules/${id}/reorder`, { order: newOrder }));
+    return response.data;
   },
 
   /**
@@ -69,7 +73,8 @@ export default {
    * @returns {Promise} API response
    */
   async bulkReorderModules(courseId, modules) {
-    return withCsrf(() => api.post(`/courses/${courseId}/modules/reorder-bulk`, { modules }));
+    const response = await withCsrf(() => api.post(`/courses/${courseId}/modules/reorder-bulk`, { modules }));
+    return response.data;
   },
 
   /**
@@ -79,7 +84,8 @@ export default {
    * @returns {Promise} API response
    */
   async reorderModules(courseId, moduleIds) {
-    return withCsrf(() => api.patch(`/courses/${courseId}/modules/reorder`, { moduleIds }));
+    const response = await withCsrf(() => api.patch(`/courses/${courseId}/modules/reorder`, { moduleIds }));
+    return response.data;
   },
 
   /**
