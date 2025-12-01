@@ -1944,6 +1944,14 @@ export default {
         emptyFile: 'Fayl bo\'sh',
         downloadTemplate: 'Shablon yuklab olish'
       },
+      createPage: {
+        title: 'Yangi test qo\'shish',
+        subtitle: 'Dars: {lessonName}'
+      },
+      editPage: {
+        title: 'Testni tahrirlash',
+        subtitle: 'Dars: {lessonName}'
+      },
       form: {
         title: {
           create: 'Yangi test',
@@ -1951,6 +1959,7 @@ export default {
         },
         createTitle: 'Yangi test qo\'shish',
         editTitle: 'Testni tahrirlash',
+        backButton: 'Orqaga',
         question: 'Savol',
         questionPlaceholder: 'Savol matnini kiriting',
         questionImage: 'Savol rasmi (ixtiyoriy)',
@@ -1966,7 +1975,34 @@ export default {
         unlimited: 'Cheksiz',
         additionalSettings: 'Qo\'shimcha sozlamalar',
         explanation: 'Tushuntirish',
-        explanationPlaceholder: 'Javobni tushuntiring (ixtiyoriy)'
+        explanationPlaceholder: 'Javobni tushuntiring (ixtiyoriy)',
+        sections: {
+          question: 'Savol',
+          options: 'Javob variantlari',
+          settings: 'Sozlamalar',
+          explanation: 'Tushuntirish',
+          preview: 'Ko\'rinish'
+        },
+        actions: {
+          cancel: 'Bekor qilish',
+          saveAndExit: 'Saqlash va chiqish',
+          saveAndNew: 'Saqlash va yangi qo\'shish',
+          saveDraft: 'Qoralama saqlash'
+        },
+        hints: {
+          selectCorrect: 'To\'g\'ri javobni tanlash uchun chap tomondagi doirani bosing',
+          addOption: 'Variant qo\'shish (maksimum 6 ta)',
+          autosaving: 'Saqlanmoqda...',
+          autosaved: 'Avtomatik saqlandi'
+        },
+        validation: {
+          questionRequired: 'Savol matnini kiriting',
+          minOptions: 'Kamida 2 ta variant bo\'lishi kerak',
+          optionEmpty: 'Barcha variantlarni to\'ldiring',
+          selectCorrect: 'To\'g\'ri javobni tanlang'
+        },
+        unsavedWarning: 'Saqlanmagan o\'zgarishlar bor. Rostdan ham chiqmoqchimisiz?',
+        restoreDraft: 'Saqlangan qoralama topildi. Tiklashni xohlaysizmi?'
       },
       empty: {
         title: 'Testlar mavjud emas',
