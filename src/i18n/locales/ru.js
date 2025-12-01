@@ -45,8 +45,13 @@ export default {
     }
   },
   common: {
+    loading: 'Загрузка...',
     actions: {
-      back: 'Назад'
+      back: 'Назад',
+      edit: 'Редактировать',
+      delete: 'Удалить',
+      save: 'Сохранить',
+      cancel: 'Отмена'
     },
     pagination: {
       previous: 'Предыдущая',
@@ -387,6 +392,14 @@ export default {
       localeChange: {
         title: 'Язык обновлён',
         message: 'Интерфейс переключён на {language}.'
+      },
+      olympiadsRegister: {
+        title: 'Заявка отправлена!',
+        message: 'Участие в олимпиаде «{title}» подтверждено.'
+      },
+      miniTestPurchase: {
+        title: 'Демо-тест готов!',
+        message: 'Вы успешно приобрели мини-тест «{title}».'
       }
     },
     error: {
@@ -1014,6 +1027,22 @@ export default {
         completed: 'Завершён',
         'in-progress': 'В процессе',
         locked: 'Заблокирован'
+      },
+      lessonsCount: 'урок',
+      description: 'О модуле',
+      view: 'Просмотр',
+      deleteAction: 'Удалить',
+      delete: {
+        title: 'Удалить модуль',
+        warning: 'Внимание!',
+        warningMessage: 'Это действие нельзя отменить. Все уроки в модуле также будут удалены.',
+        message: 'Вы хотите удалить этот модуль?',
+        cancel: 'Отмена',
+        confirm: 'Удалить'
+      },
+      messages: {
+        deleteSuccess: 'Модуль успешно удалён',
+        error: 'Произошла ошибка'
       }
     },
     results: {
@@ -1101,7 +1130,33 @@ export default {
       subject: 'Предмет',
       feeLabel: 'Взнос за участие',
       action: 'Участвовать',
-      viewResults: 'Смотреть результаты'
+      details: 'Подробнее',
+      viewResults: 'Смотреть результаты',
+      registered: 'Зарегистрирован'
+    },
+    groups: {
+      upcoming: 'Открытые олимпиады',
+      upcomingHint: 'Зарегистрируйтесь на ближайшие олимпиады.',
+      finished: 'Завершённые олимпиады',
+      finishedHint: 'Архив олимпиад с опубликованными результатами.'
+    },
+    empty: {
+      upcoming: 'Пока нет новых олимпиад. Следите за обновлениями.',
+      finished: 'Завершённых олимпиад пока нет.'
+    },
+    registration: {
+      title: 'Подтвердить участие?',
+      subtitle: 'Подтвердите участие в олимпиаде «{title}».',
+      paymentNotice: 'Внимание! Взнос за участие будет списан после подтверждения.',
+      balanceReminder: 'Сумма {amount} будет списана с вашего баланса.',
+      studentInfoTitle: 'Данные участника',
+      fields: {
+        fullName: 'ФИО',
+        email: 'Email',
+        phone: 'Телефон'
+      },
+      cancel: 'Отмена',
+      confirm: 'Участвовать'
     },
     details: {
       back: 'Вернуться к списку олимпиад',
@@ -1779,8 +1834,26 @@ export default {
     empty: 'Курсы пока отсутствуют',
     students: 'ученик',
     lessons: 'урок',
-    months: 'мес',
-    statistics: 'Статистика',
+    view: 'Просмотр',
+    description: 'Описание',
+
+    stats: {
+      modules: 'Модули',
+      lessons: 'Уроки',
+      duration: 'Длительность',
+      students: 'Ученики'
+    },
+
+    actions: {
+      edit: 'Редактировать',
+      delete: 'Удалить'
+    },
+
+    pricingType: {
+      label: 'Тип цены',
+      subscription: 'По подписке',
+      individual: 'Отдельная покупка'
+    },
 
     form: {
       title: {
@@ -1790,13 +1863,12 @@ export default {
       name: 'Название курса',
       level: 'Уровень',
       description: 'Описание',
-      duration: 'Длительность (мес)',
-      price: 'Цена (сум/мес)',
-      lessonsCount: 'Количество уроков',
+      price: 'Цена (сум)',
+      teacher: 'Преподаватель',
+      teacherUnassigned: 'Не назначен',
       status: 'Статус',
       save: 'Сохранить',
-      cancel: 'Отмена',
-      required: 'Обязательное поле'
+      cancel: 'Отмена'
     },
 
     status: {
@@ -1821,6 +1893,117 @@ export default {
       warningMessage: 'Все данные, связанные с этим курсом, будут удалены. Это действие нельзя отменить.',
       confirm: 'Удалить',
       cancel: 'Отмена'
+    },
+
+    modules: {
+      title: 'Модули',
+      add: 'Добавить модуль',
+      empty: 'Модули отсутствуют',
+      emptyDescription: 'Создайте первый модуль',
+      createFirst: 'Создайте первый модуль',
+      lessonsCount: 'урок',
+      edit: 'Редактировать',
+      view: 'Просмотр',
+      delete: 'Удалить',
+      deleteAction: 'Удалить',
+      moveUp: 'Вверх',
+      moveDown: 'Вниз',
+      description: 'Описание',
+
+      form: {
+        title: {
+          create: 'Новый модуль',
+          edit: 'Редактировать модуль'
+        },
+        name: 'Название модуля',
+        namePlaceholder: 'Введите название модуля',
+        description: 'Описание',
+        descriptionPlaceholder: 'Введите описание модуля',
+        save: 'Сохранить',
+        cancel: 'Отмена'
+      },
+
+      delete: {
+        title: 'Удалить модуль',
+        message: 'Вы действительно хотите удалить этот модуль?',
+        warning: 'Внимание!',
+        warningMessage: 'Все уроки будут удалены. Это действие нельзя отменить.',
+        confirm: 'Удалить',
+        cancel: 'Отмена'
+      },
+
+      messages: {
+        createSuccess: 'Модуль успешно создан',
+        updateSuccess: 'Модуль успешно обновлён',
+        deleteSuccess: 'Модуль успешно удалён',
+        error: 'Произошла ошибка'
+      }
+    },
+
+    lessons: {
+      title: 'Уроки',
+      add: 'Добавить урок',
+      empty: 'Уроки отсутствуют',
+      emptyDescription: 'Создайте первый урок',
+      createFirst: 'Создайте первый урок',
+      edit: 'Редактировать',
+      view: 'Просмотр',
+      delete: 'Удалить',
+      moveUp: 'Вверх',
+      moveDown: 'Вниз',
+      files: 'файл',
+      tests: 'тест',
+      description: 'Описание',
+      filesTitle: 'Файлы',
+      noFiles: 'Файлы отсутствуют',
+      noVideo: 'Видео отсутствует',
+      directVideo: 'Прямое видео',
+      videoNotSupported: 'Ваш браузер не поддерживает этот формат видео',
+
+      form: {
+        title: {
+          create: 'Новый урок',
+          edit: 'Редактировать урок'
+        },
+        name: 'Название урока',
+        namePlaceholder: 'Введите название урока',
+        description: 'Описание',
+        descriptionPlaceholder: 'Введите описание урока',
+        videoUrl: 'URL видео',
+        videoUrlPlaceholder: 'https://youtube.com/watch?v=...',
+        videoHint: 'Ссылка на YouTube или прямая ссылка',
+        videoPreview: 'Предпросмотр видео',
+        duration: 'Длительность',
+        durationUnit: 'минут',
+        files: 'Файлы',
+        addFile: 'Добавить файл',
+        save: 'Сохранить',
+        cancel: 'Отмена'
+      },
+
+      delete: {
+        title: 'Удалить урок',
+        message: 'Вы действительно хотите удалить этот урок?',
+        warning: 'Внимание!',
+        warningMessage: 'Все файлы и тесты будут удалены.',
+        confirm: 'Удалить',
+        cancel: 'Отмена'
+      },
+
+      messages: {
+        createSuccess: 'Урок успешно создан',
+        updateSuccess: 'Урок успешно обновлён',
+        deleteSuccess: 'Урок успешно удалён',
+        fileDeleteSuccess: 'Файл удалён',
+        fileDeleteError: 'Ошибка при удалении файла',
+        error: 'Произошла ошибка'
+      }
+    },
+
+    tests: {
+      title: 'Тесты',
+      add: 'Добавить тест',
+      empty: 'Тесты отсутствуют'
     },
 
     messages: {

@@ -1022,7 +1022,7 @@ export default {
     },
     modules: {
       title: 'Modullar va mavzular',
-      subtitle: 'Har bir modul bo'yicha taraqqiyot',
+      subtitle: 'Har bir modul bo\'yicha taraqqiyot',
       status: {
         completed: 'Tugallangan',
         'in-progress': 'Jarayonda',
@@ -1906,6 +1906,7 @@ export default {
       edit: 'Tahrirlash',
       view: 'Ko\'rish',
       delete: 'O\'chirish',
+      deleteAction: 'O\'chirish',
       moveUp: 'Yuqoriga',
       moveDown: 'Pastga',
       description: 'Tavsif',
