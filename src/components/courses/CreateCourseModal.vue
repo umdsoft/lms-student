@@ -229,7 +229,7 @@
 <script setup>
 import { ref, computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import { useCoursesStore } from '@/stores/courses.store';
+import { useCoursesStore } from '@/stores/courses';
 
 const props = defineProps({
   isOpen: {
