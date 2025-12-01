@@ -193,7 +193,7 @@ const props = defineProps({
     required: true
   },
   user: {
-    type: Object,
+    type: [Object, null],
     default: null
   },
   mode: {
@@ -222,6 +222,22 @@ const formData = ref({
 const errors = ref({});
 
 /**
+ * Reset form - defined BEFORE watch to avoid hoisting issues
+ */
+const resetForm = () => {
+  formData.value = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    password: '',
+    role: '',
+    status: 'active'
+  };
+  errors.value = {};
+};
+
+/**
  * Watch for user prop changes to populate form
  */
 watch(
@@ -246,22 +262,6 @@ watch(
   },
   { immediate: true }
 );
-
-/**
- * Reset form
- */
-const resetForm = () => {
-  formData.value = {
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    password: '',
-    role: '',
-    status: 'active'
-  };
-  errors.value = {};
-};
 
 /**
  * Validate form

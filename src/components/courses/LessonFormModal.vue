@@ -242,7 +242,7 @@ const props = defineProps({
     required: true
   },
   lesson: {
-    type: Object,
+    type: [Object, null],
     default: null
   },
   mode: {

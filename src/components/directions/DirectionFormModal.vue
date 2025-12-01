@@ -160,7 +160,7 @@ const props = defineProps({
     required: true
   },
   direction: {
-    type: Object,
+    type: [Object, null],
     default: null
   },
   mode: {

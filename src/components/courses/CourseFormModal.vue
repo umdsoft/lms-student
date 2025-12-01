@@ -194,7 +194,7 @@ const props = defineProps({
     required: true
   },
   course: {
-    type: Object,
+    type: [Object, null],
     default: null
   },
   mode: {
@@ -225,6 +225,25 @@ onMounted(() => {
   coursesStore.fetchTeachers();
 });
 
+const formatTeacherName = (teacher) => {
+  return `${teacher.firstName || ''} ${teacher.lastName || ''}`.trim() || teacher.email;
+};
+
+// Define resetForm BEFORE watch to avoid hoisting issues
+const resetForm = () => {
+  formData.value = {
+    name: '',
+    level: '',
+    description: '',
+    pricingType: 'subscription',
+    price: 0,
+    teacherId: null,
+    status: 'draft',
+    directionId: props.directionId
+  };
+  error.value = null;
+};
+
 // Watch for course changes to populate form in edit mode
 watch(
   () => props.course,
@@ -246,24 +265,6 @@ watch(
   },
   { immediate: true }
 );
-
-const formatTeacherName = (teacher) => {
-  return `${teacher.firstName || ''} ${teacher.lastName || ''}`.trim() || teacher.email;
-};
-
-const resetForm = () => {
-  formData.value = {
-    name: '',
-    level: '',
-    description: '',
-    pricingType: 'subscription',
-    price: 0,
-    teacherId: null,
-    status: 'draft',
-    directionId: props.directionId
-  };
-  error.value = null;
-};
 
 const handleClose = () => {
   if (!loading.value) {

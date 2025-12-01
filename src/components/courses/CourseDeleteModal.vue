@@ -80,7 +80,7 @@ const props = defineProps({
     required: true
   },
   course: {
-    type: Object,
+    type: [Object, null],
     default: null
   }
 });

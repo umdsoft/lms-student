@@ -124,7 +124,7 @@ const props = defineProps({
     required: true
   },
   file: {
-    type: Object,
+    type: [Object, null],
     default: null
   }
 });
