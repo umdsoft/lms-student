@@ -1,6 +1,5 @@
 <template>
-  <div class="min-h-screen bg-gray-50">
-    <div class="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
+  <div class="w-full">
       <!-- Header -->
       <div class="mb-8">
         <button
@@ -309,7 +308,7 @@
 
         <!-- Actions -->
         <div class="sticky bottom-0 bg-gray-50 -mx-4 px-4 py-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8 border-t border-gray-200">
-          <div class="flex items-center justify-between max-w-5xl mx-auto">
+          <div class="flex items-center justify-between">
             <div class="flex items-center gap-4">
               <button
                 type="button"
@@ -349,7 +348,6 @@
           </div>
         </div>
       </form>
-    </div>
 
     <!-- Math Modal -->
     <MathModal
