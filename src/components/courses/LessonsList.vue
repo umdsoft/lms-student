@@ -72,6 +72,7 @@
     />
 
     <LessonDeleteModal
+      v-if="selectedLesson"
       v-model:show="showDeleteModal"
       :lesson="selectedLesson"
       :module-id="moduleId"

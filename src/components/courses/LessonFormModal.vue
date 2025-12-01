@@ -270,6 +270,23 @@ const videoInfo = ref({ type: null, embedUrl: null, videoId: null });
 const loading = ref(false);
 const error = ref(null);
 
+// Define resetForm BEFORE watch to avoid hoisting issues
+const resetForm = () => {
+  formData.value = {
+    name: '',
+    description: '',
+    videoUrl: '',
+    videoType: 'youtube',
+    videoEmbedUrl: '',
+    duration: 0,
+    moduleId: props.moduleId
+  };
+  durationMinutes.value = 15;
+  filesToUpload.value = [];
+  videoInfo.value = { type: null, embedUrl: null, videoId: null };
+  error.value = null;
+};
+
 // Watch for lesson changes to populate form in edit mode
 watch(
   () => props.lesson,
@@ -337,22 +354,6 @@ const formatFileSize = (bytes) => {
   const sizes = ['Bytes', 'KB', 'MB', 'GB'];
   const i = Math.floor(Math.log(bytes) / Math.log(k));
   return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
-};
-
-const resetForm = () => {
-  formData.value = {
-    name: '',
-    description: '',
-    videoUrl: '',
-    videoType: 'youtube',
-    videoEmbedUrl: '',
-    duration: 0,
-    moduleId: props.moduleId
-  };
-  durationMinutes.value = 15;
-  filesToUpload.value = [];
-  videoInfo.value = { type: null, embedUrl: null, videoId: null };
-  error.value = null;
 };
 
 const handleClose = () => {

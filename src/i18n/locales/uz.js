@@ -1022,11 +1022,27 @@ export default {
     },
     modules: {
       title: 'Modullar va mavzular',
-      subtitle: 'Har bir modul bo‘yicha taraqqiyot',
+      subtitle: 'Har bir modul bo'yicha taraqqiyot',
       status: {
         completed: 'Tugallangan',
         'in-progress': 'Jarayonda',
         locked: 'Qulf ostida'
+      },
+      lessonsCount: 'ta dars',
+      description: 'Modul haqida',
+      view: "Ko'rish",
+      deleteAction: "O'chirish",
+      delete: {
+        title: "Modulni o'chirish",
+        warning: 'Diqqat!',
+        warningMessage: "Bu amalni ortga qaytarib bo'lmaydi. Modul ichidagi barcha darslar ham o'chiriladi.",
+        message: "Siz quyidagi modulni o'chirmoqchimisiz?",
+        cancel: 'Bekor qilish',
+        confirm: "O'chirish"
+      },
+      messages: {
+        deleteSuccess: "Modul muvaffaqiyatli o'chirildi",
+        error: "Xatolik yuz berdi"
       }
     },
     results: {
