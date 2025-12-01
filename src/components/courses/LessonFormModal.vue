@@ -194,8 +194,8 @@
       </div>
 
       <!-- Error Message -->
-      <div v-if="error" class="mt-4 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-800">
-        {{ error }}
+      <div v-if="errorMessage" class="mt-4 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-800">
+        {{ errorMessage }}
       </div>
     </form>
 
@@ -221,16 +221,18 @@
 </template>
 
 <script setup>
-import { ref, watch, computed } from 'vue';
+import { ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useNotivue } from 'notivue';
 import BaseModal from '@/components/common/BaseModal.vue';
 import { useLessonsStore } from '@/stores/lessons';
+import { useCrudModal } from '@/composables/useCrudModal';
+import { useNotification } from '@/composables/useNotification';
 import { processVideoUrl, minutesToSeconds, secondsToMinutes } from '@/utils/videoProcessor';
+import { parseResponse, parseError } from '@/utils/apiHelper';
 
 const { t } = useI18n();
-const { push } = useNotivue();
 const lessonsStore = useLessonsStore();
+const notification = useNotification();
 
 const props = defineProps({
   show: {
@@ -254,6 +256,9 @@ const props = defineProps({
 
 const emit = defineEmits(['update:show', 'save']);
 
+// ============================================
+// FORM STATE
+// ============================================
 const formData = ref({
   name: '',
   description: '',
@@ -268,7 +273,7 @@ const durationMinutes = ref(15);
 const filesToUpload = ref([]);
 const videoInfo = ref({ type: null, embedUrl: null, videoId: null });
 const loading = ref(false);
-const error = ref(null);
+const errorMessage = ref('');
 
 // Define resetForm BEFORE watch to avoid hoisting issues
 const resetForm = () => {
@@ -284,7 +289,7 @@ const resetForm = () => {
   durationMinutes.value = 15;
   filesToUpload.value = [];
   videoInfo.value = { type: null, embedUrl: null, videoId: null };
-  error.value = null;
+  errorMessage.value = '';
 };
 
 // Watch for lesson changes to populate form in edit mode
@@ -342,9 +347,9 @@ const handleDeleteFile = async (fileId) => {
 
   try {
     await lessonsStore.deleteFile(props.lesson.id, fileId);
-    push.success({ title: t('courses.lessons.messages.fileDeleteSuccess') });
+    notification.success(t('courses.lessons.messages.fileDeleteSuccess'));
   } catch (err) {
-    push.error({ title: t('courses.lessons.messages.fileDeleteError') });
+    notification.error(parseError(err));
   }
 };
 
@@ -363,37 +368,62 @@ const handleClose = () => {
   }
 };
 
+// ============================================
+// UNIFIED SUBMIT HANDLER WITH CENTRALIZED RESPONSE PARSING
+// ============================================
 const handleSubmit = async () => {
   loading.value = true;
-  error.value = null;
+  errorMessage.value = '';
 
   try {
     // Convert duration from minutes to seconds
     formData.value.duration = minutesToSeconds(durationMinutes.value);
 
     let lessonId;
+    let response;
+
     if (props.mode === 'edit' && props.lesson?.id) {
-      await lessonsStore.updateLesson(props.lesson.id, formData.value);
+      response = await lessonsStore.updateLesson(props.lesson.id, formData.value);
       lessonId = props.lesson.id;
-      push.success({ title: t('courses.lessons.messages.updateSuccess') });
     } else {
-      const result = await lessonsStore.createLesson(props.moduleId, formData.value);
-      lessonId = result.data?.id;
-      push.success({ title: t('courses.lessons.messages.createSuccess') });
+      response = await lessonsStore.createLesson(props.moduleId, formData.value);
     }
 
-    // Upload new files if any
-    if (filesToUpload.value.length && lessonId) {
-      for (const file of filesToUpload.value) {
-        await lessonsStore.uploadFile(lessonId, file);
+    // UNIFIED RESPONSE PARSING
+    const result = parseResponse(response);
+
+    if (result.success) {
+      // Get lessonId from response if creating
+      if (!lessonId && result.data?.id) {
+        lessonId = result.data.id;
       }
-    }
 
-    resetForm();
-    emit('save');
-    emit('update:show', false);
+      // Success notification
+      const successMsg = result.message || (props.mode === 'edit'
+        ? t('courses.lessons.messages.updateSuccess')
+        : t('courses.lessons.messages.createSuccess')
+      );
+      notification.success(successMsg);
+
+      // Upload new files if any
+      if (filesToUpload.value.length && lessonId) {
+        for (const file of filesToUpload.value) {
+          await lessonsStore.uploadFile(lessonId, file);
+        }
+      }
+
+      resetForm();
+      emit('save');
+      emit('update:show', false);
+    } else {
+      // API returned success: false
+      errorMessage.value = result.message || t('courses.lessons.messages.error');
+      notification.error(errorMessage.value);
+    }
   } catch (err) {
-    error.value = err.message || t('courses.lessons.messages.error');
+    console.error('Lesson submit error:', err);
+    errorMessage.value = parseError(err);
+    notification.error(errorMessage.value);
   } finally {
     loading.value = false;
   }

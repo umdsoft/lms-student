@@ -160,6 +160,7 @@ export const useUsersStore = defineStore('users', {
     /**
      * Create new user
      * @param {Object} userData - User data
+     * @returns {Promise<Object>} API response { success, data, message }
      */
     async createUser(userData) {
       this.loading = true;
@@ -167,11 +168,14 @@ export const useUsersStore = defineStore('users', {
 
       try {
         const response = await usersApi.createUser(userData);
-        if (response.data.success) {
+        // Standardize: always return response.data (not axios wrapper)
+        const result = response.data || response;
+
+        if (result.success) {
           await this.fetchUsers(); // Refresh list
           await this.fetchStatistics(); // Refresh statistics
-          return response.data;
         }
+        return result;
       } catch (error) {
         this.error = error.response?.data?.message || 'Foydalanuvchi yaratishda xatolik';
         throw error;
@@ -184,6 +188,7 @@ export const useUsersStore = defineStore('users', {
      * Update user
      * @param {number|string} id - User ID
      * @param {Object} userData - Updated user data
+     * @returns {Promise<Object>} API response { success, data, message }
      */
     async updateUser(id, userData) {
       this.loading = true;
@@ -191,10 +196,13 @@ export const useUsersStore = defineStore('users', {
 
       try {
         const response = await usersApi.updateUser(id, userData);
-        if (response.data.success) {
+        // Standardize: always return response.data (not axios wrapper)
+        const result = response.data || response;
+
+        if (result.success) {
           await this.fetchUsers(); // Refresh list
-          return response.data;
         }
+        return result;
       } catch (error) {
         this.error = error.response?.data?.message || 'Foydalanuvchini yangilashda xatolik';
         throw error;
@@ -207,14 +215,19 @@ export const useUsersStore = defineStore('users', {
      * Update user role
      * @param {number|string} id - User ID
      * @param {string} role - New role
+     * @returns {Promise<Object>} API response { success, data, message }
      */
     async updateUserRole(id, role) {
       try {
         const response = await usersApi.updateUserRole(id, role);
-        if (response.data.success) {
+        // Standardize: always return response.data (not axios wrapper)
+        const result = response.data || response;
+
+        if (result.success) {
           await this.fetchUsers();
           await this.fetchStatistics();
         }
+        return result;
       } catch (error) {
         this.error = error.response?.data?.message || 'Rolni yangilashda xatolik';
         throw error;
@@ -226,14 +239,19 @@ export const useUsersStore = defineStore('users', {
      * @param {number|string} id - User ID
      * @param {string} status - New status
      * @param {string|null} reason - Reason for blocking
+     * @returns {Promise<Object>} API response { success, data, message }
      */
     async updateUserStatus(id, status, reason = null) {
       try {
         const response = await usersApi.updateUserStatus(id, status, reason);
-        if (response.data.success) {
+        // Standardize: always return response.data (not axios wrapper)
+        const result = response.data || response;
+
+        if (result.success) {
           await this.fetchUsers();
           await this.fetchStatistics();
         }
+        return result;
       } catch (error) {
         this.error = error.response?.data?.message || 'Statusni yangilashda xatolik';
         throw error;
@@ -243,14 +261,19 @@ export const useUsersStore = defineStore('users', {
     /**
      * Delete user
      * @param {number|string} id - User ID
+     * @returns {Promise<Object>} API response { success, data, message }
      */
     async deleteUser(id) {
       try {
         const response = await usersApi.deleteUser(id);
-        if (response.data.success) {
+        // Standardize: always return response.data (not axios wrapper)
+        const result = response.data || response;
+
+        if (result.success) {
           await this.fetchUsers();
           await this.fetchStatistics();
         }
+        return result;
       } catch (error) {
         this.error = error.response?.data?.message || "Foydalanuvchini o'chirishda xatolik";
         throw error;

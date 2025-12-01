@@ -39,8 +39,8 @@
       </div>
 
       <!-- Error Message -->
-      <div v-if="error" class="mt-4 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-800">
-        {{ error }}
+      <div v-if="errorMessage" class="mt-4 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-800">
+        {{ errorMessage }}
       </div>
     </form>
 
@@ -67,12 +67,11 @@
 <script setup>
 import { ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useNotivue } from 'notivue';
 import BaseModal from '@/components/common/BaseModal.vue';
 import { useModulesStore } from '@/stores/modules';
+import { useCrudModal } from '@/composables/useCrudModal';
 
 const { t } = useI18n();
-const { push } = useNotivue();
 const modulesStore = useModulesStore();
 
 const props = defineProps({
@@ -97,14 +96,33 @@ const props = defineProps({
 
 const emit = defineEmits(['update:show', 'save']);
 
+// ============================================
+// CENTRALIZED CRUD LOGIC
+// ============================================
+const { loading, errorMessage, handleSubmit: crudSubmit, clearError } = useCrudModal({
+  createFn: (data) => modulesStore.createModule(props.courseId, data),
+  updateFn: (id, data) => modulesStore.updateModule(id, data),
+  onSuccess: () => {
+    resetForm();
+    emit('save');
+    emit('update:show', false);
+  },
+  messages: {
+    createSuccess: t('courses.modules.messages.createSuccess'),
+    updateSuccess: t('courses.modules.messages.updateSuccess'),
+    createError: t('courses.modules.messages.error'),
+    updateError: t('courses.modules.messages.error')
+  }
+});
+
+// ============================================
+// FORM STATE
+// ============================================
 const formData = ref({
   name: '',
   description: '',
   courseId: props.courseId
 });
-
-const loading = ref(false);
-const error = ref(null);
 
 // Define resetForm BEFORE the watch to avoid hoisting issues
 const resetForm = () => {
@@ -113,7 +131,7 @@ const resetForm = () => {
     description: '',
     courseId: props.courseId
   };
-  error.value = null;
+  clearError();
 };
 
 // Watch for module changes to populate form in edit mode
@@ -140,30 +158,8 @@ const handleClose = () => {
   }
 };
 
+// UNIFIED SUBMIT HANDLER
 const handleSubmit = async () => {
-  loading.value = true;
-  error.value = null;
-
-  try {
-    if (props.mode === 'edit' && props.module?.id) {
-      await modulesStore.updateModule(props.module.id, formData.value);
-      push.success({
-        title: t('courses.modules.messages.updateSuccess')
-      });
-    } else {
-      await modulesStore.createModule(props.courseId, formData.value);
-      push.success({
-        title: t('courses.modules.messages.createSuccess')
-      });
-    }
-
-    resetForm();
-    emit('save');
-    emit('update:show', false);
-  } catch (err) {
-    error.value = err.message || t('courses.modules.messages.error');
-  } finally {
-    loading.value = false;
-  }
+  await crudSubmit(formData.value, props.module);
 };
 </script>
