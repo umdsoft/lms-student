@@ -2105,7 +2105,16 @@ export default {
         description: 'yoki fayllarni tanlash uchun bosing',
         maxSize: 'Maksimal hajm: {size}',
         hint: 'Maksimal hajm: 50MB'
-      }
+      },
+      info: {
+        name: 'Fayl nomi',
+        size: 'Hajmi',
+        type: 'Turi',
+        uploaded: 'Yuklangan'
+      },
+      videoNotSupported: 'Brauzeringiz bu video formatini qo\'llab-quvvatlamaydi',
+      audioNotSupported: 'Brauzeringiz bu audio formatini qo\'llab-quvvatlamaydi',
+      previewNotAvailable: 'Bu fayl turi uchun oldindan ko\'rish mavjud emas'
     },
 
     tests: {
