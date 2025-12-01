@@ -7,6 +7,7 @@ import i18n from './i18n';
 import { createNotivue } from 'notivue';
 import 'notivue/notifications.css';
 import 'notivue/animations.css';
+import 'katex/dist/katex.min.css';
 import { useAuthStore } from './shared/stores/auth';
 
 const app = createApp(App);

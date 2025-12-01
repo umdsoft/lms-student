@@ -115,6 +115,7 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import DOMPurify from 'dompurify';
+import katex from 'katex';
 
 const props = defineProps({
   test: {
@@ -135,13 +136,30 @@ defineEmits(['edit', 'delete']);
 
 const { t } = useI18n();
 
+// Render math formulas in text using KaTeX
+const renderMath = (text) => {
+  if (!text) return '';
+  // Replace $...$ with KaTeX rendered HTML
+  return text.replace(/\$([^$]+)\$/g, (match, latex) => {
+    try {
+      return katex.renderToString(latex, {
+        throwOnError: false,
+        displayMode: false
+      });
+    } catch {
+      return match;
+    }
+  });
+};
+
 const hasHtml = computed(() => {
   const question = props.test.question || '';
-  return /<[^>]+>/.test(question);
+  return /<[^>]+>/.test(question) || /\$[^$]+\$/.test(question);
 });
 
 const sanitizedQuestion = computed(() => {
-  return DOMPurify.sanitize(props.test.question || '');
+  const sanitized = DOMPurify.sanitize(props.test.question || '');
+  return renderMath(sanitized);
 });
 
 const difficultyClass = computed(() => {
@@ -198,5 +216,14 @@ const formatTime = (seconds) => {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+/* KaTeX styles */
+:deep(.katex) {
+  font-size: 1em;
+}
+
+:deep(.katex-display) {
+  margin: 0.5em 0;
 }
 </style>
