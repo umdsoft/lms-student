@@ -14,7 +14,8 @@
  * error('Xatolik yuz berdi');
  */
 
-import { useNotivue } from 'notivue';
+// Notivue v2.x: push is a direct export, NOT from useNotivue()
+import { push } from 'notivue';
 
 /**
  * Notification composable - Notivue wrapper
@@ -23,7 +24,6 @@ import { useNotivue } from 'notivue';
  * @returns {Object} Notification methods
  */
 export function useNotification() {
-  const { push } = useNotivue();
 
   /**
    * Show success notification
