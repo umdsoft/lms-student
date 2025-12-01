@@ -2100,7 +2100,9 @@ export default {
       },
       dropzone: {
         title: 'Fayllarni bu yerga tashlang',
+        subtitle: 'yoki fayllarni tanlash uchun bosing',
         description: 'yoki fayllarni tanlash uchun bosing',
+        maxSize: 'Maksimal hajm: {size}',
         hint: 'Maksimal hajm: 50MB'
       }
     },

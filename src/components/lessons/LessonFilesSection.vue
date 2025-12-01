@@ -178,6 +178,7 @@ onMounted(() => {
 });
 
 const loadFiles = async () => {
+  if (!props.lessonId) return;
   try {
     await filesStore.fetchFilesByLesson(props.lessonId);
   } catch (error) {
