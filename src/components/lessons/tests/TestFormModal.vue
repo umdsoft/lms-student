@@ -19,7 +19,7 @@
           :show-math-button="true"
           :show-image-button="false"
           min-height="120px"
-          @open-math="showMathModal = true"
+          @open-math="openMathForQuestion"
         />
       </div>
 
@@ -88,13 +88,17 @@
               {{ String.fromCharCode(65 + index) }}
             </span>
 
-            <!-- Option text -->
+            <!-- Option text with RichTextEditor -->
             <div class="flex-1">
-              <input
+              <RichTextEditor
+                :ref="el => setOptionEditorRef(el, index)"
                 v-model="option.text"
-                type="text"
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                :placeholder="t('lessons.tests.form.optionPlaceholder', { letter: String.fromCharCode(65 + index) })"
+                :placeholder="t('lessons.tests.form.optionPlaceholder')"
+                :mini="true"
+                :show-math-button="true"
+                :show-image-button="false"
+                min-height="40px"
+                @open-math="openMathForOption(index)"
               />
             </div>
 
@@ -282,8 +286,10 @@ const emit = defineEmits(['update:show', 'save']);
 const { t } = useI18n();
 
 const questionEditor = ref(null);
+const optionEditors = ref({});
 const showMathModal = ref(false);
 const showImageModal = ref(false);
+const currentMathTarget = ref('question'); // 'question' or option index
 
 const defaultForm = () => ({
   question: '',
@@ -339,10 +345,37 @@ const removeOption = (index) => {
   }
 };
 
-const insertFormula = ({ html }) => {
-  if (questionEditor.value) {
-    questionEditor.value.insertHtml(html);
+// Set ref for option editor
+const setOptionEditorRef = (el, index) => {
+  if (el) {
+    optionEditors.value[index] = el;
   }
+};
+
+// Open math modal for question
+const openMathForQuestion = () => {
+  currentMathTarget.value = 'question';
+  showMathModal.value = true;
+};
+
+// Open math modal for a specific option
+const openMathForOption = (index) => {
+  currentMathTarget.value = index;
+  showMathModal.value = true;
+};
+
+const insertFormula = ({ html }) => {
+  if (currentMathTarget.value === 'question') {
+    if (questionEditor.value) {
+      questionEditor.value.insertHtml(html);
+    }
+  } else {
+    const optionEditor = optionEditors.value[currentMathTarget.value];
+    if (optionEditor) {
+      optionEditor.insertHtml(html);
+    }
+  }
+  currentMathTarget.value = 'question'; // Reset to default
 };
 
 const handleImageInsert = ({ url }) => {

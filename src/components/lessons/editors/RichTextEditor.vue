@@ -1,99 +1,137 @@
 <template>
-  <div class="rich-text-editor">
+  <div class="rich-text-editor" :class="{ 'mini': mini }">
     <!-- Toolbar -->
-    <div class="flex flex-wrap items-center gap-1 border-b border-gray-200 bg-gray-50 p-2 rounded-t-lg">
-      <!-- Text formatting -->
-      <div class="flex items-center gap-1 pr-2 border-r border-gray-300">
+    <div
+      class="flex flex-wrap items-center gap-1 border-b border-gray-200 bg-gray-50 rounded-t-lg"
+      :class="mini ? 'p-1' : 'p-2'"
+    >
+      <!-- Mini toolbar - only essential buttons -->
+      <template v-if="mini">
         <button
           type="button"
-          class="toolbar-btn"
+          class="toolbar-btn toolbar-btn-mini"
           :class="{ 'is-active': editor?.isActive('bold') }"
           @click="editor?.chain().focus().toggleBold().run()"
           :title="t('lessons.editor.bold')"
         >
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 4h8a4 4 0 014 4 4 4 0 01-4 4H6z M6 12h9a4 4 0 014 4 4 4 0 01-4 4H6z"/>
-          </svg>
+          <span class="font-bold text-xs">B</span>
         </button>
         <button
           type="button"
-          class="toolbar-btn"
+          class="toolbar-btn toolbar-btn-mini"
           :class="{ 'is-active': editor?.isActive('italic') }"
           @click="editor?.chain().focus().toggleItalic().run()"
           :title="t('lessons.editor.italic')"
         >
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 4h4m-2 0l-4 16m4-16l-4 16m-2 0h4"/>
-          </svg>
+          <span class="italic text-xs">I</span>
         </button>
-        <button
-          type="button"
-          class="toolbar-btn"
-          :class="{ 'is-active': editor?.isActive('underline') }"
-          @click="editor?.chain().focus().toggleUnderline().run()"
-          :title="t('lessons.editor.underline')"
-        >
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8v4a5 5 0 0010 0V8M5 20h14"/>
-          </svg>
-        </button>
-      </div>
-
-      <!-- Lists -->
-      <div class="flex items-center gap-1 px-2 border-r border-gray-300">
-        <button
-          type="button"
-          class="toolbar-btn"
-          :class="{ 'is-active': editor?.isActive('bulletList') }"
-          @click="editor?.chain().focus().toggleBulletList().run()"
-          :title="t('lessons.editor.bulletList')"
-        >
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-          </svg>
-        </button>
-        <button
-          type="button"
-          class="toolbar-btn"
-          :class="{ 'is-active': editor?.isActive('orderedList') }"
-          @click="editor?.chain().focus().toggleOrderedList().run()"
-          :title="t('lessons.editor.orderedList')"
-        >
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20h14M7 12h14M7 4h14M3 20h.01M3 12h.01M3 4h.01"/>
-          </svg>
-        </button>
-      </div>
-
-      <!-- Special features -->
-      <div class="flex items-center gap-1 pl-2">
         <button
           v-if="showMathButton"
           type="button"
-          class="toolbar-btn"
+          class="toolbar-btn toolbar-btn-mini"
           @click="$emit('openMath')"
           :title="t('lessons.editor.formula')"
         >
-          <span class="font-serif text-sm font-bold">∑</span>
+          <span class="font-serif text-xs font-bold">∑</span>
         </button>
-        <button
-          v-if="showImageButton"
-          type="button"
-          class="toolbar-btn"
-          @click="$emit('openImage')"
-          :title="t('lessons.editor.image')"
-        >
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-          </svg>
-        </button>
-      </div>
+      </template>
+
+      <!-- Full toolbar -->
+      <template v-else>
+        <!-- Text formatting -->
+        <div class="flex items-center gap-1 pr-2 border-r border-gray-300">
+          <button
+            type="button"
+            class="toolbar-btn"
+            :class="{ 'is-active': editor?.isActive('bold') }"
+            @click="editor?.chain().focus().toggleBold().run()"
+            :title="t('lessons.editor.bold')"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 4h8a4 4 0 014 4 4 4 0 01-4 4H6z M6 12h9a4 4 0 014 4 4 4 0 01-4 4H6z"/>
+            </svg>
+          </button>
+          <button
+            type="button"
+            class="toolbar-btn"
+            :class="{ 'is-active': editor?.isActive('italic') }"
+            @click="editor?.chain().focus().toggleItalic().run()"
+            :title="t('lessons.editor.italic')"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 4h4m-2 0l-4 16m4-16l-4 16m-2 0h4"/>
+            </svg>
+          </button>
+          <button
+            type="button"
+            class="toolbar-btn"
+            :class="{ 'is-active': editor?.isActive('underline') }"
+            @click="editor?.chain().focus().toggleUnderline().run()"
+            :title="t('lessons.editor.underline')"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8v4a5 5 0 0010 0V8M5 20h14"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Lists -->
+        <div class="flex items-center gap-1 px-2 border-r border-gray-300">
+          <button
+            type="button"
+            class="toolbar-btn"
+            :class="{ 'is-active': editor?.isActive('bulletList') }"
+            @click="editor?.chain().focus().toggleBulletList().run()"
+            :title="t('lessons.editor.bulletList')"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+          </button>
+          <button
+            type="button"
+            class="toolbar-btn"
+            :class="{ 'is-active': editor?.isActive('orderedList') }"
+            @click="editor?.chain().focus().toggleOrderedList().run()"
+            :title="t('lessons.editor.orderedList')"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20h14M7 12h14M7 4h14M3 20h.01M3 12h.01M3 4h.01"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Special features -->
+        <div class="flex items-center gap-1 pl-2">
+          <button
+            v-if="showMathButton"
+            type="button"
+            class="toolbar-btn"
+            @click="$emit('openMath')"
+            :title="t('lessons.editor.formula')"
+          >
+            <span class="font-serif text-sm font-bold">∑</span>
+          </button>
+          <button
+            v-if="showImageButton"
+            type="button"
+            class="toolbar-btn"
+            @click="$emit('openImage')"
+            :title="t('lessons.editor.image')"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            </svg>
+          </button>
+        </div>
+      </template>
     </div>
 
     <!-- Editor content -->
     <EditorContent
       :editor="editor"
-      class="editor-content prose prose-sm max-w-none p-4 min-h-[150px] focus:outline-none border border-t-0 border-gray-200 rounded-b-lg"
+      class="editor-content prose prose-sm max-w-none focus:outline-none border border-t-0 border-gray-200 rounded-b-lg"
+      :class="mini ? 'p-2' : 'p-4'"
     />
   </div>
 </template>
@@ -127,6 +165,10 @@ const props = defineProps({
   minHeight: {
     type: String,
     default: '150px'
+  },
+  mini: {
+    type: Boolean,
+    default: false
   }
 });
 
@@ -196,9 +238,17 @@ onBeforeUnmount(() => {
   @apply bg-blue-100 text-blue-600;
 }
 
+.toolbar-btn-mini {
+  @apply p-1.5 text-sm;
+}
+
 .editor-content :deep(.ProseMirror) {
   @apply outline-none;
   min-height: v-bind(minHeight);
+}
+
+.mini .editor-content :deep(.ProseMirror) {
+  min-height: 40px;
 }
 
 .editor-content :deep(.ProseMirror p.is-editor-empty:first-child::before) {
@@ -216,5 +266,19 @@ onBeforeUnmount(() => {
 
 .editor-content :deep(.ProseMirror ol) {
   @apply list-decimal ml-4;
+}
+
+/* Mini variant styles */
+.mini .editor-content :deep(.ProseMirror) {
+  @apply text-sm;
+}
+
+/* KaTeX math formula styles */
+.editor-content :deep(.katex) {
+  @apply text-base;
+}
+
+.mini .editor-content :deep(.katex) {
+  @apply text-sm;
 }
 </style>
