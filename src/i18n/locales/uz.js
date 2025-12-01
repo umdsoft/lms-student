@@ -1828,189 +1828,318 @@ export default {
       error: 'Xatolik yuz berdi'
     }
   },
-  courses: {
-    title: 'Kurslar',
-    addNew: 'Kurs qo\'shish',
-    createFirst: 'Birinchi kursni yarating',
-    empty: 'Hozircha kurslar mavjud emas',
-    students: 'o\'quvchi',
-    lessons: 'dars',
+  lessons: {
+    title: 'Darslar',
+    add: 'Dars qo\'shish',
+    empty: 'Darslar mavjud emas',
+    emptyDescription: 'Birinchi darsni yarating',
+    createFirst: 'Birinchi darsni yarating',
+    edit: 'Tahrirlash',
     view: 'Ko\'rish',
+    moveUp: 'Yuqoriga',
+    moveDown: 'Pastga',
     description: 'Tavsif',
-
-    stats: {
-      modules: 'Modullar',
-      lessons: 'Darslar',
-      duration: 'Davomiyligi',
-      students: 'O\'quvchilar'
-    },
-
-    actions: {
-      edit: 'Tahrirlash',
-      delete: 'O\'chirish'
-    },
-
-    pricingType: {
-      label: 'Narx turi',
-      subscription: 'Obuna ichida',
-      individual: 'Alohida sotiladi'
-    },
+    filesTitle: 'Fayllar',
+    noFiles: 'Fayllar mavjud emas',
+    noVideo: 'Video mavjud emas',
+    directVideo: 'To\'g\'ridan-to\'g\'ri video',
+    videoNotSupported: 'Brauzeringiz bu video formatini qo\'llab-quvvatlamaydi',
+    about: 'Dars haqida',
 
     form: {
       title: {
-        create: 'Yangi kurs',
-        edit: 'Kursni tahrirlash'
+        create: 'Yangi dars',
+        edit: 'Darsni tahrirlash'
       },
-      name: 'Kurs nomi',
-      level: 'Daraja',
+      name: 'Dars nomi',
+      namePlaceholder: 'Dars nomini kiriting',
       description: 'Tavsif',
-      price: 'Narxi (so\'m)',
-      teacher: 'O\'qituvchi',
-      teacherUnassigned: 'Tayinlanmagan',
-      status: 'Status',
+      descriptionPlaceholder: 'Dars tavsifini kiriting',
+      videoUrl: 'Video URL',
+      videoUrlPlaceholder: 'https://youtube.com/watch?v=... yoki direct video URL',
+      videoHint: 'YouTube link yoki to\'g\'ridan-to\'g\'ri video URL',
+      videoPreview: 'Video oldindan ko\'rish',
+      duration: 'Davomiyligi',
+      durationUnit: 'daqiqa',
+      files: 'Fayllar',
+      addFile: 'Fayl qo\'shish',
       save: 'Saqlash',
       cancel: 'Bekor qilish'
     },
 
-    status: {
-      active: 'Aktiv',
-      inactive: 'Noaktiv',
-      draft: 'Qoralama'
-    },
-
-    levels: {
-      beginner: 'Boshlang\'ich',
-      elementary: 'Elementar',
-      intermediate: 'O\'rta',
-      upperIntermediate: 'Yuqori o\'rta',
-      advanced: 'Ilg\'or',
-      proficiency: 'Mukammal'
-    },
-
     delete: {
-      title: 'Kursni o\'chirish',
-      message: 'Rostdan ham ushbu kursni o\'chirmoqchimisiz?',
+      title: 'Darsni o\'chirish',
+      message: 'Rostdan ham ushbu darsni o\'chirmoqchimisiz?',
       warning: 'Diqqat!',
-      warningMessage: 'Bu kurs bilan bog\'liq barcha ma\'lumotlar o\'chiriladi. Bu amalni qaytarib bo\'lmaydi.',
+      warningMessage: 'Bu dars bilan bog\'liq barcha fayllar va testlar o\'chiriladi. Bu amalni qaytarib bo\'lmaydi.',
       confirm: 'O\'chirish',
       cancel: 'Bekor qilish'
     },
 
-    modules: {
-      title: 'Modullar',
-      add: 'Modul qo\'shish',
-      empty: 'Modullar mavjud emas',
-      emptyDescription: 'Birinchi modulni yarating',
-      createFirst: 'Birinchi modulni yarating',
-      lessonsCount: 'dars',
-      edit: 'Tahrirlash',
-      view: 'Ko\'rish',
-      delete: 'O\'chirish',
-      deleteAction: 'O\'chirish',
-      moveUp: 'Yuqoriga',
-      moveDown: 'Pastga',
-      description: 'Tavsif',
-
-      form: {
-        title: {
-          create: 'Yangi modul',
-          edit: 'Modulni tahrirlash'
-        },
-        name: 'Modul nomi',
-        namePlaceholder: 'Modul nomini kiriting',
-        description: 'Tavsif',
-        descriptionPlaceholder: 'Modul tavsifini kiriting',
-        save: 'Saqlash',
-        cancel: 'Bekor qilish'
+    files: {
+      title: 'Fayllar',
+      count: 'ta fayl',
+      upload: 'Fayl yuklash',
+      uploading: 'Yuklanmoqda...',
+      uploadSelected: 'Tanlanganlani yuklash',
+      uploadSuccess: 'Fayllar muvaffaqiyatli yuklandi',
+      uploadError: 'Faylni yuklashda xatolik',
+      downloadError: 'Faylni yuklashda xatolik',
+      loadError: 'Fayllarni yuklashda xatolik',
+      delete: 'Faylni o\'chirish',
+      deleteConfirm: 'Rostdan ham ushbu faylni o\'chirmoqchimisiz?',
+      deleteSuccess: 'Fayl muvaffaqiyatli o\'chirildi',
+      deleteError: 'Faylni o\'chirishda xatolik',
+      preview: 'Ko\'rish',
+      download: 'Yuklab olish',
+      empty: {
+        title: 'Fayllar mavjud emas',
+        description: 'Darsga fayllar qo\'shilmagan',
+        uploadButton: 'Fayl yuklash'
       },
-
-      delete: {
-        title: 'Modulni o\'chirish',
-        message: 'Rostdan ham ushbu modulni o\'chirmoqchimisiz?',
-        warning: 'Diqqat!',
-        warningMessage: 'Bu modul bilan bog\'liq barcha darslar o\'chiriladi. Bu amalni qaytarib bo\'lmaydi.',
-        confirm: 'O\'chirish',
-        cancel: 'Bekor qilish'
-      },
-
-      messages: {
-        createSuccess: 'Modul muvaffaqiyatli yaratildi',
-        updateSuccess: 'Modul muvaffaqiyatli yangilandi',
-        deleteSuccess: 'Modul muvaffaqiyatli o\'chirildi',
-        error: 'Xatolik yuz berdi'
-      }
-    },
-
-    lessons: {
-      title: 'Darslar',
-      add: 'Dars qo\'shish',
-      empty: 'Darslar mavjud emas',
-      emptyDescription: 'Birinchi darsni yarating',
-      createFirst: 'Birinchi darsni yarating',
-      edit: 'Tahrirlash',
-      view: 'Ko\'rish',
-      delete: 'O\'chirish',
-      moveUp: 'Yuqoriga',
-      moveDown: 'Pastga',
-      files: 'fayl',
-      tests: 'test',
-      description: 'Tavsif',
-      filesTitle: 'Fayllar',
-      noFiles: 'Fayllar mavjud emas',
-      noVideo: 'Video mavjud emas',
-      directVideo: 'To\'g\'ridan-to\'g\'ri video',
-      videoNotSupported: 'Brauzeringiz bu video formatini qo\'llab-quvvatlamaydi',
-
-      form: {
-        title: {
-          create: 'Yangi dars',
-          edit: 'Darsni tahrirlash'
-        },
-        name: 'Dars nomi',
-        namePlaceholder: 'Dars nomini kiriting',
-        description: 'Tavsif',
-        descriptionPlaceholder: 'Dars tavsifini kiriting',
-        videoUrl: 'Video URL',
-        videoUrlPlaceholder: 'https://youtube.com/watch?v=... yoki direct video URL',
-        videoHint: 'YouTube link yoki to\'g\'ridan-to\'g\'ri video URL',
-        videoPreview: 'Video oldindan ko\'rish',
-        duration: 'Davomiyligi',
-        durationUnit: 'daqiqa',
-        files: 'Fayllar',
-        addFile: 'Fayl qo\'shish',
-        save: 'Saqlash',
-        cancel: 'Bekor qilish'
-      },
-
-      delete: {
-        title: 'Darsni o\'chirish',
-        message: 'Rostdan ham ushbu darsni o\'chirmoqchimisiz?',
-        warning: 'Diqqat!',
-        warningMessage: 'Bu dars bilan bog\'liq barcha fayllar va testlar o\'chiriladi. Bu amalni qaytarib bo\'lmaydi.',
-        confirm: 'O\'chirish',
-        cancel: 'Bekor qilish'
-      },
-
-      messages: {
-        createSuccess: 'Dars muvaffaqiyatli yaratildi',
-        updateSuccess: 'Dars muvaffaqiyatli yangilandi',
-        deleteSuccess: 'Dars muvaffaqiyatli o\'chirildi',
-        fileDeleteSuccess: 'Fayl o\'chirildi',
-        fileDeleteError: 'Faylni o\'chirishda xatolik',
-        error: 'Xatolik yuz berdi'
+      dropzone: {
+        title: 'Fayllarni bu yerga tashlang',
+        description: 'yoki fayllarni tanlash uchun bosing',
+        hint: 'Maksimal hajm: 50MB'
       }
     },
 
     tests: {
       title: 'Testlar',
-      add: 'Test qo\'shish',
-      empty: 'Testlar mavjud emas'
+      count: 'ta test',
+      create: 'Test yaratish',
+      totalPoints: 'Jami ball',
+      estimatedTime: 'Taxminiy vaqt',
+      minutes: 'daqiqa',
+      all: 'Barchasi',
+      difficulty: {
+        easy: 'Oson',
+        medium: 'O\'rta',
+        hard: 'Qiyin'
+      },
+      loadError: 'Testlarni yuklashda xatolik',
+      createSuccess: 'Test muvaffaqiyatli yaratildi',
+      updateSuccess: 'Test muvaffaqiyatli yangilandi',
+      deleteTitle: 'Testni o\'chirish',
+      deleteConfirm: 'Rostdan ham ushbu testni o\'chirmoqchimisiz?',
+      deleteSuccess: 'Test muvaffaqiyatli o\'chirildi',
+      deleteError: 'Testni o\'chirishda xatolik',
+      saveError: 'Testni saqlashda xatolik',
+      reorderError: 'Tartibni o\'zgartirishda xatolik',
+      import: {
+        button: 'Import qilish',
+        title: 'Testlarni import qilish',
+        description: 'XLSX fayldan testlarni import qilish',
+        dropzone: 'XLSX faylni bu yerga tashlang yoki tanlang',
+        preview: 'Oldindan ko\'rish',
+        previewDescription: 'Quyidagi testlar import qilinadi:',
+        import: 'Import qilish',
+        importing: 'Import qilinmoqda...',
+        success: '{count} ta test muvaffaqiyatli import qilindi',
+        error: 'Testlarni import qilishda xatolik',
+        parseError: 'Faylni o\'qishda xatolik',
+        emptyFile: 'Fayl bo\'sh',
+        downloadTemplate: 'Shablon yuklab olish'
+      },
+      form: {
+        title: {
+          create: 'Yangi test',
+          edit: 'Testni tahrirlash'
+        },
+        question: 'Savol',
+        questionPlaceholder: 'Savol matnini kiriting',
+        options: 'Javob variantlari',
+        optionPlaceholder: 'Javob variantini kiriting',
+        addOption: 'Variant qo\'shish',
+        correctAnswer: 'To\'g\'ri javob',
+        difficulty: 'Qiyinlik darajasi',
+        points: 'Ball',
+        explanation: 'Tushuntirish',
+        explanationPlaceholder: 'Javobni tushuntiring (ixtiyoriy)'
+      },
+      empty: {
+        title: 'Testlar mavjud emas',
+        description: 'Bu darsga testlar qo\'shilmagan',
+        createButton: 'Test yaratish',
+        importButton: 'Import qilish'
+      }
+    },
+
+    skills: {
+      title: 'Ingliz tili mashg\'ulotlari',
+      subtitle: 'IELTS ko\'nikmalarini rivojlantirish',
+      saveSuccess: 'Muvaffaqiyatli saqlandi',
+      deleteTitle: 'Topshiriqni o\'chirish',
+      deleteConfirm: 'Rostdan ham ushbu topshiriqni o\'chirmoqchimisiz?',
+      deleteSuccess: 'Topshiriq muvaffaqiyatli o\'chirildi',
+      writing: {
+        tab: 'Writing',
+        description: 'Yozma topshiriqlar',
+        addTask: 'Topshiriq qo\'shish',
+        empty: 'Writing topshiriqlari mavjud emas',
+        form: {
+          title: {
+            create: 'Yangi Writing topshiriq',
+            edit: 'Writing topshiriqni tahrirlash'
+          },
+          taskType: 'Topshiriq turi',
+          task1: 'Task 1 (Graf/Xarita/Diagram)',
+          task2: 'Task 2 (Esse)',
+          prompt: 'Topshiriq matni',
+          promptPlaceholder: 'Topshiriq matnini kiriting',
+          sampleAnswer: 'Namuna javob',
+          sampleAnswerPlaceholder: 'Namuna javobni kiriting (ixtiyoriy)',
+          wordCount: 'Minimal so\'zlar soni',
+          timeLimit: 'Vaqt chegarasi (daqiqa)',
+          image: 'Rasm (Task 1 uchun)',
+          tips: 'Maslahatlar',
+          tipsPlaceholder: 'Maslahatlarni kiriting'
+        }
+      },
+      listening: {
+        tab: 'Listening',
+        description: 'Tinglash topshiriqlari',
+        addTask: 'Topshiriq qo\'shish',
+        empty: 'Listening topshiriqlari mavjud emas',
+        form: {
+          title: {
+            create: 'Yangi Listening topshiriq',
+            edit: 'Listening topshiriqni tahrirlash'
+          },
+          name: 'Topshiriq nomi',
+          namePlaceholder: 'Topshiriq nomini kiriting',
+          audioFile: 'Audio fayl',
+          uploadAudio: 'Audio yuklash',
+          changeAudio: 'Audioni o\'zgartirish',
+          transcript: 'Transkripsiya',
+          transcriptPlaceholder: 'Audio transkripsiyasini kiriting',
+          questions: 'Savollar',
+          addQuestion: 'Savol qo\'shish',
+          questionPlaceholder: 'Savol matnini kiriting',
+          answerPlaceholder: 'To\'g\'ri javob'
+        }
+      },
+      speaking: {
+        tab: 'Speaking',
+        description: 'Gapirish topshiriqlari',
+        addTask: 'Topshiriq qo\'shish',
+        empty: 'Speaking topshiriqlari mavjud emas',
+        form: {
+          title: {
+            create: 'Yangi Speaking topshiriq',
+            edit: 'Speaking topshiriqni tahrirlash'
+          },
+          part: 'Qism',
+          part1: 'Part 1 (Intervyu)',
+          part2: 'Part 2 (Cue Card)',
+          part3: 'Part 3 (Munozara)',
+          topic: 'Mavzu',
+          topicPlaceholder: 'Mavzuni kiriting',
+          questions: 'Savollar',
+          addQuestion: 'Savol qo\'shish',
+          questionPlaceholder: 'Savolni kiriting',
+          cueCard: 'Cue Card',
+          cueCardTopic: 'Mavzu',
+          cueCardTopicPlaceholder: 'Cue card mavzusini kiriting',
+          bulletPoints: 'Fikrlar',
+          addBulletPoint: 'Fikr qo\'shish',
+          bulletPointPlaceholder: 'Fikrni kiriting',
+          followUp: 'Qo\'shimcha savol',
+          followUpPlaceholder: 'Qo\'shimcha savolni kiriting',
+          sampleAnswer: 'Namuna javob',
+          sampleAnswerPlaceholder: 'Namuna javobni kiriting (ixtiyoriy)',
+          tips: 'Maslahatlar',
+          tipsPlaceholder: 'Maslahatlarni kiriting'
+        }
+      },
+      reading: {
+        tab: 'Reading',
+        description: 'O\'qish topshiriqlari',
+        addTask: 'Topshiriq qo\'shish',
+        empty: 'Reading topshiriqlari mavjud emas',
+        form: {
+          title: {
+            create: 'Yangi Reading topshiriq',
+            edit: 'Reading topshiriqni tahrirlash'
+          },
+          name: 'Topshiriq nomi',
+          namePlaceholder: 'Topshiriq nomini kiriting',
+          passage: 'Matn',
+          passagePlaceholder: 'O\'qish matnini kiriting',
+          questions: 'Savollar',
+          addQuestion: 'Savol qo\'shish',
+          questionType: 'Savol turi',
+          questionTypes: {
+            multipleChoice: 'Ko\'p tanlovli',
+            trueFalse: 'To\'g\'ri/Noto\'g\'ri/Berilmagan',
+            matching: 'Moslashtirish',
+            fillBlanks: 'Bo\'sh joylarni to\'ldirish',
+            shortAnswer: 'Qisqa javob'
+          },
+          questionPlaceholder: 'Savol matnini kiriting',
+          options: 'Variantlar',
+          optionPlaceholder: 'Variantni kiriting',
+          addOption: 'Variant qo\'shish',
+          correctAnswer: 'To\'g\'ri javob',
+          correctAnswerPlaceholder: 'To\'g\'ri javobni kiriting'
+        }
+      }
+    },
+
+    editor: {
+      placeholder: 'Matn kiriting...',
+      toolbar: {
+        bold: 'Qalin',
+        italic: 'Kursiv',
+        underline: 'Tagiga chizilgan',
+        strike: 'O\'chirilgan',
+        heading1: 'Sarlavha 1',
+        heading2: 'Sarlavha 2',
+        bulletList: 'Ro\'yxat',
+        orderedList: 'Raqamlangan ro\'yxat',
+        blockquote: 'Iqtibos',
+        code: 'Kod',
+        link: 'Havola',
+        image: 'Rasm',
+        math: 'Formula',
+        undo: 'Ortga',
+        redo: 'Oldinga'
+      }
+    },
+
+    math: {
+      title: 'Matematik formula',
+      preview: 'Oldindan ko\'rish',
+      insert: 'Qo\'shish',
+      templates: {
+        fraction: 'Kasr',
+        sqrt: 'Ildiz',
+        power: 'Daraja',
+        subscript: 'Indeks',
+        sum: 'Yig\'indi',
+        integral: 'Integral',
+        limit: 'Limit',
+        matrix: 'Matritsa'
+      }
+    },
+
+    image: {
+      title: 'Rasm qo\'shish',
+      tabs: {
+        upload: 'Yuklash',
+        url: 'URL'
+      },
+      urlPlaceholder: 'Rasm URL manzilini kiriting',
+      insert: 'Qo\'shish'
     },
 
     messages: {
-      createSuccess: 'Kurs muvaffaqiyatli yaratildi',
-      updateSuccess: 'Kurs muvaffaqiyatli yangilandi',
-      deleteSuccess: 'Kurs muvaffaqiyatli o\'chirildi',
+      createSuccess: 'Dars muvaffaqiyatli yaratildi',
+      updateSuccess: 'Dars muvaffaqiyatli yangilandi',
+      deleteSuccess: 'Dars muvaffaqiyatli o\'chirildi',
+      fileDeleteSuccess: 'Fayl o\'chirildi',
+      fileDeleteError: 'Faylni o\'chirishda xatolik',
+      loadError: 'Darsni yuklashda xatolik',
       error: 'Xatolik yuz berdi'
     }
   },
