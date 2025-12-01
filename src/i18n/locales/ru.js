@@ -639,6 +639,207 @@ export default {
       growthLabel: 'Рост за месяц',
       viewAction: 'Перейти к курсу',
       companionAlt: 'Одногруппник'
+    },
+
+    // Дополнительные переводы для админ-панели
+    addNew: 'Добавить курс',
+    createFirst: 'Создайте первый курс',
+    empty: 'Курсы не найдены',
+    emptyDescription: 'Создайте первый курс',
+    description: 'Описание',
+    students: 'учеников',
+
+    levels: {
+      label: 'Уровень',
+      beginner: 'Начальный',
+      elementary: 'Начальный',
+      intermediate: 'Средний',
+      upperIntermediate: 'Выше среднего',
+      advanced: 'Продвинутый',
+      proficiency: 'Профессиональный'
+    },
+
+    status: {
+      label: 'Статус',
+      draft: 'Черновик',
+      active: 'Активный',
+      inactive: 'Неактивный',
+      published: 'Опубликован',
+      archived: 'В архиве'
+    },
+
+    pricingType: {
+      label: 'Тип цены',
+      free: 'Бесплатно',
+      subscription: 'По подписке',
+      individual: 'Индивидуальная покупка'
+    },
+
+    actions: {
+      edit: 'Редактировать',
+      delete: 'Удалить',
+      view: 'Просмотр',
+      publish: 'Опубликовать',
+      unpublish: 'Снять с публикации',
+      archive: 'В архив',
+      duplicate: 'Дублировать'
+    },
+
+    stats: {
+      modules: 'Модули',
+      lessons: 'Уроки',
+      duration: 'Продолжительность',
+      students: 'Учеников'
+    },
+
+    delete: {
+      title: 'Удаление курса',
+      message: 'Вы действительно хотите удалить этот курс?',
+      warning: 'Внимание!',
+      warningMessage: 'Все модули и уроки также будут удалены. Это действие нельзя отменить.',
+      confirm: 'Удалить',
+      cancel: 'Отмена'
+    },
+
+    form: {
+      title: {
+        create: 'Новый курс',
+        edit: 'Редактирование курса'
+      },
+      name: 'Название курса',
+      namePlaceholder: 'Введите название курса',
+      description: 'Описание',
+      descriptionPlaceholder: 'Введите описание курса',
+      category: 'Направление',
+      categoryPlaceholder: 'Выберите направление',
+      level: 'Уровень',
+      price: 'Цена',
+      pricePlaceholder: 'Введите цену',
+      status: 'Статус',
+      teacher: 'Преподаватель',
+      teacherPlaceholder: 'Выберите преподавателя',
+      teacherUnassigned: 'Не назначен',
+      image: 'Изображение',
+      save: 'Сохранить',
+      cancel: 'Отмена'
+    },
+
+    messages: {
+      createSuccess: 'Курс успешно создан',
+      updateSuccess: 'Курс успешно обновлён',
+      deleteSuccess: 'Курс успешно удалён',
+      publishSuccess: 'Курс опубликован',
+      unpublishSuccess: 'Курс снят с публикации',
+      error: 'Произошла ошибка'
+    },
+
+    modules: {
+      title: 'Модули',
+      add: 'Добавить модуль',
+      createFirst: 'Добавьте первый модуль',
+      edit: 'Редактировать',
+      view: 'Просмотр',
+      delete: 'Удалить',
+      deleteAction: 'Удалить',
+      description: 'Описание',
+      lessonsCount: 'уроков',
+      empty: 'Модули не найдены',
+      emptyDescription: 'Добавьте первый модуль',
+      reorder: 'Изменить порядок',
+      moveUp: 'Вверх',
+      moveDown: 'Вниз',
+
+      form: {
+        title: {
+          create: 'Новый модуль',
+          edit: 'Редактирование модуля'
+        },
+        name: 'Название модуля',
+        namePlaceholder: 'Введите название модуля',
+        description: 'Описание',
+        descriptionPlaceholder: 'Введите описание модуля',
+        order: 'Порядковый номер',
+        save: 'Сохранить',
+        cancel: 'Отмена'
+      },
+
+      delete: {
+        title: 'Удаление модуля',
+        message: 'Вы действительно хотите удалить этот модуль?',
+        warning: 'Внимание!',
+        warningMessage: 'Все уроки также будут удалены. Это действие нельзя отменить.',
+        confirm: 'Удалить',
+        cancel: 'Отмена'
+      },
+
+      messages: {
+        createSuccess: 'Модуль успешно создан',
+        updateSuccess: 'Модуль успешно обновлён',
+        deleteSuccess: 'Модуль успешно удалён',
+        reorderSuccess: 'Порядок изменён',
+        error: 'Произошла ошибка'
+      }
+    },
+
+    lessons: {
+      title: 'Уроки',
+      add: 'Добавить урок',
+      createFirst: 'Добавьте первый урок',
+      edit: 'Редактировать',
+      view: 'Просмотр',
+      delete: 'Удалить',
+      description: 'Описание',
+      duration: 'минут',
+      empty: 'Уроки не найдены',
+      emptyDescription: 'Добавьте первый урок',
+      reorder: 'Изменить порядок',
+      moveUp: 'Вверх',
+      moveDown: 'Вниз',
+      files: 'Файлы',
+      filesTitle: 'Файлы',
+      noFiles: 'Файлов нет',
+      noVideo: 'Видео отсутствует',
+      directVideo: 'Прямое видео',
+      videoNotSupported: 'Ваш браузер не поддерживает этот формат видео',
+
+      form: {
+        title: {
+          create: 'Новый урок',
+          edit: 'Редактирование урока'
+        },
+        name: 'Название урока',
+        namePlaceholder: 'Введите название урока',
+        description: 'Описание',
+        descriptionPlaceholder: 'Введите описание урока',
+        videoUrl: 'URL видео',
+        videoUrlPlaceholder: 'https://youtube.com/watch?v=... или прямая ссылка на видео',
+        videoHint: 'Ссылка на YouTube или прямая ссылка на видео',
+        videoPreview: 'Предпросмотр видео',
+        duration: 'Продолжительность',
+        durationUnit: 'минут',
+        files: 'Файлы',
+        addFile: 'Добавить файл',
+        save: 'Сохранить',
+        cancel: 'Отмена'
+      },
+
+      delete: {
+        title: 'Удаление урока',
+        message: 'Вы действительно хотите удалить этот урок?',
+        warning: 'Внимание!',
+        warningMessage: 'Все связанные файлы и тесты также будут удалены. Это действие нельзя отменить.',
+        confirm: 'Удалить',
+        cancel: 'Отмена'
+      },
+
+      messages: {
+        createSuccess: 'Урок успешно создан',
+        updateSuccess: 'Урок успешно обновлён',
+        deleteSuccess: 'Урок успешно удалён',
+        fileDeleteSuccess: 'Файл удалён',
+        fileDeleteError: 'Ошибка при удалении файла',
+        error: 'Произошла ошибка'
+      }
     }
   },
   courseDetails: {
@@ -1941,8 +2142,23 @@ export default {
         error: 'Ошибка при импорте тестов',
         parseError: 'Ошибка при чтении файла',
         emptyFile: 'Файл пуст',
-        downloadTemplate: 'Скачать шаблон'
+        downloadTemplate: 'Скачать шаблон',
+        validTests: 'корректных тестов',
+        errors: 'ошибок',
+        errorsList: 'Список ошибок',
+        row: 'Строка',
+        question: 'Вопрос',
+        difficulty: 'Сложность',
+        points: 'Баллы',
+        invalidFileType: 'Неверный формат файла. Поддерживаются только файлы XLSX.',
+        errorEmptyQuestion: 'Текст вопроса не может быть пустым',
+        errorMinOptions: 'Необходимо указать минимум 2 варианта ответа',
+        errorParsing: 'Ошибка при разборе файла',
+        infoTitle: 'Формат импорта',
+        infoDescription: 'Файл Excel должен содержать следующие столбцы: question, option_a, option_b, option_c, option_d, correct, difficulty, points'
       },
+      importSuccess: 'Успешно импортировано {count} тестов',
+      importError: 'Ошибка при импорте тестов',
       createPage: {
         title: 'Добавить новый тест',
         subtitle: 'Урок: {lessonName}'
