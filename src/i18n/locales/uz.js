@@ -51,7 +51,8 @@ export default {
       edit: 'Tahrirlash',
       delete: 'O\'chirish',
       save: 'Saqlash',
-      cancel: 'Bekor qilish'
+      cancel: 'Bekor qilish',
+      retry: 'Qayta urinish'
     },
     pagination: {
       previous: 'Oldingi',

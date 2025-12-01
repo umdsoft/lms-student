@@ -11,7 +11,7 @@
             </svg>
           </div>
           <div>
-            <h1 class="text-3xl font-bold leading-tight">{{ lesson.name }}</h1>
+            <h1 class="text-3xl font-bold leading-tight">{{ lesson.name || lesson.title }}</h1>
             <div class="mt-3 flex flex-wrap items-center gap-3 text-sm text-white/90">
               <!-- Duration -->
               <span class="inline-flex items-center gap-2">
