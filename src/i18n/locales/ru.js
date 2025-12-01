@@ -1827,189 +1827,318 @@ export default {
       error: 'Произошла ошибка'
     }
   },
-  courses: {
-    title: 'Курсы',
-    addNew: 'Добавить курс',
-    createFirst: 'Создайте первый курс',
-    empty: 'Курсы пока отсутствуют',
-    students: 'ученик',
-    lessons: 'урок',
+  lessons: {
+    title: 'Уроки',
+    add: 'Добавить урок',
+    empty: 'Уроки отсутствуют',
+    emptyDescription: 'Создайте первый урок',
+    createFirst: 'Создайте первый урок',
+    edit: 'Редактировать',
     view: 'Просмотр',
+    moveUp: 'Вверх',
+    moveDown: 'Вниз',
     description: 'Описание',
-
-    stats: {
-      modules: 'Модули',
-      lessons: 'Уроки',
-      duration: 'Длительность',
-      students: 'Ученики'
-    },
-
-    actions: {
-      edit: 'Редактировать',
-      delete: 'Удалить'
-    },
-
-    pricingType: {
-      label: 'Тип цены',
-      subscription: 'По подписке',
-      individual: 'Отдельная покупка'
-    },
+    filesTitle: 'Файлы',
+    noFiles: 'Файлы отсутствуют',
+    noVideo: 'Видео отсутствует',
+    directVideo: 'Прямое видео',
+    videoNotSupported: 'Ваш браузер не поддерживает этот формат видео',
+    about: 'Об уроке',
 
     form: {
       title: {
-        create: 'Новый курс',
-        edit: 'Редактировать курс'
+        create: 'Новый урок',
+        edit: 'Редактировать урок'
       },
-      name: 'Название курса',
-      level: 'Уровень',
+      name: 'Название урока',
+      namePlaceholder: 'Введите название урока',
       description: 'Описание',
-      price: 'Цена (сум)',
-      teacher: 'Преподаватель',
-      teacherUnassigned: 'Не назначен',
-      status: 'Статус',
+      descriptionPlaceholder: 'Введите описание урока',
+      videoUrl: 'URL видео',
+      videoUrlPlaceholder: 'https://youtube.com/watch?v=...',
+      videoHint: 'Ссылка на YouTube или прямая ссылка',
+      videoPreview: 'Предпросмотр видео',
+      duration: 'Длительность',
+      durationUnit: 'минут',
+      files: 'Файлы',
+      addFile: 'Добавить файл',
       save: 'Сохранить',
       cancel: 'Отмена'
     },
 
-    status: {
-      active: 'Активный',
-      inactive: 'Неактивный',
-      draft: 'Черновик'
-    },
-
-    levels: {
-      beginner: 'Начальный',
-      elementary: 'Элементарный',
-      intermediate: 'Средний',
-      upperIntermediate: 'Выше среднего',
-      advanced: 'Продвинутый',
-      proficiency: 'Совершенный'
-    },
-
     delete: {
-      title: 'Удалить курс',
-      message: 'Вы действительно хотите удалить этот курс?',
+      title: 'Удалить урок',
+      message: 'Вы действительно хотите удалить этот урок?',
       warning: 'Внимание!',
-      warningMessage: 'Все данные, связанные с этим курсом, будут удалены. Это действие нельзя отменить.',
+      warningMessage: 'Все файлы и тесты будут удалены.',
       confirm: 'Удалить',
       cancel: 'Отмена'
     },
 
-    modules: {
-      title: 'Модули',
-      add: 'Добавить модуль',
-      empty: 'Модули отсутствуют',
-      emptyDescription: 'Создайте первый модуль',
-      createFirst: 'Создайте первый модуль',
-      lessonsCount: 'урок',
-      edit: 'Редактировать',
-      view: 'Просмотр',
-      delete: 'Удалить',
-      deleteAction: 'Удалить',
-      moveUp: 'Вверх',
-      moveDown: 'Вниз',
-      description: 'Описание',
-
-      form: {
-        title: {
-          create: 'Новый модуль',
-          edit: 'Редактировать модуль'
-        },
-        name: 'Название модуля',
-        namePlaceholder: 'Введите название модуля',
-        description: 'Описание',
-        descriptionPlaceholder: 'Введите описание модуля',
-        save: 'Сохранить',
-        cancel: 'Отмена'
+    files: {
+      title: 'Файлы',
+      count: 'файлов',
+      upload: 'Загрузить файл',
+      uploading: 'Загрузка...',
+      uploadSelected: 'Загрузить выбранные',
+      uploadSuccess: 'Файлы успешно загружены',
+      uploadError: 'Ошибка при загрузке файла',
+      downloadError: 'Ошибка при скачивании файла',
+      loadError: 'Ошибка при загрузке файлов',
+      delete: 'Удалить файл',
+      deleteConfirm: 'Вы действительно хотите удалить этот файл?',
+      deleteSuccess: 'Файл успешно удалён',
+      deleteError: 'Ошибка при удалении файла',
+      preview: 'Просмотр',
+      download: 'Скачать',
+      empty: {
+        title: 'Файлы отсутствуют',
+        description: 'К уроку не добавлены файлы',
+        uploadButton: 'Загрузить файл'
       },
-
-      delete: {
-        title: 'Удалить модуль',
-        message: 'Вы действительно хотите удалить этот модуль?',
-        warning: 'Внимание!',
-        warningMessage: 'Все уроки будут удалены. Это действие нельзя отменить.',
-        confirm: 'Удалить',
-        cancel: 'Отмена'
-      },
-
-      messages: {
-        createSuccess: 'Модуль успешно создан',
-        updateSuccess: 'Модуль успешно обновлён',
-        deleteSuccess: 'Модуль успешно удалён',
-        error: 'Произошла ошибка'
-      }
-    },
-
-    lessons: {
-      title: 'Уроки',
-      add: 'Добавить урок',
-      empty: 'Уроки отсутствуют',
-      emptyDescription: 'Создайте первый урок',
-      createFirst: 'Создайте первый урок',
-      edit: 'Редактировать',
-      view: 'Просмотр',
-      delete: 'Удалить',
-      moveUp: 'Вверх',
-      moveDown: 'Вниз',
-      files: 'файл',
-      tests: 'тест',
-      description: 'Описание',
-      filesTitle: 'Файлы',
-      noFiles: 'Файлы отсутствуют',
-      noVideo: 'Видео отсутствует',
-      directVideo: 'Прямое видео',
-      videoNotSupported: 'Ваш браузер не поддерживает этот формат видео',
-
-      form: {
-        title: {
-          create: 'Новый урок',
-          edit: 'Редактировать урок'
-        },
-        name: 'Название урока',
-        namePlaceholder: 'Введите название урока',
-        description: 'Описание',
-        descriptionPlaceholder: 'Введите описание урока',
-        videoUrl: 'URL видео',
-        videoUrlPlaceholder: 'https://youtube.com/watch?v=...',
-        videoHint: 'Ссылка на YouTube или прямая ссылка',
-        videoPreview: 'Предпросмотр видео',
-        duration: 'Длительность',
-        durationUnit: 'минут',
-        files: 'Файлы',
-        addFile: 'Добавить файл',
-        save: 'Сохранить',
-        cancel: 'Отмена'
-      },
-
-      delete: {
-        title: 'Удалить урок',
-        message: 'Вы действительно хотите удалить этот урок?',
-        warning: 'Внимание!',
-        warningMessage: 'Все файлы и тесты будут удалены.',
-        confirm: 'Удалить',
-        cancel: 'Отмена'
-      },
-
-      messages: {
-        createSuccess: 'Урок успешно создан',
-        updateSuccess: 'Урок успешно обновлён',
-        deleteSuccess: 'Урок успешно удалён',
-        fileDeleteSuccess: 'Файл удалён',
-        fileDeleteError: 'Ошибка при удалении файла',
-        error: 'Произошла ошибка'
+      dropzone: {
+        title: 'Перетащите файлы сюда',
+        description: 'или нажмите для выбора файлов',
+        hint: 'Максимальный размер: 50MB'
       }
     },
 
     tests: {
       title: 'Тесты',
-      add: 'Добавить тест',
-      empty: 'Тесты отсутствуют'
+      count: 'тестов',
+      create: 'Создать тест',
+      totalPoints: 'Всего баллов',
+      estimatedTime: 'Расчётное время',
+      minutes: 'минут',
+      all: 'Все',
+      difficulty: {
+        easy: 'Лёгкий',
+        medium: 'Средний',
+        hard: 'Сложный'
+      },
+      loadError: 'Ошибка при загрузке тестов',
+      createSuccess: 'Тест успешно создан',
+      updateSuccess: 'Тест успешно обновлён',
+      deleteTitle: 'Удалить тест',
+      deleteConfirm: 'Вы действительно хотите удалить этот тест?',
+      deleteSuccess: 'Тест успешно удалён',
+      deleteError: 'Ошибка при удалении теста',
+      saveError: 'Ошибка при сохранении теста',
+      reorderError: 'Ошибка при изменении порядка',
+      import: {
+        button: 'Импортировать',
+        title: 'Импорт тестов',
+        description: 'Импортировать тесты из XLSX файла',
+        dropzone: 'Перетащите XLSX файл сюда или выберите',
+        preview: 'Предпросмотр',
+        previewDescription: 'Следующие тесты будут импортированы:',
+        import: 'Импортировать',
+        importing: 'Импорт...',
+        success: 'Успешно импортировано {count} тестов',
+        error: 'Ошибка при импорте тестов',
+        parseError: 'Ошибка при чтении файла',
+        emptyFile: 'Файл пуст',
+        downloadTemplate: 'Скачать шаблон'
+      },
+      form: {
+        title: {
+          create: 'Новый тест',
+          edit: 'Редактировать тест'
+        },
+        question: 'Вопрос',
+        questionPlaceholder: 'Введите текст вопроса',
+        options: 'Варианты ответов',
+        optionPlaceholder: 'Введите вариант ответа',
+        addOption: 'Добавить вариант',
+        correctAnswer: 'Правильный ответ',
+        difficulty: 'Сложность',
+        points: 'Баллы',
+        explanation: 'Объяснение',
+        explanationPlaceholder: 'Объясните ответ (необязательно)'
+      },
+      empty: {
+        title: 'Тесты отсутствуют',
+        description: 'К этому уроку не добавлены тесты',
+        createButton: 'Создать тест',
+        importButton: 'Импортировать'
+      }
+    },
+
+    skills: {
+      title: 'Упражнения по английскому',
+      subtitle: 'Развитие навыков IELTS',
+      saveSuccess: 'Успешно сохранено',
+      deleteTitle: 'Удалить задание',
+      deleteConfirm: 'Вы действительно хотите удалить это задание?',
+      deleteSuccess: 'Задание успешно удалено',
+      writing: {
+        tab: 'Writing',
+        description: 'Письменные задания',
+        addTask: 'Добавить задание',
+        empty: 'Задания Writing отсутствуют',
+        form: {
+          title: {
+            create: 'Новое задание Writing',
+            edit: 'Редактировать задание Writing'
+          },
+          taskType: 'Тип задания',
+          task1: 'Task 1 (График/Карта/Диаграмма)',
+          task2: 'Task 2 (Эссе)',
+          prompt: 'Текст задания',
+          promptPlaceholder: 'Введите текст задания',
+          sampleAnswer: 'Образец ответа',
+          sampleAnswerPlaceholder: 'Введите образец ответа (необязательно)',
+          wordCount: 'Минимальное количество слов',
+          timeLimit: 'Ограничение времени (минут)',
+          image: 'Изображение (для Task 1)',
+          tips: 'Советы',
+          tipsPlaceholder: 'Введите советы'
+        }
+      },
+      listening: {
+        tab: 'Listening',
+        description: 'Задания на аудирование',
+        addTask: 'Добавить задание',
+        empty: 'Задания Listening отсутствуют',
+        form: {
+          title: {
+            create: 'Новое задание Listening',
+            edit: 'Редактировать задание Listening'
+          },
+          name: 'Название задания',
+          namePlaceholder: 'Введите название задания',
+          audioFile: 'Аудио файл',
+          uploadAudio: 'Загрузить аудио',
+          changeAudio: 'Изменить аудио',
+          transcript: 'Транскрипция',
+          transcriptPlaceholder: 'Введите транскрипцию аудио',
+          questions: 'Вопросы',
+          addQuestion: 'Добавить вопрос',
+          questionPlaceholder: 'Введите текст вопроса',
+          answerPlaceholder: 'Правильный ответ'
+        }
+      },
+      speaking: {
+        tab: 'Speaking',
+        description: 'Задания на говорение',
+        addTask: 'Добавить задание',
+        empty: 'Задания Speaking отсутствуют',
+        form: {
+          title: {
+            create: 'Новое задание Speaking',
+            edit: 'Редактировать задание Speaking'
+          },
+          part: 'Часть',
+          part1: 'Part 1 (Интервью)',
+          part2: 'Part 2 (Cue Card)',
+          part3: 'Part 3 (Дискуссия)',
+          topic: 'Тема',
+          topicPlaceholder: 'Введите тему',
+          questions: 'Вопросы',
+          addQuestion: 'Добавить вопрос',
+          questionPlaceholder: 'Введите вопрос',
+          cueCard: 'Cue Card',
+          cueCardTopic: 'Тема',
+          cueCardTopicPlaceholder: 'Введите тему cue card',
+          bulletPoints: 'Пункты',
+          addBulletPoint: 'Добавить пункт',
+          bulletPointPlaceholder: 'Введите пункт',
+          followUp: 'Дополнительный вопрос',
+          followUpPlaceholder: 'Введите дополнительный вопрос',
+          sampleAnswer: 'Образец ответа',
+          sampleAnswerPlaceholder: 'Введите образец ответа (необязательно)',
+          tips: 'Советы',
+          tipsPlaceholder: 'Введите советы'
+        }
+      },
+      reading: {
+        tab: 'Reading',
+        description: 'Задания на чтение',
+        addTask: 'Добавить задание',
+        empty: 'Задания Reading отсутствуют',
+        form: {
+          title: {
+            create: 'Новое задание Reading',
+            edit: 'Редактировать задание Reading'
+          },
+          name: 'Название задания',
+          namePlaceholder: 'Введите название задания',
+          passage: 'Текст',
+          passagePlaceholder: 'Введите текст для чтения',
+          questions: 'Вопросы',
+          addQuestion: 'Добавить вопрос',
+          questionType: 'Тип вопроса',
+          questionTypes: {
+            multipleChoice: 'Множественный выбор',
+            trueFalse: 'Верно/Неверно/Не указано',
+            matching: 'Сопоставление',
+            fillBlanks: 'Заполнение пропусков',
+            shortAnswer: 'Краткий ответ'
+          },
+          questionPlaceholder: 'Введите текст вопроса',
+          options: 'Варианты',
+          optionPlaceholder: 'Введите вариант',
+          addOption: 'Добавить вариант',
+          correctAnswer: 'Правильный ответ',
+          correctAnswerPlaceholder: 'Введите правильный ответ'
+        }
+      }
+    },
+
+    editor: {
+      placeholder: 'Введите текст...',
+      toolbar: {
+        bold: 'Жирный',
+        italic: 'Курсив',
+        underline: 'Подчёркнутый',
+        strike: 'Зачёркнутый',
+        heading1: 'Заголовок 1',
+        heading2: 'Заголовок 2',
+        bulletList: 'Список',
+        orderedList: 'Нумерованный список',
+        blockquote: 'Цитата',
+        code: 'Код',
+        link: 'Ссылка',
+        image: 'Изображение',
+        math: 'Формула',
+        undo: 'Отменить',
+        redo: 'Повторить'
+      }
+    },
+
+    math: {
+      title: 'Математическая формула',
+      preview: 'Предпросмотр',
+      insert: 'Вставить',
+      templates: {
+        fraction: 'Дробь',
+        sqrt: 'Корень',
+        power: 'Степень',
+        subscript: 'Индекс',
+        sum: 'Сумма',
+        integral: 'Интеграл',
+        limit: 'Предел',
+        matrix: 'Матрица'
+      }
+    },
+
+    image: {
+      title: 'Добавить изображение',
+      tabs: {
+        upload: 'Загрузить',
+        url: 'URL'
+      },
+      urlPlaceholder: 'Введите URL изображения',
+      insert: 'Вставить'
     },
 
     messages: {
-      createSuccess: 'Курс успешно создан',
-      updateSuccess: 'Курс успешно обновлен',
-      deleteSuccess: 'Курс успешно удален',
+      createSuccess: 'Урок успешно создан',
+      updateSuccess: 'Урок успешно обновлён',
+      deleteSuccess: 'Урок успешно удалён',
+      fileDeleteSuccess: 'Файл удалён',
+      fileDeleteError: 'Ошибка при удалении файла',
+      loadError: 'Ошибка при загрузке урока',
       error: 'Произошла ошибка'
     }
   },
