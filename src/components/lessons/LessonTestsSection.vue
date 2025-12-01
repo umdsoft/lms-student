@@ -225,6 +225,7 @@ onMounted(() => {
 });
 
 const loadTests = async () => {
+  if (!props.lessonId) return;
   try {
     await testsStore.fetchTestsByLesson(props.lessonId);
     emit('update:testsCount', testsCount.value);
@@ -239,6 +240,10 @@ const setFilter = (value) => {
 };
 
 const navigateToCreateTest = () => {
+  if (!props.lessonId) {
+    console.error('lessonId is required for navigation');
+    return;
+  }
   router.push({
     name: 'admin.test-create',
     params: { lessonId: props.lessonId }
@@ -246,6 +251,10 @@ const navigateToCreateTest = () => {
 };
 
 const navigateToEditTest = (test) => {
+  if (!props.lessonId) {
+    console.error('lessonId is required for navigation');
+    return;
+  }
   router.push({
     name: 'admin.test-edit',
     params: { lessonId: props.lessonId, testId: test.id }

@@ -37,21 +37,23 @@
 
         <!-- Files Section -->
         <LessonFilesSection
-          :lesson-id="lesson.id"
+          v-if="lessonId"
+          :lesson-id="lessonId"
           :can-manage="canManage"
         />
 
         <!-- Tests Section -->
         <LessonTestsSection
-          :lesson-id="lesson.id"
+          v-if="lessonId"
+          :lesson-id="lessonId"
           :can-manage="canManage"
           @update:tests-count="testsCount = $event"
         />
 
         <!-- English Skills Section (only for English courses) -->
         <LessonSkillsSection
-          v-if="isEnglishCourse"
-          :lesson-id="lesson.id"
+          v-if="isEnglishCourse && lessonId"
+          :lesson-id="lessonId"
           :can-manage="canManage"
         />
       </div>
@@ -109,6 +111,7 @@ const showDeleteModal = ref(false);
 const testsCount = ref(0);
 
 // Computed
+const lessonId = computed(() => route.params.id);
 const lesson = computed(() => lessonsStore.currentLesson);
 const isLoading = computed(() => lessonsStore.isLoading);
 const canManage = computed(() => user.value?.role === 'admin');
