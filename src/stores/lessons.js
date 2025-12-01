@@ -83,12 +83,12 @@ export const useLessonsStore = defineStore('lessons', {
 
       try {
         const response = await lessonsApi.createLesson(moduleId, lessonData);
-        if (response?.data?.success) {
+        if (response?.success) {
           // Refresh lessons list for this module
           await this.fetchLessonsByModule(moduleId);
-          return response.data;
+          return response;
         }
-        throw new Error(response?.data?.message || 'Failed to create lesson');
+        throw new Error(response?.message || 'Failed to create lesson');
       } catch (error) {
         this.error = error.response?.data?.message || error.message || 'Dars yaratishda xatolik';
         throw error;
@@ -106,7 +106,7 @@ export const useLessonsStore = defineStore('lessons', {
 
       try {
         const response = await lessonsApi.updateLesson(id, lessonData);
-        if (response?.data?.success) {
+        if (response?.success) {
           // Refresh lessons list for this module
           if (lessonData.moduleId) {
             await this.fetchLessonsByModule(lessonData.moduleId);
@@ -115,9 +115,9 @@ export const useLessonsStore = defineStore('lessons', {
           if (this.currentLesson?.id === id) {
             await this.fetchLesson(id);
           }
-          return response.data;
+          return response;
         }
-        throw new Error(response?.data?.message || 'Failed to update lesson');
+        throw new Error(response?.message || 'Failed to update lesson');
       } catch (error) {
         this.error = error.response?.data?.message || error.message || 'Darsni yangilashda xatolik';
         throw error;
@@ -134,7 +134,7 @@ export const useLessonsStore = defineStore('lessons', {
 
       try {
         const response = await lessonsApi.deleteLesson(id);
-        if (response?.data?.success) {
+        if (response?.success) {
           // Refresh lessons list
           if (moduleId) {
             await this.fetchLessonsByModule(moduleId);
@@ -143,9 +143,9 @@ export const useLessonsStore = defineStore('lessons', {
           if (this.currentLesson?.id === id) {
             this.currentLesson = null;
           }
-          return response.data;
+          return response;
         }
-        throw new Error(response?.data?.message || 'Failed to delete lesson');
+        throw new Error(response?.message || 'Failed to delete lesson');
       } catch (error) {
         this.error = error.response?.data?.message || error.message || "Darsni o'chirishda xatolik";
         throw error;
@@ -162,12 +162,12 @@ export const useLessonsStore = defineStore('lessons', {
 
       try {
         const response = await lessonsApi.reorderLessons(moduleId, lessonIds);
-        if (response?.data?.success) {
+        if (response?.success) {
           // Refresh lessons list
           await this.fetchLessonsByModule(moduleId);
-          return response.data;
+          return response;
         }
-        throw new Error(response?.data?.message || 'Failed to reorder lessons');
+        throw new Error(response?.message || 'Failed to reorder lessons');
       } catch (error) {
         this.error = error.response?.data?.message || error.message || 'Darslarni tartibga solishda xatolik';
         throw error;
@@ -185,12 +185,12 @@ export const useLessonsStore = defineStore('lessons', {
 
       try {
         const response = await lessonsApi.reorderLesson(id, newOrder);
-        if (response?.data?.success) {
+        if (response?.success) {
           // Refresh lessons list
           await this.fetchLessonsByModule(moduleId);
-          return response.data;
+          return response;
         }
-        throw new Error(response?.data?.message || 'Failed to reorder lesson');
+        throw new Error(response?.message || 'Failed to reorder lesson');
       } catch (error) {
         this.error = error.response?.data?.message || error.message || 'Darsni tartibga solishda xatolik';
         throw error;
@@ -240,13 +240,13 @@ export const useLessonsStore = defineStore('lessons', {
 
       try {
         const response = await lessonsApi.uploadLessonFile(lessonId, formData);
-        if (response?.data?.success) {
+        if (response?.success) {
           // Refresh current lesson
           await this.fetchLesson(lessonId);
           this.uploadProgress = 100;
-          return response.data;
+          return response;
         }
-        throw new Error(response?.data?.message || 'Failed to upload file');
+        throw new Error(response?.message || 'Failed to upload file');
       } catch (error) {
         this.error = error.response?.data?.message || error.message || 'Faylni yuklashda xatolik';
         throw error;
@@ -276,14 +276,14 @@ export const useLessonsStore = defineStore('lessons', {
 
       try {
         const response = await lessonsApi.deleteLessonFile(fileId);
-        if (response?.data?.success) {
+        if (response?.success) {
           // Refresh current lesson
           if (lessonId) {
             await this.fetchLesson(lessonId);
           }
-          return response.data;
+          return response;
         }
-        throw new Error(response?.data?.message || 'Failed to delete file');
+        throw new Error(response?.message || 'Failed to delete file');
       } catch (error) {
         this.error = error.response?.data?.message || error.message || "Faylni o'chirishda xatolik";
         throw error;

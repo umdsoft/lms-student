@@ -82,12 +82,12 @@ export const useModulesStore = defineStore('modules', {
 
       try {
         const response = await modulesApi.createModule(courseId, moduleData);
-        if (response?.data?.success) {
+        if (response?.success) {
           // Refresh modules list for this course
           await this.fetchModulesByCourse(courseId);
-          return response.data;
+          return response;
         }
-        throw new Error(response?.data?.message || 'Failed to create module');
+        throw new Error(response?.message || 'Failed to create module');
       } catch (error) {
         this.error = error.response?.data?.message || error.message || 'Modul yaratishda xatolik';
         throw error;
@@ -105,7 +105,7 @@ export const useModulesStore = defineStore('modules', {
 
       try {
         const response = await modulesApi.updateModule(id, moduleData);
-        if (response?.data?.success) {
+        if (response?.success) {
           // Refresh modules list for this course
           if (moduleData.courseId) {
             await this.fetchModulesByCourse(moduleData.courseId);
@@ -114,9 +114,9 @@ export const useModulesStore = defineStore('modules', {
           if (this.currentModule?.id === id) {
             await this.fetchModule(id);
           }
-          return response.data;
+          return response;
         }
-        throw new Error(response?.data?.message || 'Failed to update module');
+        throw new Error(response?.message || 'Failed to update module');
       } catch (error) {
         this.error = error.response?.data?.message || error.message || 'Modulni yangilashda xatolik';
         throw error;
@@ -133,7 +133,7 @@ export const useModulesStore = defineStore('modules', {
 
       try {
         const response = await modulesApi.deleteModule(id);
-        if (response?.data?.success) {
+        if (response?.success) {
           // Refresh modules list
           if (courseId) {
             await this.fetchModulesByCourse(courseId);
@@ -142,9 +142,9 @@ export const useModulesStore = defineStore('modules', {
           if (this.currentModule?.id === id) {
             this.currentModule = null;
           }
-          return response.data;
+          return response;
         }
-        throw new Error(response?.data?.message || 'Failed to delete module');
+        throw new Error(response?.message || 'Failed to delete module');
       } catch (error) {
         this.error = error.response?.data?.message || error.message || "Modulni o'chirishda xatolik";
         throw error;
@@ -161,12 +161,12 @@ export const useModulesStore = defineStore('modules', {
 
       try {
         const response = await modulesApi.reorderModules(courseId, moduleIds);
-        if (response?.data?.success) {
+        if (response?.success) {
           // Refresh modules list
           await this.fetchModulesByCourse(courseId);
-          return response.data;
+          return response;
         }
-        throw new Error(response?.data?.message || 'Failed to reorder modules');
+        throw new Error(response?.message || 'Failed to reorder modules');
       } catch (error) {
         this.error = error.response?.data?.message || error.message || 'Modullarni tartibga solishda xatolik';
         throw error;
@@ -184,12 +184,12 @@ export const useModulesStore = defineStore('modules', {
 
       try {
         const response = await modulesApi.reorderModule(id, newOrder);
-        if (response?.data?.success) {
+        if (response?.success) {
           // Refresh modules list
           await this.fetchModulesByCourse(courseId);
-          return response.data;
+          return response;
         }
-        throw new Error(response?.data?.message || 'Failed to reorder module');
+        throw new Error(response?.message || 'Failed to reorder module');
       } catch (error) {
         this.error = error.response?.data?.message || error.message || 'Modulni tartibga solishda xatolik';
         throw error;
