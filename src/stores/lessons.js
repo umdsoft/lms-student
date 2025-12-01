@@ -36,7 +36,16 @@ export const useLessonsStore = defineStore('lessons', {
       try {
         const response = await lessonsApi.getLessonsByModule(moduleId, params);
         if (response?.success) {
-          this.lessons = response.data || [];
+          // Handle different response formats:
+          // 1. Direct array: { success: true, data: [...] }
+          // 2. Nested in module: { success: true, data: { id: 1, lessons: [...] } }
+          if (Array.isArray(response.data)) {
+            this.lessons = response.data;
+          } else if (response.data?.lessons && Array.isArray(response.data.lessons)) {
+            this.lessons = response.data.lessons;
+          } else {
+            this.lessons = [];
+          }
         } else {
           throw new Error(response?.message || 'Failed to fetch lessons');
         }
