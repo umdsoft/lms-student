@@ -117,8 +117,8 @@ export const useLessonFilesStore = defineStore('lessonFiles', {
       this.error = null;
 
       const formData = new FormData();
-      files.forEach((file, index) => {
-        formData.append(`files[${index}]`, file);
+      files.forEach((file) => {
+        formData.append('files', file);
       });
 
       try {

@@ -139,7 +139,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useNotivue } from 'notivue';
+import { useNotification } from '@/composables/useNotification';
 import BaseModal from '@/components/common/BaseModal.vue';
 import FileUploadZone from './files/FileUploadZone.vue';
 import FileCard from './files/FileCard.vue';
@@ -153,7 +153,7 @@ const props = defineProps({
 });
 
 const { t } = useI18n();
-const { push } = useNotivue();
+const { push } = useNotification();
 const filesStore = useLessonFilesStore();
 
 const isExpanded = ref(true);
