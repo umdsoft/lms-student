@@ -36,8 +36,8 @@
       </div>
 
       <!-- Error Message -->
-      <div v-if="error" class="mb-4 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-800">
-        {{ error }}
+      <div v-if="errorMessage" class="mb-4 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-800">
+        {{ errorMessage }}
       </div>
     </div>
 
@@ -64,14 +64,12 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useNotivue } from 'notivue';
 import BaseModal from '@/components/common/BaseModal.vue';
 import { useCoursesStore } from '@/stores/courses';
+import { useCrudModal } from '@/composables/useCrudModal';
 
 const { t } = useI18n();
-const { push } = useNotivue();
 const coursesStore = useCoursesStore();
 
 const props = defineProps({
@@ -87,34 +85,30 @@ const props = defineProps({
 
 const emit = defineEmits(['update:show', 'confirm']);
 
-const loading = ref(false);
-const error = ref(null);
+// ============================================
+// CENTRALIZED DELETE LOGIC
+// ============================================
+const { loading, errorMessage, handleDelete, clearError } = useCrudModal({
+  deleteFn: (id) => coursesStore.deleteCourse(id),
+  onSuccess: () => {
+    emit('confirm');
+    emit('update:show', false);
+  },
+  messages: {
+    deleteSuccess: t('courses.messages.deleteSuccess'),
+    deleteError: t('courses.messages.error')
+  }
+});
 
 const handleClose = () => {
   if (!loading.value) {
-    error.value = null;
+    clearError();
     emit('update:show', false);
   }
 };
 
 const handleConfirm = async () => {
   if (!props.course?.id) return;
-
-  loading.value = true;
-  error.value = null;
-
-  try {
-    await coursesStore.deleteCourse(props.course.id, props.course.directionId);
-    push.success({
-      title: t('courses.messages.deleteSuccess'),
-      message: `${props.course.name} muvaffaqiyatli o'chirildi`
-    });
-    emit('confirm');
-    emit('update:show', false);
-  } catch (err) {
-    error.value = err.message || t('courses.messages.error');
-  } finally {
-    loading.value = false;
-  }
+  await handleDelete(props.course.id);
 };
 </script>

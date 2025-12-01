@@ -146,8 +146,8 @@
       </div>
 
       <!-- Error Message -->
-      <div v-if="error" class="mt-4 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-800">
-        {{ error }}
+      <div v-if="errorMessage" class="mt-4 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-800">
+        {{ errorMessage }}
       </div>
     </form>
 
@@ -174,12 +174,11 @@
 <script setup>
 import { ref, watch, computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useNotivue } from 'notivue';
 import BaseModal from '@/components/common/BaseModal.vue';
 import { useCoursesStore } from '@/stores/courses';
+import { useCrudModal } from '@/composables/useCrudModal';
 
 const { t } = useI18n();
-const { push } = useNotivue();
 const coursesStore = useCoursesStore();
 
 const teachers = computed(() => coursesStore.teachers);
@@ -206,6 +205,28 @@ const props = defineProps({
 
 const emit = defineEmits(['update:show', 'save']);
 
+// ============================================
+// CENTRALIZED CRUD LOGIC
+// ============================================
+const { loading, errorMessage, handleSubmit: crudSubmit, clearError } = useCrudModal({
+  createFn: (data) => coursesStore.createCourse(data),
+  updateFn: (id, data) => coursesStore.updateCourse(id, data),
+  onSuccess: () => {
+    resetForm();
+    emit('save');
+    emit('update:show', false);
+  },
+  messages: {
+    createSuccess: t('courses.messages.createSuccess'),
+    updateSuccess: t('courses.messages.updateSuccess'),
+    createError: t('courses.messages.error'),
+    updateError: t('courses.messages.error')
+  }
+});
+
+// ============================================
+// FORM STATE
+// ============================================
 const formData = ref({
   name: '',
   level: '',
@@ -216,9 +237,6 @@ const formData = ref({
   status: 'draft',
   directionId: props.directionId
 });
-
-const loading = ref(false);
-const error = ref(null);
 
 // Fetch teachers on mount
 onMounted(() => {
@@ -241,7 +259,7 @@ const resetForm = () => {
     status: 'draft',
     directionId: props.directionId
   };
-  error.value = null;
+  clearError();
 };
 
 // Watch for course changes to populate form in edit mode
@@ -273,30 +291,8 @@ const handleClose = () => {
   }
 };
 
+// UNIFIED SUBMIT HANDLER
 const handleSubmit = async () => {
-  loading.value = true;
-  error.value = null;
-
-  try {
-    if (props.mode === 'edit' && props.course?.id) {
-      await coursesStore.updateCourse(props.course.id, formData.value);
-      push.success({
-        title: t('courses.messages.updateSuccess')
-      });
-    } else {
-      await coursesStore.createCourse(formData.value);
-      push.success({
-        title: t('courses.messages.createSuccess')
-      });
-    }
-
-    resetForm();
-    emit('save');
-    emit('update:show', false);
-  } catch (err) {
-    error.value = err.message || t('courses.messages.error');
-  } finally {
-    loading.value = false;
-  }
+  await crudSubmit(formData.value, props.course);
 };
 </script>

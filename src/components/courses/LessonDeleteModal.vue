@@ -34,8 +34,8 @@
       </div>
 
       <!-- Error Message -->
-      <div v-if="error" class="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-800">
-        {{ error }}
+      <div v-if="errorMessage" class="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-800">
+        {{ errorMessage }}
       </div>
     </div>
 
@@ -61,14 +61,12 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useNotivue } from 'notivue';
 import BaseModal from '@/components/common/BaseModal.vue';
 import { useLessonsStore } from '@/stores/lessons';
+import { useCrudModal } from '@/composables/useCrudModal';
 
 const { t } = useI18n();
-const { push } = useNotivue();
 const lessonsStore = useLessonsStore();
 
 const props = defineProps({
@@ -88,24 +86,22 @@ const props = defineProps({
 
 const emit = defineEmits(['update:show', 'confirm']);
 
-const loading = ref(false);
-const error = ref(null);
-
-const handleDelete = async () => {
-  loading.value = true;
-  error.value = null;
-
-  try {
-    await lessonsStore.deleteLesson(props.lesson.id, props.moduleId);
-    push.success({
-      title: t('courses.lessons.messages.deleteSuccess')
-    });
+// ============================================
+// CENTRALIZED DELETE LOGIC
+// ============================================
+const { loading, errorMessage, handleDelete: crudDelete } = useCrudModal({
+  deleteFn: (id) => lessonsStore.deleteLesson(id, props.moduleId),
+  onSuccess: () => {
     emit('confirm');
     emit('update:show', false);
-  } catch (err) {
-    error.value = err.message || t('courses.lessons.messages.error');
-  } finally {
-    loading.value = false;
+  },
+  messages: {
+    deleteSuccess: t('courses.lessons.messages.deleteSuccess'),
+    deleteError: t('courses.lessons.messages.error')
   }
+});
+
+const handleDelete = async () => {
+  await crudDelete(props.lesson.id);
 };
 </script>
