@@ -1,8 +1,7 @@
 <template>
-  <div class="min-h-screen bg-gray-50">
+  <div class="w-full">
     <!-- Header with breadcrumb -->
-    <div class="bg-white shadow-sm border-b">
-      <div class="max-w-7xl mx-auto px-4 py-6">
+    <div class="bg-white shadow-sm border-b -mx-4 -mt-8 px-4 py-6 sm:-mx-6 lg:-mx-8 lg:px-8 xl:-mx-10 xl:px-10 mb-8">
         <!-- Breadcrumb -->
         <nav class="flex mb-4 text-sm">
           <router-link
@@ -58,11 +57,10 @@
             Kurs qo'shish
           </button>
         </div>
-      </div>
     </div>
 
     <!-- Main content -->
-    <div class="max-w-7xl mx-auto px-4 py-8">
+    <div class="w-full">
       <!-- Statistics cards -->
       <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
         <div class="bg-white rounded-lg shadow p-6">
