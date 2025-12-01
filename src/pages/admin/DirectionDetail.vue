@@ -323,7 +323,7 @@
 import { ref, computed, onMounted, reactive } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useDirectionsStore } from '@/stores/directions.store';
-import { useCoursesStore } from '@/stores/courses.store';
+import { useCoursesStore } from '@/stores/courses';
 import CourseCard from '@/components/courses/CourseCard.vue';
 import CreateCourseModal from '@/components/courses/CreateCourseModal.vue';
 import Notification from '@/components/common/Notification.vue';

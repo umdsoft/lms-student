@@ -396,7 +396,7 @@
 import { computed, ref, watch, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
-import { useCoursesStore } from '@/stores/courses.store';
+import { useCoursesStore } from '@/stores/courses';
 
 const { t, tm } = useI18n({ useScope: 'global' });
 const route = useRoute();

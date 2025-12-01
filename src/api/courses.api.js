@@ -141,5 +141,34 @@ export const coursesApi = {
       console.error('Update course status error:', error);
       throw error;
     }
+  },
+
+  /**
+   * Get course statistics
+   * @param {number} id - Course ID
+   * @returns {Promise<Object>} API response with course statistics
+   */
+  async getCourseStatistics(id) {
+    try {
+      const response = await api.get(`/courses/${id}/statistics`);
+      return response.data;
+    } catch (error) {
+      console.error('Get course statistics error:', error);
+      throw error;
+    }
+  },
+
+  /**
+   * Get all teachers (for teacher selection)
+   * @returns {Promise<Object>} API response with teachers list
+   */
+  async getTeachers() {
+    try {
+      const response = await api.get('/users', { params: { role: 'teacher' } });
+      return response.data;
+    } catch (error) {
+      console.error('Get teachers error:', error);
+      throw error;
+    }
   }
 };
