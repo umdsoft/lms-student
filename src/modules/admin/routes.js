@@ -134,6 +134,30 @@ export default [
     }
   },
 
+  // Test Routes
+  {
+    path: '/admin/lessons/:lessonId/tests/create',
+    name: 'admin.test-create',
+    component: () => import('@/pages/courses/tests/TestFormPage.vue'),
+    meta: {
+      requiresAuth: true,
+      roles: ['admin'],
+      title: 'Test yaratish',
+      layout: 'admin'
+    }
+  },
+  {
+    path: '/admin/lessons/:lessonId/tests/:testId/edit',
+    name: 'admin.test-edit',
+    component: () => import('@/pages/courses/tests/TestFormPage.vue'),
+    meta: {
+      requiresAuth: true,
+      roles: ['admin'],
+      title: 'Testni tahrirlash',
+      layout: 'admin'
+    }
+  },
+
   {
     path: '/admin/subscription-plans',
     name: 'admin.plans',

@@ -22,7 +22,7 @@
           <button
             type="button"
             class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors"
-            @click="openCreateModal"
+            @click="navigateToCreateTest"
           >
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
@@ -103,7 +103,7 @@
         <!-- Empty state -->
         <TestsEmptyState
           v-else-if="tests.length === 0"
-          @create="openCreateModal"
+          @create="navigateToCreateTest"
           @import="showImportModal = true"
         />
 
@@ -123,21 +123,13 @@
               :test="element"
               :order-number="index + 1"
               :draggable="canManage"
-              @edit="openEditModal(element)"
+              @edit="navigateToEditTest(element)"
               @delete="confirmDeleteTest(element)"
             />
           </template>
         </draggable>
       </div>
     </div>
-
-    <!-- Create/Edit modal -->
-    <TestFormModal
-      v-model:show="showFormModal"
-      :test="selectedTest"
-      :saving="saving"
-      @save="handleSaveTest"
-    />
 
     <!-- Import modal -->
     <TestImportModal
@@ -177,12 +169,12 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useNotivue } from 'notivue';
 import draggable from 'vuedraggable';
 import BaseModal from '@/components/common/BaseModal.vue';
 import TestCard from './tests/TestCard.vue';
-import TestFormModal from './tests/TestFormModal.vue';
 import TestImportModal from './tests/TestImportModal.vue';
 import TestsEmptyState from './tests/TestsEmptyState.vue';
 import { useLessonTestsStore } from '@/stores/lessonTests';
@@ -194,17 +186,16 @@ const props = defineProps({
 
 const emit = defineEmits(['update:testsCount']);
 
+const router = useRouter();
 const { t } = useI18n();
 const { push } = useNotivue();
 const testsStore = useLessonTestsStore();
 
 const isExpanded = ref(true);
-const showFormModal = ref(false);
 const showImportModal = ref(false);
 const showDeleteConfirm = ref(false);
 const selectedTest = ref(null);
 const activeFilter = ref(null);
-const saving = ref(false);
 const importing = ref(false);
 const deleting = ref(false);
 
@@ -247,33 +238,18 @@ const setFilter = (value) => {
   testsStore.setDifficultyFilter(value);
 };
 
-const openCreateModal = () => {
-  selectedTest.value = null;
-  showFormModal.value = true;
+const navigateToCreateTest = () => {
+  router.push({
+    name: 'admin.test-create',
+    params: { lessonId: props.lessonId }
+  });
 };
 
-const openEditModal = (test) => {
-  selectedTest.value = test;
-  showFormModal.value = true;
-};
-
-const handleSaveTest = async (testData) => {
-  saving.value = true;
-  try {
-    if (testData.id) {
-      await testsStore.updateTest(testData.id, testData, props.lessonId);
-      push.success({ title: t('lessons.tests.updateSuccess') });
-    } else {
-      await testsStore.createTest(props.lessonId, testData);
-      push.success({ title: t('lessons.tests.createSuccess') });
-    }
-    showFormModal.value = false;
-    emit('update:testsCount', testsCount.value);
-  } catch (error) {
-    push.error({ title: error.message || t('lessons.tests.saveError') });
-  } finally {
-    saving.value = false;
-  }
+const navigateToEditTest = (test) => {
+  router.push({
+    name: 'admin.test-edit',
+    params: { lessonId: props.lessonId, testId: test.id }
+  });
 };
 
 const handleImportTests = async (testsData) => {

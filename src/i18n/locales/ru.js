@@ -1943,6 +1943,14 @@ export default {
         emptyFile: 'Файл пуст',
         downloadTemplate: 'Скачать шаблон'
       },
+      createPage: {
+        title: 'Добавить новый тест',
+        subtitle: 'Урок: {lessonName}'
+      },
+      editPage: {
+        title: 'Редактировать тест',
+        subtitle: 'Урок: {lessonName}'
+      },
       form: {
         title: {
           create: 'Новый тест',
@@ -1950,6 +1958,7 @@ export default {
         },
         createTitle: 'Добавить новый тест',
         editTitle: 'Редактировать тест',
+        backButton: 'Назад',
         question: 'Вопрос',
         questionPlaceholder: 'Введите текст вопроса',
         questionImage: 'Изображение вопроса (опционально)',
@@ -1965,7 +1974,34 @@ export default {
         unlimited: 'Без ограничения',
         additionalSettings: 'Дополнительные настройки',
         explanation: 'Объяснение',
-        explanationPlaceholder: 'Объясните ответ (необязательно)'
+        explanationPlaceholder: 'Объясните ответ (необязательно)',
+        sections: {
+          question: 'Вопрос',
+          options: 'Варианты ответов',
+          settings: 'Настройки',
+          explanation: 'Объяснение',
+          preview: 'Предпросмотр'
+        },
+        actions: {
+          cancel: 'Отмена',
+          saveAndExit: 'Сохранить и выйти',
+          saveAndNew: 'Сохранить и создать новый',
+          saveDraft: 'Сохранить черновик'
+        },
+        hints: {
+          selectCorrect: 'Нажмите на кружок слева, чтобы выбрать правильный ответ',
+          addOption: 'Добавить вариант (максимум 6)',
+          autosaving: 'Сохранение...',
+          autosaved: 'Автоматически сохранено'
+        },
+        validation: {
+          questionRequired: 'Введите текст вопроса',
+          minOptions: 'Должно быть минимум 2 варианта',
+          optionEmpty: 'Заполните все варианты',
+          selectCorrect: 'Выберите правильный ответ'
+        },
+        unsavedWarning: 'Есть несохранённые изменения. Вы действительно хотите выйти?',
+        restoreDraft: 'Найден сохранённый черновик. Восстановить его?'
       },
       empty: {
         title: 'Тесты отсутствуют',
