@@ -57,7 +57,19 @@ export const useLessonFilesStore = defineStore('lessonFiles', {
       try {
         const response = await lessonFilesApi.getFilesByLesson(lessonId);
         if (response?.success) {
-          this.files = response.data || [];
+          // Handle different response formats:
+          // 1. Direct array: { success: true, data: [...] }
+          // 2. Nested files: { success: true, data: { files: [...], total: N } }
+          // 3. Nested items: { success: true, data: { items: [...], total: N } }
+          if (Array.isArray(response.data)) {
+            this.files = response.data;
+          } else if (response.data?.files && Array.isArray(response.data.files)) {
+            this.files = response.data.files;
+          } else if (response.data?.items && Array.isArray(response.data.items)) {
+            this.files = response.data.items;
+          } else {
+            this.files = [];
+          }
         } else {
           throw new Error(response?.message || 'Failed to fetch files');
         }
