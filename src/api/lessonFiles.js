@@ -31,11 +31,8 @@ export default {
    * @returns {Promise} API response
    */
   async uploadFile(lessonId, formData, onProgress = null) {
-    const config = {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    };
+    // Axios avtomatik Content-Type va boundary qo'yadi FormData uchun
+    const config = {};
 
     if (onProgress) {
       config.onUploadProgress = (progressEvent) => {
@@ -56,11 +53,8 @@ export default {
    * @returns {Promise} API response
    */
   async uploadMultipleFiles(lessonId, formData, onProgress = null) {
-    const config = {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    };
+    // Axios avtomatik Content-Type va boundary qo'yadi FormData uchun
+    const config = {};
 
     if (onProgress) {
       config.onUploadProgress = (progressEvent) => {
