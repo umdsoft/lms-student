@@ -320,11 +320,18 @@ const handleDeleteTest = async () => {
   deleting.value = true;
   try {
     await testsStore.deleteTest(selectedTest.value.id, props.lessonId);
-    push.success({ title: t('lessons.tests.deleteSuccess') });
+
+    // Avval modal yopiladi va state tozalanadi
     showDeleteConfirm.value = false;
     selectedTest.value = null;
+
+    // Keyin success notification ko'rsatiladi
+    push.success({ title: t('lessons.tests.deleteSuccess') });
+
+    // Oxirida parent componentga xabar beriladi
     emit('update:testsCount', testsCount.value);
   } catch (error) {
+    // Xato bo'lganda modal yopilmaydi, faqat xato ko'rsatiladi
     push.error({ title: error.message || t('lessons.tests.deleteError') });
   } finally {
     deleting.value = false;
