@@ -121,11 +121,7 @@ export default {
    */
   async uploadLessonFile(lessonId, formData) {
     const response = await withCsrf(() =>
-      api.post(`/lessons/${lessonId}/files`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      })
+      api.post(`/lessons/${lessonId}/files`, formData)
     );
     return response.data;
   },
@@ -138,11 +134,7 @@ export default {
    */
   async uploadFile(lessonId, formData) {
     const response = await withCsrf(() =>
-      api.post(`/lessons/${lessonId}/files`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      })
+      api.post(`/lessons/${lessonId}/files`, formData)
     );
     return response.data;
   },

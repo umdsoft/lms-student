@@ -54,9 +54,7 @@ export default {
    */
   async uploadWritingImage(taskId, formData) {
     const response = await withCsrf(() =>
-      api.post(`/english-skills/writing/${taskId}/image`, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      })
+      api.post(`/english-skills/writing/${taskId}/image`, formData)
     );
     return response.data;
   },
@@ -113,9 +111,7 @@ export default {
    */
   async uploadListeningAudio(taskId, formData) {
     const response = await withCsrf(() =>
-      api.post(`/english-skills/listening/${taskId}/audio`, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      })
+      api.post(`/english-skills/listening/${taskId}/audio`, formData)
     );
     return response.data;
   },
