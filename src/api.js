@@ -27,6 +27,11 @@ api.interceptors.request.use(
       config.data = keysToSnakeCase(config.data);
     }
 
+    // Remove Content-Type header for FormData to let Axios set it automatically with boundary
+    if (config.data instanceof FormData) {
+      delete config.headers['Content-Type'];
+    }
+
     // Transform query params to snake_case
     if (config.params && typeof config.params === 'object') {
       config.params = keysToSnakeCase(config.params);
