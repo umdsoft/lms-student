@@ -22,8 +22,8 @@ api.interceptors.request.use(
       config.headers.Authorization = `Bearer ${token}`;
     }
 
-    // Transform request body to snake_case
-    if (config.data && typeof config.data === 'object') {
+    // Transform request body to snake_case (skip FormData for file uploads)
+    if (config.data && typeof config.data === 'object' && !(config.data instanceof FormData)) {
       config.data = keysToSnakeCase(config.data);
     }
 
