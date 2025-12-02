@@ -130,11 +130,24 @@
         </button>
       </div>
 
-      <!-- Difficulty -->
+      <!-- Difficulty + Points -->
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-2">
-          {{ t('lessons.tests.form.difficulty') }}
-        </label>
+        <div class="flex items-center justify-between mb-2">
+          <label class="block text-sm font-medium text-gray-700">
+            {{ t('lessons.tests.form.difficulty') }}
+          </label>
+          <!-- Ball ko'rsatkichi -->
+          <span
+            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold"
+            :class="{
+              'bg-green-100 text-green-700': form.difficulty === 'easy',
+              'bg-yellow-100 text-yellow-700': form.difficulty === 'medium',
+              'bg-red-100 text-red-700': form.difficulty === 'hard'
+            }"
+          >
+            {{ points }} ball
+          </span>
+        </div>
         <div class="flex gap-2">
           <button
             v-for="diff in difficulties"
@@ -157,20 +170,6 @@
           {{ t('lessons.tests.form.additionalSettings') }}
         </summary>
         <div class="p-4 space-y-4 border-t border-gray-200">
-          <!-- Points -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">
-              {{ t('lessons.tests.form.points') }}
-            </label>
-            <input
-              v-model.number="form.points"
-              type="number"
-              min="1"
-              max="100"
-              class="w-32 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            />
-          </div>
-
           <!-- Time limit -->
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-2">
@@ -291,6 +290,13 @@ const showMathModal = ref(false);
 const showImageModal = ref(false);
 const currentMathTarget = ref('question'); // 'question' or option index
 
+// Ball qiymatlari - qiyinlik darajasiga qarab const
+const DIFFICULTY_POINTS = {
+  easy: 0.3,
+  medium: 0.6,
+  hard: 1.0
+};
+
 const defaultForm = () => ({
   question: '',
   imageUrl: '',
@@ -301,10 +307,12 @@ const defaultForm = () => ({
     { text: '', isCorrect: false }
   ],
   difficulty: 'medium',
-  points: 10,
   timeLimit: 60,
   explanation: ''
 });
+
+// Ball computed - qiyinlik o'zgarganda avtomatik o'zgaradi
+const points = computed(() => DIFFICULTY_POINTS[form.difficulty] || 0.6);
 
 const form = reactive(defaultForm());
 
@@ -390,7 +398,7 @@ const handleSubmit = () => {
     imageUrl: form.imageUrl || null,
     options: form.options.filter(o => o.text?.trim()),
     difficulty: form.difficulty,
-    points: form.points,
+    points: points.value, // computed dan olinadi
     timeLimit: form.timeLimit || null,
     explanation: form.explanation || null
   };
@@ -419,7 +427,7 @@ watch(() => props.test, (newTest) => {
       ? newTest.options.map(o => ({ ...o }))
       : defaultForm().options;
     form.difficulty = newTest.difficulty || 'medium';
-    form.points = newTest.points || 10;
+    // points endi computed - qiyinlikka qarab avtomatik hisoblanadi
     form.timeLimit = newTest.timeLimit || 60;
     form.explanation = newTest.explanation || '';
   } else {

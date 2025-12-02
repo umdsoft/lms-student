@@ -216,11 +216,27 @@
           </h2>
 
           <div class="grid gap-6 md:grid-cols-2">
-            <!-- Difficulty -->
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">
-                {{ t('lessons.tests.form.difficulty') }}
-              </label>
+            <!-- Difficulty + Points (birlashtirilgan) -->
+            <div class="md:col-span-2">
+              <div class="flex items-center justify-between mb-2">
+                <label class="block text-sm font-medium text-gray-700">
+                  {{ t('lessons.tests.form.difficulty') }}
+                </label>
+                <!-- Ball ko'rsatkichi -->
+                <div class="flex items-center gap-2">
+                  <span class="text-sm text-gray-500">{{ t('lessons.tests.form.points') }}:</span>
+                  <span
+                    class="inline-flex items-center px-3 py-1 rounded-full text-sm font-bold"
+                    :class="{
+                      'bg-green-100 text-green-700': form.difficulty === 'easy',
+                      'bg-yellow-100 text-yellow-700': form.difficulty === 'medium',
+                      'bg-red-100 text-red-700': form.difficulty === 'hard'
+                    }"
+                  >
+                    {{ points }} ball
+                  </span>
+                </div>
+              </div>
               <div class="flex gap-2">
                 <button
                   v-for="diff in difficulties"
@@ -232,24 +248,19 @@
                     : 'border-gray-200 text-gray-600 hover:bg-gray-50'"
                   @click="form.difficulty = diff.value; markDirty()"
                 >
-                  {{ diff.label }}
+                  <span class="flex items-center justify-center gap-2">
+                    <span
+                      class="w-2 h-2 rounded-full"
+                      :class="{
+                        'bg-green-500': diff.value === 'easy',
+                        'bg-yellow-500': diff.value === 'medium',
+                        'bg-red-500': diff.value === 'hard'
+                      }"
+                    ></span>
+                    {{ diff.label }}
+                  </span>
                 </button>
               </div>
-            </div>
-
-            <!-- Points -->
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">
-                {{ t('lessons.tests.form.points') }}
-              </label>
-              <input
-                v-model.number="form.points"
-                type="number"
-                min="1"
-                max="100"
-                class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-                @input="markDirty"
-              />
             </div>
 
             <!-- Time limit -->
@@ -410,7 +421,7 @@ const validationErrors = reactive({
 // Autosave interval
 let autosaveInterval = null;
 
-// Default form
+// Default form (points olib tashlandi - computed orqali hisoblanadi)
 const defaultForm = () => ({
   question: '',
   imageUrl: '',
@@ -421,7 +432,6 @@ const defaultForm = () => ({
     { text: '', isCorrect: false }
   ],
   difficulty: 'medium',
-  points: 10,
   timeLimit: 60,
   explanation: ''
 });
@@ -446,12 +456,22 @@ const timePresets = [
   { value: 0, label: t('lessons.tests.form.unlimited') }
 ];
 
+// Ball qiymatlari - qiyinlik darajasiga qarab const
+const DIFFICULTY_POINTS = {
+  easy: 0.3,
+  medium: 0.6,
+  hard: 1.0
+};
+
+// Ball computed - qiyinlik o'zgarganda avtomatik o'zgaradi
+const points = computed(() => DIFFICULTY_POINTS[form.difficulty] || 0.6);
+
 const previewData = computed(() => ({
   question: form.question,
   imageUrl: form.imageUrl,
   options: form.options,
   difficulty: form.difficulty,
-  points: form.points,
+  points: points.value,
   timeLimit: form.timeLimit
 }));
 
@@ -515,7 +535,7 @@ const loadTest = async () => {
         ? test.options.map(o => ({ ...o }))
         : defaultForm().options;
       form.difficulty = test.difficulty || 'medium';
-      form.points = test.points || 10;
+      // points endi computed - qiyinlikka qarab avtomatik hisoblanadi
       form.timeLimit = test.timeLimit ?? 60;
       form.explanation = test.explanation || '';
     }
@@ -656,7 +676,7 @@ const getFormData = () => ({
   imageUrl: form.imageUrl || null,
   options: form.options.filter(o => o.text?.trim()),
   difficulty: form.difficulty,
-  points: form.points,
+  points: points.value, // computed dan olinadi
   timeLimit: form.timeLimit || null,
   explanation: form.explanation || null
 });
@@ -696,7 +716,16 @@ const handleSubmit = async (mode = 'exit') => {
       push.success({ title: t('lessons.tests.updateSuccess') });
     } else {
       await testsStore.createTest(lessonId.value, data);
-      push.success({ title: t('lessons.tests.createSuccess') });
+
+      if (mode === 'new') {
+        // "Saqlash va yangi qo'shish" uchun maxsus xabar
+        push.success({
+          title: t('lessons.tests.createSuccess'),
+          message: t('lessons.tests.form.saveAndNewSuccess', 'Test saqlandi! Yangi test qo\'shishingiz mumkin.')
+        });
+      } else {
+        push.success({ title: t('lessons.tests.createSuccess') });
+      }
     }
 
     // Clear draft
@@ -706,8 +735,8 @@ const handleSubmit = async (mode = 'exit') => {
     isDirty.value = false;
 
     if (mode === 'new') {
-      // Reset form for new test
-      Object.assign(form, defaultForm());
+      // Reset form for new test - barcha fieldlarni tozalash
+      resetFormForNewTest();
     } else {
       // Navigate back to lesson
       router.push({ name: 'admin.lesson-detail', params: { id: lessonId.value } });
@@ -717,6 +746,28 @@ const handleSubmit = async (mode = 'exit') => {
   } finally {
     saving.value = false;
   }
+};
+
+// Yangi test uchun formni tozalash
+const resetFormForNewTest = () => {
+  // Form ni default qiymatlarga qaytarish
+  form.question = '';
+  form.imageUrl = '';
+  form.options = [
+    { text: '', isCorrect: true },
+    { text: '', isCorrect: false },
+    { text: '', isCorrect: false },
+    { text: '', isCorrect: false }
+  ];
+  form.difficulty = 'medium';
+  form.timeLimit = 60;
+  form.explanation = '';
+
+  // Validation xatolarini tozalash
+  clearAllValidationErrors();
+
+  // Sahifani yuqoriga scroll qilish
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 
 const handleBack = () => {
