@@ -74,11 +74,7 @@ export default {
    */
   async importFromXlsx(lessonId, formData) {
     const response = await withCsrf(() =>
-      api.post(`/lessons/${lessonId}/tests/import`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      })
+      api.post(`/lessons/${lessonId}/tests/import`, formData)
     );
     return response.data;
   },
@@ -112,11 +108,7 @@ export default {
    */
   async uploadTestImage(testId, formData) {
     const response = await withCsrf(() =>
-      api.post(`/tests/${testId}/image`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      })
+      api.post(`/tests/${testId}/image`, formData)
     );
     return response.data;
   }
