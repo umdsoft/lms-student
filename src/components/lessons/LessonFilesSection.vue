@@ -74,8 +74,8 @@
       <!-- Files grid -->
       <div class="p-6">
         <!-- Loading -->
-        <div v-if="loading" class="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div v-for="i in 4" :key="i" class="aspect-square bg-gray-100 rounded-xl animate-pulse"></div>
+        <div v-if="loading" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
+          <div v-for="i in 6" :key="i" class="h-40 bg-gray-100 rounded-xl animate-pulse"></div>
         </div>
 
         <!-- Empty state -->
@@ -86,7 +86,7 @@
         />
 
         <!-- Files list -->
-        <div v-else class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div v-else class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
           <FileCard
             v-for="file in files"
             :key="file.id"
