@@ -2156,6 +2156,7 @@ export default {
       updateSuccess: 'Test muvaffaqiyatli yangilandi',
       deleteTitle: 'Testni o\'chirish',
       deleteConfirm: 'Rostdan ham ushbu testni o\'chirmoqchimisiz?',
+      deleteWarning: 'Bu amalni ortga qaytarib bo\'lmaydi.',
       deleteSuccess: 'Test muvaffaqiyatli o\'chirildi',
       deleteError: 'Testni o\'chirishda xatolik',
       saveError: 'Testni saqlashda xatolik',

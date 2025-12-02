@@ -203,7 +203,8 @@ export const useLessonTestsStore = defineStore('lessonTests', {
 
       try {
         const response = await lessonTestsApi.deleteTest(id);
-        if (response?.success) {
+        // Accept response if success is true or not explicitly false (for different API formats)
+        if (response?.success !== false) {
           if (lessonId) {
             await this.fetchTestsByLesson(lessonId);
           } else {

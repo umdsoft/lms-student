@@ -2154,6 +2154,7 @@ export default {
       updateSuccess: 'Тест успешно обновлён',
       deleteTitle: 'Удалить тест',
       deleteConfirm: 'Вы действительно хотите удалить этот тест?',
+      deleteWarning: 'Это действие нельзя отменить.',
       deleteSuccess: 'Тест успешно удалён',
       deleteError: 'Ошибка при удалении теста',
       saveError: 'Ошибка при сохранении теста',
