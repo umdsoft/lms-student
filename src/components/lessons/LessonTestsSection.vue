@@ -199,7 +199,10 @@ const activeFilter = ref(null);
 const importing = ref(false);
 const deleting = ref(false);
 
-const tests = computed(() => testsStore.tests);
+const tests = computed(() => {
+  const storeTests = testsStore.tests;
+  return Array.isArray(storeTests) ? storeTests : [];
+});
 const loading = computed(() => testsStore.loading);
 const testsCount = computed(() => tests.value.length);
 const totalPoints = computed(() => testsStore.totalPoints);
@@ -207,7 +210,10 @@ const estimatedTime = computed(() => testsStore.estimatedTimeMinutes);
 const difficultyCounts = computed(() => testsStore.difficultyCounts);
 
 const filteredTests = computed({
-  get: () => testsStore.filteredTests,
+  get: () => {
+    const storeFilteredTests = testsStore.filteredTests;
+    return Array.isArray(storeFilteredTests) ? storeFilteredTests : [];
+  },
   set: (val) => {
     // Update order locally, will sync on drag end
   }

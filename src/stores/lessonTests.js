@@ -19,39 +19,43 @@ export const useLessonTestsStore = defineStore('lessonTests', {
   }),
 
   getters: {
-    testsList: (state) => state.tests,
+    testsList: (state) => Array.isArray(state.tests) ? state.tests : [],
     isLoading: (state) => state.loading,
     isSaving: (state) => state.saving,
     hasError: (state) => Boolean(state.error),
-    testsCount: (state) => state.tests.length,
+    testsCount: (state) => Array.isArray(state.tests) ? state.tests.length : 0,
 
     /**
      * Get tests filtered by difficulty
      */
     filteredTests: (state) => {
-      if (!state.filters.difficulty) return state.tests;
-      return state.tests.filter(t => t.difficulty === state.filters.difficulty);
+      const tests = Array.isArray(state.tests) ? state.tests : [];
+      if (!state.filters.difficulty) return tests;
+      return tests.filter(t => t.difficulty === state.filters.difficulty);
     },
 
     /**
      * Get tests by difficulty
      */
     getTestsByDifficulty: (state) => (difficulty) => {
-      return state.tests.filter(t => t.difficulty === difficulty);
+      const tests = Array.isArray(state.tests) ? state.tests : [];
+      return tests.filter(t => t.difficulty === difficulty);
     },
 
     /**
      * Get total points
      */
     totalPoints: (state) => {
-      return state.tests.reduce((sum, test) => sum + (test.points || 0), 0);
+      const tests = Array.isArray(state.tests) ? state.tests : [];
+      return tests.reduce((sum, test) => sum + (test.points || 0), 0);
     },
 
     /**
      * Get estimated time in minutes
      */
     estimatedTimeMinutes: (state) => {
-      const totalSeconds = state.tests.reduce((sum, test) => sum + (test.timeLimit || 60), 0);
+      const tests = Array.isArray(state.tests) ? state.tests : [];
+      const totalSeconds = tests.reduce((sum, test) => sum + (test.timeLimit || 60), 0);
       return Math.ceil(totalSeconds / 60);
     },
 
@@ -59,10 +63,11 @@ export const useLessonTestsStore = defineStore('lessonTests', {
      * Get difficulty counts
      */
     difficultyCounts: (state) => {
+      const tests = Array.isArray(state.tests) ? state.tests : [];
       return {
-        easy: state.tests.filter(t => t.difficulty === 'easy').length,
-        medium: state.tests.filter(t => t.difficulty === 'medium').length,
-        hard: state.tests.filter(t => t.difficulty === 'hard').length
+        easy: tests.filter(t => t.difficulty === 'easy').length,
+        medium: tests.filter(t => t.difficulty === 'medium').length,
+        hard: tests.filter(t => t.difficulty === 'hard').length
       };
     }
   },
@@ -79,9 +84,19 @@ export const useLessonTestsStore = defineStore('lessonTests', {
 
       try {
         const response = await lessonTestsApi.getTestsByLesson(lessonId, params);
-        if (response?.success) {
-          this.tests = response.data || [];
-          if (response.statistics) {
+        if (response?.success !== false) {
+          // Handle different response formats
+          let testsData = response?.data;
+
+          // If data is an object with items/tests array, extract it
+          if (testsData && !Array.isArray(testsData)) {
+            testsData = testsData.items || testsData.tests || testsData.data || [];
+          }
+
+          // Ensure tests is always an array
+          this.tests = Array.isArray(testsData) ? testsData : [];
+
+          if (response?.statistics) {
             this.statistics = response.statistics;
           }
         } else {
@@ -132,7 +147,8 @@ export const useLessonTestsStore = defineStore('lessonTests', {
 
       try {
         const response = await lessonTestsApi.createTest(lessonId, testData);
-        if (response?.success) {
+        // Accept response if success is true or not explicitly false (for different API formats)
+        if (response?.success !== false) {
           await this.fetchTestsByLesson(lessonId);
           return response;
         }
@@ -158,7 +174,8 @@ export const useLessonTestsStore = defineStore('lessonTests', {
 
       try {
         const response = await lessonTestsApi.updateTest(id, testData);
-        if (response?.success) {
+        // Accept response if success is true or not explicitly false (for different API formats)
+        if (response?.success !== false) {
           if (lessonId) {
             await this.fetchTestsByLesson(lessonId);
           }
